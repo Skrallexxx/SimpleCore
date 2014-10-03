@@ -17,7 +17,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 /**
  * @author AleXndrTheGr8st
  */
-@Mod(modid=APIInfo.ID, name=APIInfo.NAME, version=APIInfo.VERSION, dependencies="required-after:simplecore")
+@Mod(modid=APIInfo.ID, name=APIInfo.NAME, version=APIInfo.VERSION)
 public class SimpleCoreAPI 
 {
 	@SidedProxy(clientSide = "alexndr.api.core.ProxyClient", serverSide = "alexndr.api.core.ProxyCommon")

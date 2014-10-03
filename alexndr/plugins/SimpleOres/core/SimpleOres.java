@@ -18,7 +18,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 /**
  * @author AleXndrTheGr8st
  */
-@Mod(modid = ModInfo.ID, name = ModInfo.NAME, version= ModInfo.VERSION)
+@Mod(modid = ModInfo.ID, name = ModInfo.NAME, version= ModInfo.VERSION, dependencies="required-after:simplecore")
 public class SimpleOres
 {
 	//Tool Materials
