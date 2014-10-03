@@ -11,6 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import alexndr.api.core.ContentRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -24,13 +25,14 @@ public class SimpleBlock extends Block
 	private ItemStack stackToDrop = null;
 	private boolean isBeaconBase = false;
 	
-	protected SimpleBlock(Material material) 
+	public SimpleBlock(Material material) 
 	{
 		super(material);
 	}
 	
 	/**
 	 * Sets the which modId the block belongs to. Used to find the textures.
+	 * Should be set before the other properties.
 	 * @param modId The modId of the plugin the block belongs to.
 	 * @return SimpleBlock
 	 */
@@ -61,6 +63,13 @@ public class SimpleBlock extends Block
 	{
 		super.setBlockName(blockName);
 		GameRegistry.registerBlock(this, blockName);
+		ContentRegistry.INSTANCE.registerBlock(this, blockName);
+		return this;
+	}
+	
+	public SimpleBlock setHarvestLvl(String toolClass, int harvestLevel)
+	{
+		this.setHarvestLevel(toolClass, harvestLevel);
 		return this;
 	}
 	

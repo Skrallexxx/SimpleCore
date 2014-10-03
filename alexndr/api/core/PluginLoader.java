@@ -3,6 +3,10 @@ package alexndr.api.core;
 import java.lang.reflect.Method;
 import java.util.List;
 
+import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLPostInitializationEvent;
+import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+
 /**
  * @author AleXndrTheGr8st
  */
@@ -13,8 +17,9 @@ public class PluginLoader
 	
 	/**
 	 * Loads the pluginPreInit methods from all the registered plugins, if it exists.
+	 * @param event FMLPreInitializationEvent
 	 */
-	public void loadPluginPreInits()
+	public void loadPluginPreInits(FMLPreInitializationEvent event)
 	{
 		if(!APISettings.disableAllPlugins)
 		{	
@@ -25,8 +30,8 @@ public class PluginLoader
 				{
 					try
 					{
-						Method pluginPreInitMethod = plugin.getDeclaredMethod("pluginPreInit");
-						pluginPreInitMethod.invoke(null);
+						Method pluginPreInitMethod = plugin.getDeclaredMethod("pluginPreInit", FMLPreInitializationEvent.class);
+						pluginPreInitMethod.invoke(null, event);
 						LogHelper.verboseInfo("Successfully pre-initialized plugin '" + getName(plugin) + "' with modId '" + getId(plugin) + "'");
 					}
 					
@@ -36,7 +41,7 @@ public class PluginLoader
 						{
 							LogHelper.verboseInfo("Pre-Initialization of plugin '" + getName(plugin) + "' with modId '" + getId(plugin) + "' failed because the plugin does not contain pluginPreInit method. This might not be a problem");
 						}
-						else LogHelper.verboseWarning("Pre-Initialization of plugin '" + getName(plugin) + "' with modId '" + getId(plugin) + "' failed");
+						else LogHelper.verboseWarning("Pre-Initialization of plugin '" + getName(plugin) + "' with modId '" + getId(plugin) + "' failed"); e.printStackTrace();
 					}
 				}
 			}
@@ -45,8 +50,9 @@ public class PluginLoader
 	
 	/**
 	 * Loads the pluginInit methods from all the registered plugins, if it exists.
+	 * @param event FMLInitializationEvent
 	 */
-	public void loadPluginInits()
+	public void loadPluginInits(FMLInitializationEvent event)
 	{
 		if(!APISettings.disableAllPlugins)
 		{
@@ -57,8 +63,8 @@ public class PluginLoader
 				{
 					try
 					{
-						Method pluginInitMethod = plugin.getDeclaredMethod("pluginInit");
-						pluginInitMethod.invoke(null);
+						Method pluginInitMethod = plugin.getDeclaredMethod("pluginInit", FMLInitializationEvent.class);
+						pluginInitMethod.invoke(null, event);
 						LogHelper.verboseInfo("Successfully initialized plugin '" + getName(plugin) + "' with modId '" + getId(plugin) + "'");
 					}
 
@@ -77,8 +83,9 @@ public class PluginLoader
 	
 	/**
 	 * Loads the pluginPostInit methods from all the registered plugins, if it exists.
+	 * @param event FMLPostInitializationEvent
 	 */
-	public void loadPluginPostInits()
+	public void loadPluginPostInits(FMLPostInitializationEvent event)
 	{
 		if(!APISettings.disableAllPlugins)
 		{
@@ -89,8 +96,8 @@ public class PluginLoader
 				{
 					try
 					{
-						Method pluginPostInitMethod = plugin.getDeclaredMethod("pluginPostInit");
-						pluginPostInitMethod.invoke(null);
+						Method pluginPostInitMethod = plugin.getDeclaredMethod("pluginPostInit", FMLPostInitializationEvent.class);
+						pluginPostInitMethod.invoke(null, event);
 						LogHelper.verboseInfo("Successfully post-initialized plugin '" + getName(plugin) + "' with modId '" + getId(plugin) + "'");
 					}
 					

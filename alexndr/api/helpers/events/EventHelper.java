@@ -3,10 +3,14 @@ package alexndr.api.helpers.events;
 import java.util.List;
 
 import net.minecraft.util.ChatComponentText;
-import alexndr.SimpleOres.api.helpers.LogHelper;
 import alexndr.api.core.APISettings;
+import alexndr.api.core.LogHelper;
 import alexndr.api.core.UpdateChecker;
+import alexndr.api.helpers.game.StatTriggersHelper;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
+import cpw.mods.fml.common.gameevent.PlayerEvent.ItemPickupEvent;
+import cpw.mods.fml.common.gameevent.PlayerEvent.ItemSmeltedEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 
 /**
@@ -41,5 +45,26 @@ public class EventHelper
 				}
 			}
 		}
+	}
+	
+	@SubscribeEvent
+	public void onItemCrafted(ItemCraftedEvent event)
+	{
+		LogHelper.verboseInfo("ItemCrafted Event notified.");
+		StatTriggersHelper.INSTANCE.notifyCrafting(event.player, event.crafting, event.craftMatrix);
+	}
+	
+	@SubscribeEvent
+	public void onItemSmelted(ItemSmeltedEvent event)
+	{
+		LogHelper.verboseInfo("ItemSmelted Event notified.");
+		StatTriggersHelper.INSTANCE.notifySmelting(event.player, event.smelting);
+	}
+	
+	@SubscribeEvent
+	public void onItemPickedUp(ItemPickupEvent event)
+	{
+		LogHelper.verboseInfo("ItemPickup Event notified.");
+		StatTriggersHelper.INSTANCE.notifyPickup(event.pickedUp, event.player);
 	}
 }

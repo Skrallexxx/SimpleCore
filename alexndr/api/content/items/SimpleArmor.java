@@ -1,0 +1,165 @@
+package alexndr.api.content.items;
+
+import java.util.List;
+
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemArmor;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.StatCollector;
+import alexndr.api.core.ContentRegistry;
+
+import com.google.common.collect.Lists;
+
+import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
+/**
+ * @author AleXndrTheGr8st
+ */
+public class SimpleArmor extends ItemArmor
+{
+	private final ArmorMaterial material;
+	private boolean hasToolTip = false;
+	private int slotnumber;
+	private List<String> toolTipStrings = Lists.newArrayList();
+	private String modId;
+	private String texturePath;
+	private String type;
+	
+	public SimpleArmor(ArmorMaterial material, int renderer, int slotnumber) 
+	{
+		super(material, renderer, slotnumber);
+		this.material = material;
+		this.slotnumber = slotnumber;
+	}
+	
+	/**
+	 * Adds a tooltip to the item. Must be unlocalised, so needs to be present in a localization file.
+	 * @param toolTip Name of the localisation entry for the tooltip, as a String. Normal format is modId.theitem.info.
+	 * @return SimpleArmor
+	 */
+	public SimpleArmor addToolTip(String toolTip)
+	{
+		this.toolTipStrings.add(toolTip);
+		this.hasToolTip = true;
+		return this;
+	}
+	
+	/**
+	 * Sets which modId the item belongs to. Used to find the textures.
+	 * Should be set before the other properties.
+	 * @param modId The modId of the plugin the item belongs to.
+	 * @return SimpleArmor
+	 */
+	public SimpleArmor modId(String modId)
+	{
+		this.modId = modId;
+		return this;
+	}
+	
+	/**
+	 * Sets which creative tab the item will appear in in Creative Mode.
+	 * @param creativetab The CreativeTabs tab for the item to appear in.
+	 * @return SimpleArmor
+	 */
+	public SimpleArmor setTab(CreativeTabs creativeTab)
+	{
+		this.setCreativeTab(creativeTab);
+		return this;
+	}
+
+	/**
+	 * Sets the type of armor, ie. "copper", "mythril", etc. Needs to match the names of the image files.
+	 * ie. copper_1.png, mythril_2.png.
+	 * @param armorType String of the armor type name, ie. "copper".
+	 * @return SimpleArmor
+	 */
+	public SimpleArmor setType(String armorType)
+	{
+		this.type = armorType;
+		this.setArmorTexturePath(this.modId, armorType, this.slotnumber);
+		return this;
+	}
+	
+	/**
+	 * Sets the unlocalized name of the item, and registers the item with GameRegistry and ContentRegistry.
+	 * @param unlocalizedName The name of the item (unlocalized).
+	 * @return SimpleArmor
+	 */
+	@Override
+	public SimpleArmor setUnlocalizedName(String unlocalizedName)
+	{
+		super.setUnlocalizedName(unlocalizedName);
+		GameRegistry.registerItem(this, unlocalizedName);
+		ContentRegistry.INSTANCE.registerItem(this, unlocalizedName);
+		return this;
+	}
+	
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool)
+	{
+		if(hasToolTip)
+			for(String toolTip : this.toolTipStrings)
+				list.add(StatCollector.translateToLocal(toolTip));
+	}
+	
+	@Override
+	public String getArmorTexture(ItemStack itemstack, Entity entity, int slot, String layer)
+	{
+		return this.texturePath;
+	}
+	
+	@Override
+	public boolean getIsRepairable(ItemStack par1ItemStack, ItemStack par2ItemStack)
+	{
+		return this.material.customCraftingMaterial == par2ItemStack.getItem() ? true : super.getIsRepairable(par1ItemStack, par2ItemStack);
+	}
+	
+	/**
+	 * Sets the texture path of the armor item (the texture that shows on the player). 
+	 * Based on modId, armor type and slot number. Path will be modId:textures/models/armor/armorType_layer_1.png.
+	 * @param modId ModId that the armor belongs to.
+	 * @param type The armor type string, eg "copper"
+	 * @param slotNumber The slot the armor piece belongs to.
+	 */
+	public void setArmorTexturePath(String modId, String type, int slotNumber)
+	{
+		switch(slotNumber)
+		{
+			case 0:
+			{
+				this.texturePath = modId + ":textures/models/armor/" + type + "_layer_1.png";
+			}
+			break;
+			
+			case 1:
+			{
+				this.texturePath = modId + ":textures/models/armor/" + type + "_layer_1.png";
+			}
+			break;
+			
+			case 2:
+			{
+				this.texturePath = modId + ":textures/models/armor/" + type + "_layer_2.png";
+			}
+			break;
+			
+			case 3:
+			{
+				this.texturePath = modId + ":textures/models/armor/" + type + "_layer_1.png";
+			}
+			break;
+		}
+	}
+	
+	@SideOnly(Side.CLIENT)
+	@Override
+	public void registerIcons(IIconRegister iconregister)
+	{
+		this.itemIcon = iconregister.registerIcon(modId + ":" + (this.getUnlocalizedName().substring(5)));
+	}
+}
