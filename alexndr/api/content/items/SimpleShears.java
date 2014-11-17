@@ -4,10 +4,12 @@ import java.util.List;
 
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemShears;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
+import net.minecraft.world.World;
 import alexndr.api.core.ContentRegistry;
 
 import com.google.common.collect.Lists;
@@ -22,6 +24,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class SimpleShears extends ItemShears
 {
 	private boolean hasToolTip = false;
+	private boolean hasEffect  = false;
+	private Object effect[] = new Object[2];
 	private ItemStack repairMaterial;
 	private List<String> toolTipStrings = Lists.newArrayList();
 	private String modId;
@@ -58,6 +62,20 @@ public class SimpleShears extends ItemShears
 	}
 	
 	/**
+	 * Adds an enchantment to the item.
+	 * @param enchantment The enchantment you want to add.
+	 * @param level The level of the enchantment. Check the Enchantment class to find the max level for each.
+	 * @return SimpleShears
+	 */
+	public SimpleShears setEffect(Enchantment enchantment, int level)
+	{
+		this.hasEffect = true;
+		this.effect[0] = enchantment;
+		this.effect[1] = level;
+		return this;
+	}
+	
+	/**
 	 * Sets the repair material that is used to repair the item in an anvil. 
 	 * @param repairMaterial The ItemStack of the material that can repair the item.
 	 * @return SimpleShears
@@ -89,7 +107,7 @@ public class SimpleShears extends ItemShears
 	{
 		super.setUnlocalizedName(unlocalizedName);
 		GameRegistry.registerItem(this, unlocalizedName);
-		ContentRegistry.INSTANCE.registerItem(this, unlocalizedName);
+		ContentRegistry.registerItem(this, unlocalizedName, modId, "tool");
 		return this;
 	}
 	
@@ -105,6 +123,13 @@ public class SimpleShears extends ItemShears
 	public boolean getIsRepairable(ItemStack par1ItemStack, ItemStack par2ItemStack)
 	{
 		return this.repairMaterial.getItem() == par2ItemStack.getItem() ? true : super.getIsRepairable(par1ItemStack, par2ItemStack);
+	}
+	
+	@Override
+	public void onCreated(ItemStack itemstack, World world, EntityPlayer player)
+	{
+		if(this.hasEffect)
+			itemstack.addEnchantment((Enchantment)this.effect[0], (Integer)this.effect[1]);
 	}
 	
 	@SideOnly(Side.CLIENT)

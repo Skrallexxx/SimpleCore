@@ -12,10 +12,10 @@ public class SimpleTab extends CreativeTabs
 {
 	private Item itemForIcon;
 	
-	public SimpleTab(String lable) 
+	public SimpleTab(String label, String category) 
 	{
-		super(lable);
-		ContentRegistry.INSTANCE.registerCreativeTab(this, lable);
+		super(label);
+		ContentRegistry.registerCreativeTab(this, label, category);
 	}
 	
 	/**

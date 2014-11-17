@@ -1,5 +1,7 @@
 package alexndr.api.content.blocks;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
 
 import net.minecraft.block.Block;
@@ -12,6 +14,9 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import alexndr.api.core.ContentRegistry;
+
+import com.google.common.collect.Lists;
+
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -22,6 +27,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class SimpleBlock extends Block
 {
 	private String modId = "";
+	private boolean isOre = false;
+	private static HashMap<String, List<SimpleBlock>> blockWithModIdMap = new HashMap<String, List<SimpleBlock>>();
 	private ItemStack stackToDrop = null;
 	private boolean isBeaconBase = false;
 	
@@ -38,7 +45,23 @@ public class SimpleBlock extends Block
 	 */
 	public SimpleBlock modId(String modId)
 	{
+		List<SimpleBlock> list = Lists.newArrayList();
+		list.add(this);
 		this.modId = modId;
+		if(this.blockWithModIdMap.containsKey(modId))
+			this.blockWithModIdMap.get(modId).add(this);
+		else
+			this.blockWithModIdMap.put(modId, list);
+		return this;
+	}
+	
+	/**
+	 * Sets the block as an ore.
+	 * @return SimpleBlock
+	 */
+	public SimpleBlock isOre()
+	{
+		this.isOre = true;
 		return this;
 	}
 	
@@ -63,7 +86,7 @@ public class SimpleBlock extends Block
 	{
 		super.setBlockName(blockName);
 		GameRegistry.registerBlock(this, blockName);
-		ContentRegistry.INSTANCE.registerBlock(this, blockName);
+		ContentRegistry.registerBlock(this, blockName, modId, this.isOre ? "ore" : "other");
 		return this;
 	}
 	
@@ -113,6 +136,19 @@ public class SimpleBlock extends Block
 			
 			this.dropXpOnBlockBreak(par1World, par2, par3, par4, var8);
 		}
+	}
+	
+	/**
+	 * Returns a list of all the blocks that have been added with a certain modId.
+	 * @param modId The modId that the blocks belong to.
+	 * @return List of all blocks belonging to the modId, if it exists.
+	 */
+	public static List<SimpleBlock> getBlockListFromModId(String modId)
+	{
+		if(blockWithModIdMap.containsKey(modId))
+			return blockWithModIdMap.get(modId);
+		else
+			return null;
 	}
 	
 	@Override

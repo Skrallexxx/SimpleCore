@@ -1,5 +1,6 @@
 package alexndr.api.content.items;
 
+import java.util.HashMap;
 import java.util.List;
 
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -24,6 +25,7 @@ public class SimpleArmor extends ItemArmor
 {
 	private final ArmorMaterial material;
 	private boolean hasToolTip = false;
+	private static HashMap<String, List<SimpleArmor>> armorWithModIdMap = new HashMap<String, List<SimpleArmor>>();
 	private int slotnumber;
 	private List<String> toolTipStrings = Lists.newArrayList();
 	private String modId;
@@ -57,7 +59,13 @@ public class SimpleArmor extends ItemArmor
 	 */
 	public SimpleArmor modId(String modId)
 	{
+		List<SimpleArmor> list = Lists.newArrayList();
+		list.add(this);
 		this.modId = modId;
+		if(this.armorWithModIdMap.containsKey(modId))
+			this.armorWithModIdMap.get(modId).add(this);
+		else
+			this.armorWithModIdMap.put(modId, list);
 		return this;
 	}
 	
@@ -95,7 +103,7 @@ public class SimpleArmor extends ItemArmor
 	{
 		super.setUnlocalizedName(unlocalizedName);
 		GameRegistry.registerItem(this, unlocalizedName);
-		ContentRegistry.INSTANCE.registerItem(this, unlocalizedName);
+		ContentRegistry.registerItem(this, unlocalizedName, modId, "armor");
 		return this;
 	}
 	
@@ -117,6 +125,19 @@ public class SimpleArmor extends ItemArmor
 	public boolean getIsRepairable(ItemStack par1ItemStack, ItemStack par2ItemStack)
 	{
 		return this.material.customCraftingMaterial == par2ItemStack.getItem() ? true : super.getIsRepairable(par1ItemStack, par2ItemStack);
+	}
+	
+	/**
+	 * Returns a list of all the items that have been added with a certain modId.
+	 * @param modId The modId that the items belong to.
+	 * @return List of all items belonging to the the modId, if it exists.
+	 */
+	public static List<SimpleArmor> getItemListFromModId(String modId)
+	{
+		if(armorWithModIdMap.containsKey(modId))
+			return armorWithModIdMap.get(modId);
+		else
+			return Lists.newArrayList();
 	}
 	
 	/**

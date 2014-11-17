@@ -39,6 +39,7 @@ public class SimpleBow extends ItemBow
 	private boolean hasToolTip;
 	private float zoomAmount = 0.22F;
 	private HashMap<SimpleBowEffects, Object> effects = new HashMap<SimpleBowEffects, Object>();
+	private static HashMap<String, List<SimpleBow>> bowWithModIdMap = new HashMap<String, List<SimpleBow>>();
 	private ItemStack repairMaterial;
 	private List<String> toolTipStrings = Lists.newArrayList();
 	private String bowTypeName;
@@ -74,7 +75,13 @@ public class SimpleBow extends ItemBow
 	 */
 	public SimpleBow modId(String modId)
 	{
+		List<SimpleBow> list = Lists.newArrayList();
+		list.add(this);
 		this.modId = modId;
+		if(this.bowWithModIdMap.containsKey(modId))
+			this.bowWithModIdMap.get(modId).add(this);
+		else
+			this.bowWithModIdMap.put(modId, list);
 		return this;
 	}
 	
@@ -159,7 +166,7 @@ public class SimpleBow extends ItemBow
 	{
 		super.setUnlocalizedName(unlocalizedName);
 		GameRegistry.registerItem(this, unlocalizedName);
-		ContentRegistry.INSTANCE.registerItem(this, unlocalizedName);
+		ContentRegistry.registerItem(this, unlocalizedName, modId, "weapon");
 		SimpleCoreAPI.proxy.setZoomAmount(this, this.zoomAmount);
 		return this;
 	}
@@ -214,6 +221,19 @@ public class SimpleBow extends ItemBow
 	public boolean getIsRepairable(ItemStack par1ItemStack, ItemStack par2ItemStack)
 	{
 		return this.repairMaterial.getItem() == par2ItemStack.getItem() ? true : super.getIsRepairable(par1ItemStack, par2ItemStack);
+	}
+	
+	/**
+	 * Returns a list of all the items that have been added with a certain modId.
+	 * @param modId The modId that the items belong to.
+	 * @return List of all items belonging to the modId, if it exists.
+	 */
+	public static List<SimpleBow> getItemListFromModId(String modId)
+	{
+		if(bowWithModIdMap.containsKey(modId))
+			return bowWithModIdMap.get(modId);
+		else
+			return Lists.newArrayList();
 	}
 	
 	@Override

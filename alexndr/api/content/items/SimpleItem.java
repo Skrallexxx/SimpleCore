@@ -1,5 +1,6 @@
 package alexndr.api.content.items;
 
+import java.util.HashMap;
 import java.util.List;
 
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -22,6 +23,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class SimpleItem extends Item
 {
 	private boolean hasToolTip = false;
+	private boolean isIngot = false;
+	private static HashMap<String, List<SimpleItem>> itemWithModIdMap = new HashMap<String, List<SimpleItem>>();
 	private List<String> toolTipStrings = Lists.newArrayList();
 	private String modId;
 	
@@ -45,7 +48,23 @@ public class SimpleItem extends Item
 	 */
 	public SimpleItem modId(String modId)
 	{
+		List<SimpleItem> list = Lists.newArrayList();
+		list.add(this);
 		this.modId = modId;
+		if(this.itemWithModIdMap.containsKey(modId))
+			this.itemWithModIdMap.get(modId).add(this);
+		else
+			this.itemWithModIdMap.put(modId, list);
+		return this;
+	}
+	
+	/**
+	 * Sets the item as an ingot.
+	 * @return SimpleItem
+	 */
+	public SimpleItem isIngot()
+	{
+		this.isIngot = true;
 		return this;
 	}
 	
@@ -70,15 +89,8 @@ public class SimpleItem extends Item
 	{
 		super.setUnlocalizedName(unlocalizedName);
 		GameRegistry.registerItem(this, unlocalizedName);
-		ContentRegistry.INSTANCE.registerItem(this, unlocalizedName);
+		ContentRegistry.registerItem(this, unlocalizedName, modId, this.isIngot ? "ingot" : "other");
 		return this;
-	}
-	
-	@SideOnly(Side.CLIENT)
-	@Override
-	public void registerIcons(IIconRegister iconRegister)
-	{
-		this.itemIcon = iconRegister.registerIcon(modId + ":" + (this.getUnlocalizedName().substring(5)));
 	}
 	
 	@Override
@@ -87,5 +99,25 @@ public class SimpleItem extends Item
 		if(hasToolTip)
 			for(String toolTip : this.toolTipStrings)
 			list.add(StatCollector.translateToLocal(toolTip));
+	}
+	
+	/**
+	 * Returns a list of all the items that have been added with a certain modId.
+	 * @param modId The modId that the items belong to.
+	 * @return List of all items belonging to the modId, if it exists.
+	 */
+	public static List<SimpleItem> getItemListFromModId(String modId)
+	{
+		if(itemWithModIdMap.containsKey(modId))
+			return itemWithModIdMap.get(modId);
+		else
+			return Lists.newArrayList();
+	}
+	
+	@SideOnly(Side.CLIENT)
+	@Override
+	public void registerIcons(IIconRegister iconRegister)
+	{
+		this.itemIcon = iconRegister.registerIcon(modId + ":" + (this.getUnlocalizedName().substring(5)));
 	}
 }

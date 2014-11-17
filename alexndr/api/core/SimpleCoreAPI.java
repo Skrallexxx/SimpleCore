@@ -1,7 +1,5 @@
 package alexndr.api.core;
 
-import java.util.List;
-
 import net.minecraftforge.common.MinecraftForge;
 import alexndr.api.helpers.events.EventHelper;
 import alexndr.api.helpers.game.OreGenerator;
@@ -22,7 +20,6 @@ public class SimpleCoreAPI
 {
 	@SidedProxy(clientSide = "alexndr.api.core.ProxyClient", serverSide = "alexndr.api.core.ProxyCommon")
 	public static ProxyCommon proxy;
-	private List<Class> pluginClasses = PluginHelper.INSTANCE.getPluginClassList();
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
@@ -34,9 +31,6 @@ public class SimpleCoreAPI
 		
 		//Configuration
 		APISettings.createOrLoadSettings(event);
-		
-		//Load plugin PreInits.
-		PluginLoader.INSTANCE.loadPluginPreInits(event);
 	}
 	
 	@EventHandler
@@ -46,17 +40,11 @@ public class SimpleCoreAPI
 		
 		//Registers
 		GameRegistry.registerWorldGenerator(new OreGenerator(), 1);
-		
-		//Load plugin Inits
-		PluginLoader.INSTANCE.loadPluginInits(event);
 	}
 
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event)
 	{
 		UpdateChecker.postInit();
-		
-		//Load plugin PostInits
-		PluginLoader.INSTANCE.loadPluginPostInits(event);
 	}
 }

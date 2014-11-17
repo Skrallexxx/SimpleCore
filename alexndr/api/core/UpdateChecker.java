@@ -2,11 +2,12 @@ package alexndr.api.core;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
+
+import javax.net.ssl.HttpsURLConnection;
 
 import net.minecraft.util.StatCollector;
 
@@ -17,7 +18,7 @@ import com.google.common.collect.Lists;
  */
 public class UpdateChecker 
 {
-	private static boolean hasAlreadyFailed = false;
+	private static boolean hasAlreadyFailed;
 	private static String VERSION = "";
 	private static List<String> modsList = Lists.newArrayList();
 	private static HashMap<String, Boolean> isModOutOfDateMap = new HashMap<String, Boolean>();
@@ -29,12 +30,13 @@ public class UpdateChecker
 	 * Consistent versioning is a must. Otherwise, eg. 1.3 < 1.2.4. Use 1.3.0, etc.
 	 * Localised messages are required. Add two entries called modId.updateMessage1 and modId.updateMessage2.
 	 * The new version will be appended between the two. See the SimpleCore lang files for an example.
-	 * @param linkToVersionFile The url for the text file that contains the newest version number. Must NOT be https://!
+	 * @param linkToVersionFile The url for the text file that contains the newest version number. MUST be https://!
 	 * @param modId The modId of the mod you want to check for.
 	 * @param currentModVersion The current version of the mod, such as the version number in the @Mod annotation.
 	 */
 	public static void checkUpdates(String linkToVersionFile, String modId, String currentModVersion)
 	{
+		hasAlreadyFailed = false;
 		if(!APISettings.disableAllUpdateChecking)
 		{
 			modsList.add(modId);
@@ -43,9 +45,8 @@ public class UpdateChecker
 			try
 			{
 				URL url = new URL(linkToVersionFile);
-				HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-				connection.setConnectTimeout(1000);
-				connection.setRequestMethod("HEAD");
+				HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
+				connection.setConnectTimeout(999);
 				int responseCode = connection.getResponseCode();
 				
 				if(responseCode == 200)
@@ -60,6 +61,7 @@ public class UpdateChecker
 					
 					int currentVersionAsInt = Integer.parseInt(VERSION.replace(".", ""));
 					int newVersionAsInt = Integer.parseInt(newVersion.toString().replace(".", ""));
+					
 					
 					if(newVersionAsInt > currentVersionAsInt)
 					{
@@ -125,7 +127,10 @@ public class UpdateChecker
 		LogHelper.verboseInfo("Total number of mods UpdateChecker is checking for = " + modsList.size());
 		for(String modId : modsList)
 		{
-			LogHelper.verboseInfo("Checking for updates for modId: '" + modId + "'. The newest version is " + newVersionsMap.get(modId));
+			if(newVersionsMap.get(modId) != null)
+				LogHelper.verboseInfo("Checking for updates for modId: '" + modId + "'. The newest version is " + newVersionsMap.get(modId));
+			else
+				LogHelper.verboseInfo("Checking for updates for modId: '" + modId + "'. It appears to be up to date!");
 		}
 	}
 }

@@ -4,10 +4,12 @@ import java.util.List;
 
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemSpade;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
+import net.minecraft.world.World;
 import alexndr.api.core.ContentRegistry;
 
 import com.google.common.collect.Lists;
@@ -23,6 +25,8 @@ public class SimpleShovel extends ItemSpade
 {
 	private final ToolMaterial toolMaterial;
 	private boolean hasToolTip = false;
+	private boolean hasEffect = false;
+	private Object effect[] = new Object[2];
 	private List<String> toolTipStrings = Lists.newArrayList();
 	private String modId;
 
@@ -59,6 +63,20 @@ public class SimpleShovel extends ItemSpade
 	}
 	
 	/**
+	 * Adds an enchantment to the item.
+	 * @param enchantment The enchantment you want to add.
+	 * @param level The level of the enchantment. Check the Enchantment class to find the max level for each.
+	 * @return SimpleShovel
+	 */
+	public SimpleShovel setEffect(Enchantment enchantment, int level)
+	{
+		this.hasEffect = true;
+		this.effect[0] = enchantment;
+		this.effect[1] = level;
+		return this;
+	}
+	
+	/**
 	 * Sets which creative tab the item will appear in in Creative Mode.
 	 * @param creativetab The CreativeTabs tab for the item to appear in.
 	 * @return SimpleShovel
@@ -79,7 +97,7 @@ public class SimpleShovel extends ItemSpade
 	{
 		super.setUnlocalizedName(unlocalizedName);
 		GameRegistry.registerItem(this, unlocalizedName);
-		ContentRegistry.INSTANCE.registerItem(this, unlocalizedName);
+		ContentRegistry.registerItem(this, unlocalizedName, modId, "tool");
 		return this;
 	}
 	
@@ -95,6 +113,13 @@ public class SimpleShovel extends ItemSpade
 	public boolean getIsRepairable(ItemStack par1ItemStack, ItemStack par2ItemStack)
 	{
 		return this.toolMaterial.customCraftingMaterial == par2ItemStack.getItem() ? true : super.getIsRepairable(par1ItemStack, par2ItemStack);
+	}
+	
+	@Override
+	public void onCreated(ItemStack itemstack, World world, EntityPlayer player)
+	{
+		if(this.hasEffect)
+			itemstack.addEnchantment((Enchantment)this.effect[0], (Integer)this.effect[1]);
 	}
 	
 	@SideOnly(Side.CLIENT)

@@ -50,21 +50,18 @@ public class EventHelper
 	@SubscribeEvent
 	public void onItemCrafted(ItemCraftedEvent event)
 	{
-		LogHelper.verboseInfo("ItemCrafted Event notified.");
 		StatTriggersHelper.INSTANCE.notifyCrafting(event.player, event.crafting, event.craftMatrix);
 	}
 	
 	@SubscribeEvent
 	public void onItemSmelted(ItemSmeltedEvent event)
 	{
-		LogHelper.verboseInfo("ItemSmelted Event notified.");
 		StatTriggersHelper.INSTANCE.notifySmelting(event.player, event.smelting);
 	}
 	
 	@SubscribeEvent
 	public void onItemPickedUp(ItemPickupEvent event)
 	{
-		LogHelper.verboseInfo("ItemPickup Event notified.");
 		StatTriggersHelper.INSTANCE.notifyPickup(event.pickedUp, event.player);
 	}
 }

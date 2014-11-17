@@ -1,5 +1,6 @@
 package alexndr.api.content.items;
 
+import java.util.HashMap;
 import java.util.List;
 
 import net.minecraft.block.Block;
@@ -35,6 +36,7 @@ public class SimpleBucket extends ItemBucket
 	private boolean hasToolTip = false;
 	private static boolean hasLavaVariant = false;
 	private static boolean hasWaterVariant = false;
+	private static HashMap<String, List<SimpleBucket>> bucketWithModIdMap = new HashMap<String, List<SimpleBucket>>();
 	private static Item emptyVariant = Items.bucket;
 	private static Item lavaVariant = Items.lava_bucket;
 	private static Item waterVariant = Items.water_bucket;
@@ -67,7 +69,13 @@ public class SimpleBucket extends ItemBucket
 	 */
 	public SimpleBucket modId(String modId)
 	{
+		List<SimpleBucket> list = Lists.newArrayList();
+		list.add(this);
 		this.modId = modId;
+		if(this.bucketWithModIdMap.containsKey(modId))
+			this.bucketWithModIdMap.get(modId).add(this);
+		else
+			this.bucketWithModIdMap.put(modId, list);
 		return this;
 	}
 	
@@ -124,7 +132,7 @@ public class SimpleBucket extends ItemBucket
 	{
 		super.setUnlocalizedName(unlocalizedName);
 		GameRegistry.registerItem(this, unlocalizedName);
-		ContentRegistry.INSTANCE.registerItem(this, unlocalizedName);
+		ContentRegistry.registerItem(this, unlocalizedName, modId, "other");
 		return this;
 	}
 	
@@ -297,6 +305,19 @@ public class SimpleBucket extends ItemBucket
 		if(hasToolTip)
 			for(String toolTip : this.toolTipStrings)
 				list.add(StatCollector.translateToLocal(toolTip));
+	}
+	
+	/**
+	 * Returns a list of all the itmes that have been added with a certain modId.
+	 * @param modId The modId that the items belong to.
+	 * @return List of all items belonging to the modId, if it exists.
+	 */
+	public static List<SimpleBucket> getItemListFromModId(String modId)
+	{
+		if(bucketWithModIdMap.containsKey(modId))
+			return bucketWithModIdMap.get(modId);
+		else
+			return Lists.newArrayList();
 	}
 	
 	@SideOnly(Side.CLIENT)

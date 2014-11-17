@@ -1,7 +1,6 @@
 package alexndr.api.core;
 
 import java.io.File;
-import java.util.List;
 
 import net.minecraftforge.common.config.Configuration;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
@@ -12,7 +11,6 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 public class APISettings
 {
 	public static Configuration settings;
-	private static List<Class> pluginClasses = PluginHelper.INSTANCE.getPluginClassList();
 	
 	/**
 	 * Creates the configuration file and its contents.
@@ -21,7 +19,7 @@ public class APISettings
 	public static void createOrLoadSettings(FMLPreInitializationEvent event)
 	{
 		File installDir = event.getModConfigurationDirectory();
-		File configDir = new File(installDir, "SimpleCore");
+		File configDir = new File(installDir, "AleXndr");
 		File settingsFile = new File(configDir, "API Settings.cfg");
 		settings = new Configuration(settingsFile);
 		
@@ -32,14 +30,11 @@ public class APISettings
 			
 			//Plugins
 			settings.addCustomCategoryComment("Plugin Loader", "WARNING: Disabling plugins with content in your worlds will delete the content if you load that world with it disabled.");
-			disableAllPlugins = settings.getBoolean("Disable all Plugins?", "Plugin Loader", false, "Enables or disables all plugins using AlexndrCore.");
 			
 			//Toggles
 			disableAllUpdateChecking = settings.getBoolean("Disable All Update Checking?", "Setting Toggles", false, "Disables any plugins from checking for updates using the API-provided UpdateChecker.");
 			enableUpdateChecker = settings.getBoolean("Enable Update Checker?", "Setting Toggles", true, "Enables the update checker for SimpleCore");
 			enableVerboseLogging = settings.getBoolean("Enable Verbose Logging?", "Setting Toggles", false, "Logs more detailed information to the console. Can help with diagnosing errors.");
-			
-			generatePluginToggles();
 			
 		}
 		
@@ -56,18 +51,6 @@ public class APISettings
 		}
 	}
 	
-	public static void generatePluginToggles()
-	{
-		for(Class plugin : pluginClasses)
-		{
-			String pluginId = PluginHelper.INSTANCE.getIdFromClass(plugin);
-			String pluginName = PluginHelper.INSTANCE.getNameFromClass(plugin);
-			boolean defaultState = PluginHelper.INSTANCE.getDefaultStateFromClass(plugin);
-			settings.getBoolean("Enable Plugin: '" + pluginName + "' (modId: '" + pluginId + "')?", "Plugin Loader", defaultState, "Enables the specified plugin.");
-		}
-	}
-	
 	//Plugins
-	public static boolean disableAllPlugins;
 	public static boolean enableVerboseLogging, disableAllUpdateChecking, enableUpdateChecker;
 }
