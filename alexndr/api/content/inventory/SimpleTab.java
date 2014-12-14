@@ -12,6 +12,11 @@ public class SimpleTab extends CreativeTabs
 {
 	private Item itemForIcon;
 	
+	/**
+	 * Creates a new Creative Inventory Tab with the specified properties.
+	 * @param label The label of the tab.
+	 * @param category The category of the tab. "blocks", "decorations", "tools", "combat", "materials", "general", "other"
+	 */
 	public SimpleTab(String label, String category) 
 	{
 		super(label);

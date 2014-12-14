@@ -41,6 +41,7 @@ public class SimpleOres
 	{
 		LogHelper.info("Loading SimpleOres...");
 		//Configuration
+		ModInfo.setModInfoProperties(event);
 		Settings.createOrLoadSettings(event);
 		
 		//Content
@@ -60,6 +61,7 @@ public class SimpleOres
 		if(Settings.enableUpdateChecker){UpdateChecker.checkUpdates(ModInfo.VERSIONURL, ModInfo.ID, ModInfo.VERSION);}
 		
 		//Content
+		Recipes.initialize();
 		tabInit();
 		setRepairMaterials();
 		setAchievementTriggers();
@@ -71,7 +73,7 @@ public class SimpleOres
 	 * @param event FMLPostInitializationEvent
 	 */
 	@EventHandler
-	public void PostInit(FMLPostInitializationEvent event)
+	public void postInit(FMLPostInitializationEvent event)
 	{
 		LogHelper.info("SimpleOres loaded");
 	}
@@ -81,27 +83,28 @@ public class SimpleOres
 	 */
 	private static void setAchievementTriggers()
 	{
-		//Crafting Triggers
-		StatTriggersHelper.INSTANCE.addCraftingTrigger(new ItemStack(Content.copper_pickaxe), Content.copperPickAch);
-		StatTriggersHelper.INSTANCE.addCraftingTrigger(new ItemStack(Content.copper_bucket), Content.copperBucketAch);
-		StatTriggersHelper.INSTANCE.addCraftingTrigger(new ItemStack(Content.tin_chestplate), Content.tinChestplateAch);
-		StatTriggersHelper.INSTANCE.addCraftingTrigger(new ItemStack(Content.tin_shears), Content.tinShearsAch);
-		StatTriggersHelper.INSTANCE.addCraftingTrigger(new ItemStack(Content.mythril_axe), Content.mythrilAxeAch);
-		StatTriggersHelper.INSTANCE.addCraftingTrigger(new ItemStack(Content.mythril_bow), Content.mythrilBowAch);
-		StatTriggersHelper.INSTANCE.addCraftingTrigger(new ItemStack(Content.adamantium_leggings), Content.adamantiumLegsAch);
-		StatTriggersHelper.INSTANCE.addCraftingTrigger(new ItemStack(Content.adamantium_shears), Content.adamantiumShearsAch);
-		StatTriggersHelper.INSTANCE.addCraftingTrigger(new ItemStack(Content.onyx_sword), Content.onyxSwordAch);
-		StatTriggersHelper.INSTANCE.addCraftingTrigger(new ItemStack(Content.onyx_bow), Content.onyxBowAch);
-	    	
+    	
 		//Pickup Triggers
-		StatTriggersHelper.INSTANCE.addPickupTrigger(new ItemStack(Content.copper_ore), Content.copperAch);
-		StatTriggersHelper.INSTANCE.addPickupTrigger(new ItemStack(Content.tin_ore), Content.tinAch);
-		StatTriggersHelper.INSTANCE.addPickupTrigger(new ItemStack(Content.mythril_ore), Content.mythrilAch);
-		StatTriggersHelper.INSTANCE.addPickupTrigger(new ItemStack(Content.adamantium_ore), Content.adamantiumAch);
-		StatTriggersHelper.INSTANCE.addPickupTrigger(new ItemStack(Content.onyx_gem), Content.onyxAch);
+		StatTriggersHelper.addPickupTrigger(new ItemStack(Content.copper_ore), Content.copperAch);
+		StatTriggersHelper.addPickupTrigger(new ItemStack(Content.tin_ore), Content.tinAch);
+		StatTriggersHelper.addPickupTrigger(new ItemStack(Content.mythril_ore), Content.mythrilAch);
+		StatTriggersHelper.addPickupTrigger(new ItemStack(Content.adamantium_ore), Content.adamantiumAch);
+		StatTriggersHelper.addPickupTrigger(new ItemStack(Content.onyx_gem), Content.onyxAch);
+	
+		//Crafting Triggers
+		StatTriggersHelper.addCraftingTrigger(new ItemStack(Content.copper_pickaxe), Content.copperPickAch);
+		StatTriggersHelper.addCraftingTrigger(new ItemStack(Content.copper_bucket), Content.copperBucketAch);
+		StatTriggersHelper.addCraftingTrigger(new ItemStack(Content.tin_chestplate), Content.tinChestplateAch);
+		StatTriggersHelper.addCraftingTrigger(new ItemStack(Content.tin_shears), Content.tinShearsAch);
+		StatTriggersHelper.addCraftingTrigger(new ItemStack(Content.mythril_axe), Content.mythrilAxeAch);
+		StatTriggersHelper.addCraftingTrigger(new ItemStack(Content.mythril_bow), Content.mythrilBowAch);
+		StatTriggersHelper.addCraftingTrigger(new ItemStack(Content.adamantium_leggings), Content.adamantiumLegsAch);
+		StatTriggersHelper.addCraftingTrigger(new ItemStack(Content.adamantium_shears), Content.adamantiumShearsAch);
+		StatTriggersHelper.addCraftingTrigger(new ItemStack(Content.onyx_sword), Content.onyxSwordAch);
+		StatTriggersHelper.addCraftingTrigger(new ItemStack(Content.onyx_bow), Content.onyxBowAch);
 		
 		//Smelting Triggers
-		StatTriggersHelper.INSTANCE.addSmeltingTrigger(new ItemStack(Content.onyx_gem), Content.onyxAch);
+		StatTriggersHelper.addSmeltingTrigger(new ItemStack(Content.onyx_gem), Content.onyxAch);
 	}
 	
 	/**
@@ -127,6 +130,7 @@ public class SimpleOres
 		toolMythril.customCraftingMaterial = Content.mythril_ingot;
 		toolAdamantium.customCraftingMaterial = Content.adamantium_ingot;
 		toolOnyx.customCraftingMaterial = Content.onyx_gem;
+		
 		//Armor
 		armorCopper.customCraftingMaterial = Content.copper_ingot;
 		armorTin.customCraftingMaterial = Content.tin_ingot;

@@ -136,7 +136,7 @@ public class SimpleBow extends ItemBow
 	
 	/**
 	 * Sets which creative tab the item will appear in in Creative Mode.
-	 * @param creativetab The CreativeTabs tab for the item to appear in.
+	 * @param creativeTab The CreativeTabs tab for the item to appear in.
 	 * @return SimpleBow
 	 */
 	public SimpleBow setTab(CreativeTabs creativeTab)
@@ -147,7 +147,7 @@ public class SimpleBow extends ItemBow
 	
 	/**
 	 * Sets the icons for the bow. There should be 4 icons for each stage of the 'draw back' animation.
-	 * @param iconList A List of IIcon's. Should contain 4 icons.
+	 * @param bowTypeName The name of the bow type, ie. "mythril_bow"
 	 * @return SimpleBow
 	 */
 	public SimpleBow setTextures(String bowTypeName)

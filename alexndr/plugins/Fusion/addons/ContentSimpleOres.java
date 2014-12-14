@@ -92,14 +92,14 @@ public class ContentSimpleOres
 	
 	public static void doAchievements()
 	{
-		bronzeAch = new Achievement("achievement.bronzeAch", "bronzeAch", 9, 11, bronze_ingot, Content.fusionAch).registerStat();
-		bronzeHelmetAch = new Achievement("achievement.bronzeHelmetAch", "bronzeHelmetAch", 9, 9, bronze_helmet, bronzeAch).registerStat();
-		thyriumAch = new Achievement("achievement.thyriumAch", "thyriumAch", 12, 11, thyrium_ingot, bronzeAch).registerStat();
-		thyriumAxeAch = new Achievement("achievement.thyriumAxeAch", "thyriumAxeAch", 11, 9, thyrium_axe, thyriumAch).registerStat();
-		thyriumBowAch = new Achievement("achievement.thyriumBowAch", "thyriumBowAch", 13, 9, thyrium_bow, thyriumAch).registerStat();
-		sinisiteAch = new Achievement("achievement.sinisiteAch", "sinisiteAch", 15, 11, sinisite_ingot, thyriumAch).setSpecial().registerStat();
-		sinisiteSwordAch = new Achievement("achievement.sinisiteSwordAch", "sinisiteSwordAch", 14, 9, sinisite_sword, sinisiteAch).registerStat();
-		sinisiteBowAch = new Achievement("achievement.sinisiteBowAch", "sinisiteBowAch", 16, 9, sinisite_bow, sinisiteAch).registerStat();
+		bronzeAch = new Achievement("achievement.bronzeAch", "bronzeAch", 10, 11, bronze_ingot, Content.fusionAch).registerStat();
+		bronzeHelmetAch = new Achievement("achievement.bronzeHelmetAch", "bronzeHelmetAch", 10, 9, bronze_helmet, bronzeAch).registerStat();
+		thyriumAch = new Achievement("achievement.thyriumAch", "thyriumAch", 13, 11, thyrium_ingot, bronzeAch).registerStat();
+		thyriumAxeAch = new Achievement("achievement.thyriumAxeAch", "thyriumAxeAch", 12, 9, thyrium_axe, thyriumAch).registerStat();
+		thyriumBowAch = new Achievement("achievement.thyriumBowAch", "thyriumBowAch", 14, 9, thyrium_bow, thyriumAch).registerStat();
+		sinisiteAch = new Achievement("achievement.sinisiteAch", "sinisiteAch", 16, 11, sinisite_ingot, thyriumAch).setSpecial().registerStat();
+		sinisiteSwordAch = new Achievement("achievement.sinisiteSwordAch", "sinisiteSwordAch", 15, 9, sinisite_sword, sinisiteAch).registerStat();
+		sinisiteBowAch = new Achievement("achievement.sinisiteBowAch", "sinisiteBowAch", 17, 9, sinisite_bow, sinisiteAch).registerStat();
 	}
 	
 	public static void doRecipesOreDict()

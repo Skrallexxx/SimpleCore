@@ -62,7 +62,6 @@ public class UpdateChecker
 					int currentVersionAsInt = Integer.parseInt(VERSION.replace(".", ""));
 					int newVersionAsInt = Integer.parseInt(newVersion.toString().replace(".", ""));
 					
-					
 					if(newVersionAsInt > currentVersionAsInt)
 					{
 						isModOutOfDateMap.put(modId, true);

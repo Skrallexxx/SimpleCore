@@ -45,7 +45,7 @@ public class ContentRegistry
 	 * Registers a CreativeTab with the ContentRegistry so any plugins can access it.
 	 * @param tab CreativeTab to be registered.
 	 * @param name Name of the CreativeTab.
-	 * @param category The category of the tab. "blocks", "decorations", "tools", "combat", "materials", "other"
+	 * @param category The category of the tab. "blocks", "decorations", "tools", "combat", "materials", "general", "other"
 	 */
 	public static void registerCreativeTab(CreativeTabs tab, String name, String category)
 	{
@@ -140,10 +140,8 @@ public class ContentRegistry
 	{
 		List<Block> list = Lists.newArrayList();
 		for(Object[] details : blockList)
-		{
 			if(((String)details[0]).equals(modId))
 				list.add((Block)details[1]);
-		}
 		return list;
 	}
 	
@@ -157,10 +155,8 @@ public class ContentRegistry
 	{
 		List<Block> list = Lists.newArrayList();
 		for(Object[] details : blockList)
-		{
 			if(((String)details[0]).equals(modId) && ((String)details[3]).equals(type))
 				list.add((Block)details[1]);
-		}
 		return list;
 	}
 	
@@ -190,10 +186,8 @@ public class ContentRegistry
 	{
 		List<Item> list = Lists.newArrayList();
 		for(Object[] details : itemList)
-		{
 			if(((String)details[0]).equals(modId))
 				list.add((Item)details[1]);
-		}
 		return list;
 	}
 	
@@ -207,10 +201,8 @@ public class ContentRegistry
 	{
 		List<Item> list = Lists.newArrayList();
 		for(Object[] details : itemList)
-		{
 			if(((String)details[0]).equals(modId) && ((String)details[3]).equals(type))
 				list.add((Item)details[1]);
-		}
 		return list;
 	}
 	
@@ -233,16 +225,14 @@ public class ContentRegistry
 	
 	/**
 	 * Gets the first CreativeTab registered with the specified category.
-	 * @param category The category the CreativeTab is registered with. "blocks", "decorations", "tools", "combat", "materials", "other"
+	 * @param category The category the CreativeTab is registered with. "blocks", "decorations", "tools", "combat", "materials", "general", "other"
 	 * @return The first CreativeTab registered with a category if it exists, or null if it doesn't.
 	 */
 	public static CreativeTabs getFirstTabFromCategory(String category)
 	{
 		for(Object[] details : tabList)
-		{
 			if(((String)details[2]).equals(category))
 				return (CreativeTabs)details[0];
-		}
 		return null;
 	}
 }

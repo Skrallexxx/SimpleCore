@@ -120,9 +120,9 @@ public class Content
 	 */
 	public static void doAchievements()
 	{
-		fusionAch = new Achievement("achievement.fusionAch", "fusionAch", 8, 8, fusion_furnace, AchievementList.buildFurnace).setSpecial().registerStat();
-		steelAch = new Achievement("achievement.steelAch", "steelAch", 7, 9, steel_ingot, fusionAch).registerStat();
-		steelChestplateAch = new Achievement("achievement.steelChestplateAch", "steelChestplateAch", 7, 11, steel_chestplate, steelAch).registerStat();
+		fusionAch = new Achievement("achievement.fusionAch", "fusionAch", 9, 7, fusion_furnace, AchievementList.buildFurnace).setSpecial().registerStat();
+		steelAch = new Achievement("achievement.steelAch", "steelAch", 8, 9, steel_ingot, fusionAch).registerStat();
+		steelChestplateAch = new Achievement("achievement.steelChestplateAch", "steelChestplateAch", 8, 11, steel_chestplate, steelAch).registerStat();
 
 		if(simpleores)
 			ContentSimpleOres.doAchievements();
@@ -134,13 +134,13 @@ public class Content
 	public static void setTabs()
 	{
 		fusion_furnace.setCreativeTab(TabHelper.decorationsTab());
-		for(Item armor : ContentRegistry.getItemListFromModId("fusion"))
+		for(Item armor : ContentRegistry.getItemListFromModId("fusion", "armor"))
 			armor.setCreativeTab(TabHelper.combatTab());
 		for(Block block : ContentRegistry.getBlockListFromModId("fusion"))
 			block.setCreativeTab(TabHelper.decorationsTab());
 		for(Block ore : ContentRegistry.getBlockListFromModId("fusion", "ore"))
 			ore.setCreativeTab(TabHelper.blocksTab());
-		for(Item item : ContentRegistry.getItemListFromModId("fusion"))
+		for(Item item : ContentRegistry.getItemListFromModId("fusion", "ingot"))
 			item.setCreativeTab(TabHelper.materialsTab());
 		for(Item tool : ContentRegistry.getItemListFromModId("fusion", "tool"))
 			tool.setCreativeTab(TabHelper.toolsTab());

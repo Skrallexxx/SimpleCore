@@ -51,37 +51,71 @@ public class Settings
 			if(enableToolStatModification)
 			{
 				LogHelper.verboseInfo("Fusion", "Tool Stat Modification enabled!");
+        		steelMiningLevel = settings.getInt("Steel Mining Level", "Tool Stat Modification", 2, 0, 255, "Controls the mining level of Steel Tools. 0 = wood, 1 = stone, 2 = iron, 3 = diamond.");
+        		steelUsesNum = settings.getInt("Steel Uses Number", "Tool Stat Modification", 750, 0, 32000, "Controls the number of uses Steel Tools have.");
+        		steelMiningSpeed = settings.getFloat("Steel Mining Speed", "Tool Stat Modification", 7.5F, 0, 32000, "Controls the speed at which Steel Tools harvest their appropriate blocks.");
+        		steelDamageVsEntity = settings.getFloat("Steel Damage Vs Entity", "Tool Stat Modification", 3.0F, 0, 32000, "Controls the amount of damage that Steel Tools will do to entities.");
+        		steelEnchantability = settings.getInt("Steel Enchantability", "Tool Stat Modification", 24, 0, 32000, "Controls the enchantability of Steel Tools.");
+				
         		bronzeMiningLevel = settings.getInt("Bronze Mining Level", "Tool Stat Modification", 2, 0, 255, "Controls the mining level of Bronze Tools. 0 = wood, 1 = stone, 2 = iron, 3 = diamond.");
-        		bronzeUsesNum = settings.getInt("Bronze Uses Number", "Tool Stats", 800, 0, 32000, "Controls the number of uses Bronze Tools have.");
-        		bronzeMiningSpeed = settings.getFloat("Bronze Mining Speed", "Tool Stats", 9.0F, 0, 32000, "Controls the speed at which Bronze Tools harvest their appropriate blocks.");
-        		bronzeDamageVsEntity = settings.getFloat("Bronze Damage Vs Entity", "Tool Stats", 2.0F, 0, 32000, "Controls the amount of damage that Bronze Tools will do to entities.");
-        		bronzeEnchantability = settings.getInt("Bronze Enchantability", "Tool Stats", 7, 0, 32000, "Controls the enchantability of Bronze Tools.");
+        		bronzeUsesNum = settings.getInt("Bronze Uses Number", "Tool Stat Modification", 800, 0, 32000, "Controls the number of uses Bronze Tools have.");
+        		bronzeMiningSpeed = settings.getFloat("Bronze Mining Speed", "Tool Stat Modification", 9.0F, 0, 32000, "Controls the speed at which Bronze Tools harvest their appropriate blocks.");
+        		bronzeDamageVsEntity = settings.getFloat("Bronze Damage Vs Entity", "Tool Stat Modification", 2.0F, 0, 32000, "Controls the amount of damage that Bronze Tools will do to entities.");
+        		bronzeEnchantability = settings.getInt("Bronze Enchantability", "Tool Stat Modification", 7, 0, 32000, "Controls the enchantability of Bronze Tools.");
         		
-        		thyriumMiningLevel = settings.getInt("Thyrium Mining Level", "Tool Stats", 3, 0, 255, "Controls the mining level of Thyrium Tools. 0 = wood, 1 = stone, 2 = iron, 3 = diamond.");
-        		thyriumUsesNum = settings.getInt("Thyrium Uses Number", "Tool Stats", 2000, 0, 32000, "Controls the number of uses Thyrium Tools have.");
-        		thyriumMiningSpeed = settings.getFloat("Thyrium Mining Speed", "Tool Stats", 22.0F, 0, 32000, "Controls the speed at which Thyrium Tools harvest their appropriate blocks.");
-        		thyriumDamageVsEntity = settings.getFloat("Thyrium Damage Vs Entity", "Tool Stats", 6.0F, 0, 32000, "Controls the amount of damage that Thyrium Tools will do to entities.");
-        		thyriumEnchantability = settings.getInt("Thyrium Enchantability", "Tool Stats", 28, 0, 32000, "Controls the enchantability of Thyrium Tools.");
+        		thyriumMiningLevel = settings.getInt("Thyrium Mining Level", "Tool Stat Modification", 3, 0, 255, "Controls the mining level of Thyrium Tools. 0 = wood, 1 = stone, 2 = iron, 3 = diamond.");
+        		thyriumUsesNum = settings.getInt("Thyrium Uses Number", "Tool Stat Modification", 2000, 0, 32000, "Controls the number of uses Thyrium Tools have.");
+        		thyriumMiningSpeed = settings.getFloat("Thyrium Mining Speed", "Tool Stat Modification", 22.0F, 0, 32000, "Controls the speed at which Thyrium Tools harvest their appropriate blocks.");
+        		thyriumDamageVsEntity = settings.getFloat("Thyrium Damage Vs Entity", "Tool Stat Modification", 6.0F, 0, 32000, "Controls the amount of damage that Thyrium Tools will do to entities.");
+        		thyriumEnchantability = settings.getInt("Thyrium Enchantability", "Tool Stat Modification", 28, 0, 32000, "Controls the enchantability of Thyrium Tools.");
         		
-        		sinisiteMiningLevel = settings.getInt("Sinisite Mining Level", "Tool Stats", 5, 0, 255, "Controls the mining level of Sinisite Tools. 0 = wood, 1 = stone, 2 = iron, 3 = diamond.");
-        		sinisiteUsesNum = settings.getInt("Sinisite Uses Number", "Tool Stats", 4100, 0, 32000, "Controls the number of uses Sinisite Tools have.");
-        		sinisiteMiningSpeed = settings.getFloat("Sinisite Mining Speed", "Tool Stats", 18.0F, 0, 32000, "Controls the speed at which Sinisite Tools harvest their appropriate blocks.");
-        		sinisiteDamageVsEntity = settings.getFloat("Sinisite Damage Vs Entity", "Tool Stats", 8.0F, 0, 32000, "Controls the amount of damage that Sinisite Tools will do to entities.");
-        		sinisiteEnchantability = settings.getInt("Sinisite Enchantability", "Tool Stats", 11, 0, 32000, "Controls the enchantability of Sinisite Tools.");
+        		sinisiteMiningLevel = settings.getInt("Sinisite Mining Level", "Tool Stat Modification", 5, 0, 255, "Controls the mining level of Sinisite Tools. 0 = wood, 1 = stone, 2 = iron, 3 = diamond.");
+        		sinisiteUsesNum = settings.getInt("Sinisite Uses Number", "Tool Stat Modification", 4100, 0, 32000, "Controls the number of uses Sinisite Tools have.");
+        		sinisiteMiningSpeed = settings.getFloat("Sinisite Mining Speed", "Tool Stat Modification", 18.0F, 0, 32000, "Controls the speed at which Sinisite Tools harvest their appropriate blocks.");
+        		sinisiteDamageVsEntity = settings.getFloat("Sinisite Damage Vs Entity", "Tool Stat Modification", 8.0F, 0, 32000, "Controls the amount of damage that Sinisite Tools will do to entities.");
+        		sinisiteEnchantability = settings.getInt("Sinisite Enchantability", "Tool Stat Modification", 11, 0, 32000, "Controls the enchantability of Sinisite Tools.");
 			}
 			else
 				defaultToolStats();
 			
 			if(enableArmorStatModification)
 			{
+				steelArmorDurability = settings.getInt("Steel Armor Durability", "Armor Stat Modification", 25, 0, 255, "Controls the durability of Steel Armor.");
+				steelArmorDamageReduction = settings.get("Armor Stat Modification", "Steel Armor Damage Reduction Array", new int[] {3, 6, 6,  3}).getIntList();
+				steelArmorEnchantability = settings.getInt("Steel Armor Enchantability", "Armor Stat Modification", 24, 0, 255, "Controls the enchantability of Steel Armor.");
 				
+				bronzeArmorDurability = settings.getInt("Bronze Armor Durability", "Armor Stat Modification", 16, 0, 255, "Controls the durability of Bronze Armor.");
+				bronzeArmorDamageReduction = settings.get("Armor Stat Modification", "Bronze Armor Damage Reduction Array", new int[] {3, 5, 3, 1}).getIntList();
+				bronzeArmorEnchantability = settings.getInt("Bronze Armor Enchantability", "Armor Stat Modification", 7, 0, 255, "Controls the enchantability of Bronze Armor.");
+				
+				thyriumArmorDurability = settings.getInt("Thyrium Armor Durability", "Armor Stat Modification", 39, 0, 255, "Controls the durability of Thyrium Armor.");
+				thyriumArmorDamageReduction = settings.get("Armor Stat Modification", "Thyrium Armor Damage Reduction Array", new int[] {4, 8, 7, 4}).getIntList();
+				thyriumArmorEnchantability = settings.getInt("Thyrium Armor Enchantability", "Armor Stat Modification", 28, 0, 255, "Controls the enchantability of Thyrium Armor.");
+				
+				sinisiteArmorDurability = settings.getInt("Sinisite Armor Durability", "Armor Stat Modification", 56, 0, 255, "Controls the durability of Sinisite Armor.");
+				sinisiteArmorDamageReduction = settings.get("Armor Stat Modification", "Sinisite Armor Damage Reduction Array", new int[] {6, 8, 8, 7}).getIntList();
+				sinisiteArmorEnchantability = settings.getInt("Sinisite Armor Enchantability", "Armor Stat Modification", 11, 0, 255, "Controls the enchantability of Sinisite Armor.");
 			}
 			else
 				defaultArmorStats();
 			
 			if(enableBlockStatModification)
 			{
+				steelBlockHardness = settings.getFloat("Steel Block Hardness", "Block Stat Modification", 7.0F, 0, 32000, "Controls the hardness of Steel Blocks.");
+				steelBlockResistance = settings.getFloat("Steel Block Resistance", "Block Stat Modification", 12.0F, 0, 32000, "Controls the blast resistance of Steel Blocks.");
 				
+				bronzeBlockHardness = settings.getFloat("Bronze Block Hardness", "Block Stat Modification", 7.0F, 0, 32000, "Controls the hardness of Bronze Blocks.");
+				bronzeBlockResistance = settings.getFloat("Bronze Block Resistance", "Block Stat Modification", 12.0F, 0, 32000, "Controls the blast resistance of Bronze Blocks.");
+			
+				thyriumBlockHardness = settings.getFloat("Thyrium Block Hardness", "Block Stat Modification", 7.0F, 0, 32000, "Controls the hardness of Thyrium Blocks.");
+				thyriumBlockResistance = settings.getFloat("Thyrium Block Resistance", "Block Stat Modification", 12.0F, 0, 32000, "Controls the blast resistance of Thyrium Blocks.");
+				
+				sinisiteBlockHardness = settings.getFloat("Sinisite Block Hardness", "Block Stat Modification", 7.0F, 0, 32000, "Controls the hardness of Sinisite Blocks.");
+				sinisiteBlockResistance = settings.getFloat("Sinisite Block Resistance", "Block Stat Modification", 12.0F, 0, 32000, "Controls the blast resistance of Sinisite Blocks.");
+			
+				fusionFurnaceHardness = settings.getFloat("Fusion Furnace Hardness", "Block Stat Modification", 3.5F, 0, 32000, "Controls the hardness of the Fusion Furnace.");
+				fusionFurnaceResistance = settings.getFloat("Fusion Furnace Resistance", "Block Stat Modification", 10.0F, 0, 32000, "Controls the blast resistance of the Fusion Furnace.");
+				fusionFurnaceLightValue = settings.getFloat("Fusion Furnace Light Value", "Block Stat Modification", 1.0F, 0, 1.0F, "Controls the light output level of the Fusion Furnace.");
 			}
 			else
 				defaultBlockStats();
@@ -106,22 +140,19 @@ public class Settings
 		steelMiningSpeed = 7.5F;
 		steelDamageVsEntity = 3.0F;
 		steelEnchantability = 24;
-		slimyDiamondMiningLevel = 3;
-		slimyDiamondUsesNum = 2000;
-		slimyDiamondMiningSpeed = 9.0F;
-		slimyDiamondDamageVsEntity = 3.5F;
-		slimyDiamondEnchantability = 7;
 		
 		bronzeMiningLevel = 2;
 		bronzeUsesNum = 800;
 		bronzeMiningSpeed = 9.0F;
 		bronzeDamageVsEntity = 2.0F;
 		bronzeEnchantability = 7;
+		
 		thyriumMiningLevel = 3;
 		thyriumUsesNum = 2000;
 		thyriumMiningSpeed = 22.0F;
 		thyriumDamageVsEntity = 6.0F;
 		thyriumEnchantability = 28;
+		
 		sinisiteMiningLevel = 5;
 		sinisiteUsesNum = 4100;
 		sinisiteMiningSpeed = 18.0F;
@@ -138,9 +169,11 @@ public class Settings
 		bronzeArmorDurability = 16;
 		bronzeArmorDamageReduction = new int[] {3, 5, 3, 1};
 		bronzeArmorEnchantability = 7;
+		
 		thyriumArmorDurability = 39;
 		thyriumArmorDamageReduction = new int[] {4, 8, 7, 4};
 		thyriumArmorEnchantability = 28;
+		
 		sinisiteArmorDurability = 56;
 		sinisiteArmorDamageReduction = new int[] {6, 8, 8, 7};
 		sinisiteArmorEnchantability = 11;
@@ -150,15 +183,16 @@ public class Settings
 	{
 		steelBlockHardness = 7.0F;
 		steelBlockResistance = 12.0F;
-		slimyDiamondBlockHardness = 7.0F;
-		slimyDiamondBlockResistance = 12.0F;
 		
 		bronzeBlockHardness = 7.0F;
 		bronzeBlockResistance = 12.0F;
+		
 		thyriumBlockHardness = 7.0F;
 		thyriumBlockResistance = 12.0F;
+		
 		sinisiteBlockHardness = 7.0F;
 		sinisiteBlockResistance = 12.0F;
+		
 		fusionFurnaceHardness = 3.5F;
 		fusionFurnaceResistance = 10.0F;
 		fusionFurnaceLightValue = 1.0F;
@@ -176,33 +210,20 @@ public class Settings
 	public static boolean enableSimpleOres, enableNetherrocks;
 	
 	//Tool Stats
-	public static int steelMiningLevel, slimyDiamondMiningLevel;
-	public static int steelUsesNum, slimyDiamondUsesNum;
-	public static float steelMiningSpeed, slimyDiamondMiningSpeed;
-	public static float steelDamageVsEntity, slimyDiamondDamageVsEntity;
-	public static int steelEnchantability, slimyDiamondEnchantability;
-	
-	public static int bronzeMiningLevel, thyriumMiningLevel, sinisiteMiningLevel;
-	public static int bronzeUsesNum, thyriumUsesNum, sinisiteUsesNum;
-	public static float bronzeMiningSpeed, thyriumMiningSpeed, sinisiteMiningSpeed;
-	public static float bronzeDamageVsEntity, thyriumDamageVsEntity, sinisiteDamageVsEntity;
-	public static int bronzeEnchantability, thyriumEnchantability, sinisiteEnchantability;
+	public static int steelMiningLevel, bronzeMiningLevel, thyriumMiningLevel, sinisiteMiningLevel;
+	public static int steelUsesNum, bronzeUsesNum, thyriumUsesNum, sinisiteUsesNum;
+	public static float steelMiningSpeed, bronzeMiningSpeed, thyriumMiningSpeed, sinisiteMiningSpeed;
+	public static float steelDamageVsEntity, bronzeDamageVsEntity, thyriumDamageVsEntity, sinisiteDamageVsEntity;
+	public static int steelEnchantability, bronzeEnchantability, thyriumEnchantability, sinisiteEnchantability;
 	
 	//Armor Stats
-	public static int steelArmorDurability;
-	public static int[] steelArmorDamageReduction;
-	public static int steelArmorEnchantability;
-	
-	public static int bronzeArmorDurability, thyriumArmorDurability, sinisiteArmorDurability;
-	public static int[] bronzeArmorDamageReduction, thyriumArmorDamageReduction, sinisiteArmorDamageReduction;
-	public static int bronzeArmorEnchantability, thyriumArmorEnchantability, sinisiteArmorEnchantability;
+	public static int steelArmorDurability, bronzeArmorDurability, thyriumArmorDurability, sinisiteArmorDurability;
+	public static int[] steelArmorDamageReduction, bronzeArmorDamageReduction, thyriumArmorDamageReduction, sinisiteArmorDamageReduction;
+	public static int steelArmorEnchantability, bronzeArmorEnchantability, thyriumArmorEnchantability, sinisiteArmorEnchantability;
 	
 	//Block Stats
-	public static float steelBlockHardness, slimyDiamondBlockHardness;
-	public static float steelBlockResistance, slimyDiamondBlockResistance;
-	
-	public static float bronzeBlockHardness, thyriumBlockHardness, sinisiteBlockHardness;
-	public static float bronzeBlockResistance, thyriumBlockResistance, sinisiteBlockResistance;
+	public static float steelBlockHardness, bronzeBlockHardness, thyriumBlockHardness, sinisiteBlockHardness;
+	public static float steelBlockResistance, bronzeBlockResistance, thyriumBlockResistance, sinisiteBlockResistance;
 	public static float fusionFurnaceHardness, fusionFurnaceResistance, fusionFurnaceLightValue;
 	
 	//Custom Fusion Recipes

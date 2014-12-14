@@ -17,6 +17,7 @@ import alexndr.api.content.items.SimpleSword;
 import alexndr.api.core.ContentRegistry;
 import alexndr.api.core.LogHelper;
 import alexndr.api.helpers.game.TabHelper;
+import cpw.mods.fml.common.registry.GameRegistry;
 
 /**
  * @author AleXndrTheGr8st
@@ -85,6 +86,14 @@ public class Content
 		dragonstone_block = new SimpleBlock(Material.iron).setBeaconBase(true).modId("netherrocks").setHardness(Settings.dragonstoneBlockHardness).setResistance(Settings.dragonstoneBlockResistance).setBlockName("dragonstone_block");
 		argonite_block = new SimpleBlock(Material.iron).setBeaconBase(true).modId("netherrocks").setHardness(Settings.argoniteBlockHardness).setResistance(Settings.argoniteBlockResistance).setBlockName("argonite_block");
 		
+		nether_furnace = new BlockNetherFurnace(false).setHardness(Settings.netherFurnaceHardness).setResistance(Settings.netherFurnaceResistance).setBlockName("nether_furnace");
+		nether_furnace_lit = new BlockNetherFurnace(true).setHardness(Settings.netherFurnaceHardness).setResistance(Settings.netherFurnaceResistance).setLightLevel(Settings.netherFurnaceLightValue).setBlockName("nether_furnace_lit");
+		
+		//Block Registering
+		GameRegistry.registerBlock(nether_furnace, "nether_furnace");
+		GameRegistry.registerBlock(nether_furnace_lit, "nether_furnace_lit");
+		ContentRegistry.registerBlock(nether_furnace, "nether_furnace", "netherrocks", "machine");
+		
 		//Ore Harvest Levels
 		fyrite_ore.setHarvestLevel("pickaxe", Settings.fyriteOreHarvestLevel);
 		malachite_ore.setHarvestLevel("pickaxe", Settings.malachiteOreHarvestLevel);
@@ -126,26 +135,28 @@ public class Content
 		argonite_shovel = new SimpleShovel(Netherrocks.toolArgonite).modId("netherrocks").setUnlocalizedName("argonite_shovel");
 		argonite_hoe = new SimpleHoe(Netherrocks.toolArgonite).modId("netherrocks").setUnlocalizedName("argonite_hoe");
 		argonite_sword = new SimpleSword(Netherrocks.toolArgonite).modId("netherrocks").setUnlocalizedName("argonite_sword");
+		fyrite_sword = new NetherSword(Netherrocks.toolFyrite).setUnlocalizedName("fyrite_sword");
+		fyrite_pickaxe = new NetherPickaxe(Netherrocks.toolFyrite).setUnlocalizedName("fyrite_pickaxe");
+		illumenite_sword = new NetherSword(Netherrocks.toolIllumenite).setUnlocalizedName("illumenite_sword");
 	}
 	
 	public static void doAchievements()
 	{
-		fyriteOreAch = new Achievement("achievement.fyriteOreAch", "fyriteOreAch", 19, 2, fyrite_ore, fyriteOreAch).registerStat();
-		malachiteOreAch = new Achievement("achievement.malachiteOreAch", "malachiteOreAch", 21, 2, malachite_ore, malachiteOreAch).registerStat();
-		ashstoneOreAch = new Achievement("achievement.ashstoneOreAch", "ashstoneOreAch", 23, 2, ashstone_ore, ashstoneOreAch).registerStat();
-		illumeniteOreAch = new Achievement("achievement.illumeniteOreAch", "illumeniteOreAch", 25, 2, illumenite_ore, illumeniteOreAch).registerStat();
-		argoniteOreAch = new Achievement("achievement.argoniteOreAch", "argoniteOreAch", 27, 2, argonite_ore, argoniteOreAch).registerStat();
-		dragonstoneOreAch = new Achievement("achievement.dragonstoneOreAch", "dragonstoneOreAch", 29, 2, dragonstone_ore, dragonstoneOreAch).setSpecial().registerStat();
+		fyriteOreAch = new Achievement("achievement.fyriteOreAch", "fyriteOreAch", -6, 7, fyrite_ore, AchievementList.portal).registerStat();
+		malachiteOreAch = new Achievement("achievement.malachiteOreAch", "malachiteOreAch", -6, 5, malachite_ore, fyriteOreAch).registerStat();
+		ashstoneOreAch = new Achievement("achievement.ashstoneOreAch", "ashstoneOreAch", -6, 3, ashstone_ore, malachiteOreAch).registerStat();
+		illumeniteOreAch = new Achievement("achievement.illumeniteOreAch", "illumeniteOreAch", -6, 1, illumenite_ore, ashstoneOreAch).registerStat();
+		argoniteOreAch = new Achievement("achievement.argoniteOreAch", "argoniteOreAch", -6, -1, argonite_ore, illumeniteOreAch).registerStat();
+		dragonstoneOreAch = new Achievement("achievement.dragonstoneOreAch", "dragonstoneOreAch", -6, -3, dragonstone_ore, argoniteOreAch).setSpecial().registerStat();
 		
-		fyriteSetAch = new Achievement("achievement.fyriteSetAch", "fyriteSetAch", 20, 4, fyrite_chestplate, fyriteOreAch).setSpecial().registerStat();
-		malachiteSetAch = new Achievement("achievement.malachiteSetAch", "malachiteSetAch", 22, 4, malachite_chestplate, malachiteOreAch).setSpecial().registerStat();
-		ashstoneAxeAch = new Achievement("achievement.ashstoneAxeAch", "ashstoneAxeAch", 24, 4, ashstone_axe, ashstoneOreAch).registerStat();
-		illumeniteSetAch = new Achievement("achievement.illumeniteSetAch", "illumeniteSetAch", 26, 4, illumenite_chestplate, illumeniteOreAch).setSpecial().registerStat();
-		argoniteSwordAch = new Achievement("achievement.argoniteSwordAch", "argoniteSwordAch", 28, 4, argonite_sword, argoniteOreAch).registerStat();
-		dragonstonePickaxeAch = new Achievement("achievement.dragonstonePickaxeAch", "dragonstonePickaxeAch", 30, 4, dragonstone_pickaxe, dragonstoneOreAch).registerStat();
+		fyriteSetAch = new Achievement("achievement.fyriteSetAch", "fyriteSetAch", -8, 7, fyrite_chestplate, fyriteOreAch).setSpecial().registerStat();
+		malachiteSetAch = new Achievement("achievement.malachiteSetAch", "malachiteSetAch", -8, 5, malachite_chestplate, malachiteOreAch).setSpecial().registerStat();
+		ashstoneAxeAch = new Achievement("achievement.ashstoneAxeAch", "ashstoneAxeAch", -8, 3, ashstone_axe, ashstoneOreAch).registerStat();
+		illumeniteSetAch = new Achievement("achievement.illumeniteSetAch", "illumeniteSetAch", -8, 1, illumenite_chestplate, illumeniteOreAch).setSpecial().registerStat();
+		argoniteSwordAch = new Achievement("achievement.argoniteSwordAch", "argoniteSwordAch", -8, -1, argonite_sword, argoniteOreAch).registerStat();
+		dragonstonePickaxeAch = new Achievement("achievement.dragonstonePickaxeAch", "dragonstonePickaxeAch", -8, -3, dragonstone_pickaxe, dragonstoneOreAch).registerStat();
 		
-		//Change fyrite_ingot to nether_furnace_lit
-		netherFurnaceAch = new Achievement("achievement.netherFurnaceAch", "netherFurnaceAch", 1, 7, fyrite_ingot, AchievementList.portal).registerStat();
+		netherFurnaceAch = new Achievement("achievement.netherFurnaceAch", "netherFurnaceAch", 1, 7, nether_furnace_lit, AchievementList.portal).registerStat();
 	}
 	
 	public static void setTabs()
@@ -154,7 +165,7 @@ public class Content
 			block.setCreativeTab(TabHelper.decorationsTab());
 		for(Block ore : ContentRegistry.getBlockListFromModId("netherrocks", "ore"))
 			ore.setCreativeTab(TabHelper.blocksTab());
-		for(Item item : ContentRegistry.getItemListFromModId("netherrocks"))
+		for(Item item : ContentRegistry.getItemListFromModId("netherrocks", "ingot"))
 			item.setCreativeTab(TabHelper.materialsTab());
 		for(Item tool : ContentRegistry.getItemListFromModId("netherrocks", "tool"))
 			tool.setCreativeTab(TabHelper.toolsTab());

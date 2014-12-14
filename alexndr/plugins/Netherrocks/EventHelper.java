@@ -38,6 +38,7 @@ public class EventHelper
 						{
 							event.setCanceled(true);
 							player.extinguish();
+							player.addStat(Content.fyriteSetAch, 1);
 						}
 					}
 				}
@@ -65,6 +66,7 @@ public class EventHelper
 	    	    	if(event.source.equals(DamageSource.fall) && Settings.enableArmorEffects)
 	    	    	{
 	    	        	event.setCanceled(true);
+	    	        	player.addStat(Content.illumeniteSetAch, 1);
 	    	    	}
 	        	}
 	        }
@@ -104,6 +106,7 @@ public class EventHelper
 					if(!player.isSneaking() && Settings.enableArmorEffects)
 					{
 						player.motionY += Settings.malachiteArmorJumpBoostAmount;
+						player.addStat(Content.malachiteSetAch, 1);
 					}
 				}
 			}

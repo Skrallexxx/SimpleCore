@@ -29,7 +29,7 @@ public class Fusion
 	public static Fusion INSTANCE = new Fusion();
 	
 	//Tool Materials
-	public static ToolMaterial toolSteel, toolSlimyDiamond;
+	public static ToolMaterial toolSteel;
 	
 	//Armor Materials
 	public static ArmorMaterial armorSteel;
@@ -44,6 +44,7 @@ public class Fusion
 	{
 		LogHelper.info("Loading Fusion...");
 		//Configuration
+		ModInfo.setModInfoProperties(event);
 		Settings.createOrLoadSettings(event);
 		
 		//Content
@@ -108,8 +109,6 @@ public class Fusion
     private static void setToolAndArmorStats()
     {
     	toolSteel = EnumHelper.addToolMaterial("STEEL", Settings.steelMiningLevel, Settings.steelUsesNum, Settings.steelMiningSpeed, Settings.steelDamageVsEntity, Settings.steelEnchantability);
-    	toolSlimyDiamond = EnumHelper.addToolMaterial("SLIMYDIAMOND", Settings.slimyDiamondMiningLevel, Settings.slimyDiamondUsesNum, Settings.slimyDiamondMiningSpeed, Settings.slimyDiamondDamageVsEntity, Settings.slimyDiamondEnchantability);
-    	
     	armorSteel = EnumHelper.addArmorMaterial("STEEL", Settings.steelArmorDurability, Settings.steelArmorDamageReduction, Settings.steelArmorEnchantability);
     }
 }

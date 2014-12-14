@@ -51,7 +51,7 @@ public class Settings
 			tinVeinSize = settings.getInt("Tin Vein Size", "Ore Vein Sizes", 5, 0, 5000, "Controls the max vein size of Tin Ore.");
 			mythrilVeinSize = settings.getInt("Mythril Vein Size", "Ore Vein Sizes", 4, 0, 5000, "Controls the max vein size of Mythril Ore.");
 			adamantiumVeinSize = settings.getInt("Adamantium Vein Size", "Ore Vein Sizes", 4, 0, 5000, "Controls the max vein size of Adamantium Ore.");
-			onyxVeinSize = settings.getInt("Onyx Vein Size", "Ore Vein Sizes", 4, 5000, 0, "Controls the max vein size of Onyx Ore.");
+			onyxVeinSize = settings.getInt("Onyx Vein Size", "Ore Vein Sizes", 4, 0, 5000, "Controls the max vein size of Onyx Ore.");
 			
 			//Ore Spawn Heights
 			copperMaxHeight = settings.getInt("Copper Max Spawn Height", "Ore Spawn Heights", 90, 0, 255, "Controls the max spawn height of Copper Ore.");
@@ -70,8 +70,8 @@ public class Settings
 			{
 				LogHelper.verboseInfo("SimpleOres 2", "Armor Stat Modification enabled!");
 				copperArmorDurability = settings.getInt("Copper Armor Durability", "Armor Stat Modification", 8, 0, 255, "Controls the durability of Copper Armor.");
-				copperArmorDamageReduction = settings.get("Armor Stat Modification", "Copper Armor Damage Reduction Array", new int[] {2, 3, 2, 1}).setRequiresMcRestart(true).getIntList();
-				copperArmorEnchantability = settings.getInt("Copper Armor Enchantability", "Armor Stat Modification", 8, 0, 256, "Controls the enchantability of Copper Armor.");
+				copperArmorDamageReduction = settings.get("Armor Stat Modification", "Copper Armor Damage Reduction Array", new int[] {2, 3, 2, 1}).getIntList();
+				copperArmorEnchantability = settings.getInt("Copper Armor Enchantability", "Armor Stat Modification", 8, 0, 255, "Controls the enchantability of Copper Armor.");
 				
 				tinArmorDurability = settings.getInt("Tin Armor Durability", "Armor Stat Modification", 8, 0, 255, "Controls the durability of Tin Armor.");
 				tinArmorDamageReduction = settings.get("Armor Stat Modification", "Tin Armor Damage Reduction Array", new int[] {2, 3, 2, 1}).getIntList();

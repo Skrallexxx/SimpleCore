@@ -85,7 +85,7 @@ public class SimplePickaxe extends ItemPickaxe
 	
 	/**
 	 * Sets which creative tab the item will appear in in Creative Mode.
-	 * @param creativetab The CreativeTabs tab for the item to appear in.
+	 * @param creativeTab The CreativeTabs tab for the item to appear in.
 	 * @return SimplePickaxe
 	 */
 	public SimplePickaxe setTab(CreativeTabs creativeTab)

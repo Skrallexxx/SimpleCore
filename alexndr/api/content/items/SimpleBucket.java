@@ -113,7 +113,7 @@ public class SimpleBucket extends ItemBucket
 	
 	/**
 	 * Sets which creative tab the item will appear in in Creative Mode.
-	 * @param creativetab The CreativeTabs tab for the item to appear in.
+	 * @param creativeTab The CreativeTabs tab for the item to appear in.
 	 * @return SimpleBucket
 	 */
 	public SimpleBucket setTab(CreativeTabs creativeTab)
@@ -139,7 +139,6 @@ public class SimpleBucket extends ItemBucket
 	/**
 	 * Sets an empty variant of the bucket. 
 	 * @param emptyBucket The SimpleBucket item that will be the empty variant.
-	 * @return SimpleBucket
 	 */
 	public static void setEmptyVariant(Item emptyBucket)
 	{
@@ -149,7 +148,6 @@ public class SimpleBucket extends ItemBucket
 	/**
 	 * Sets a lava variant of the bucket.
 	 * @param lavaBucket The SimpleBucket item that will be the lava variant.
-	 * @return SimpleBucket
 	 */
 	public static void setLavaVariant(Item lavaBucket)
 	{
@@ -160,7 +158,6 @@ public class SimpleBucket extends ItemBucket
 	/**
 	 * Sets a water variant of the bucket. 
 	 * @param waterBucket The SimpleBucket item that will be the water variant.
-	 * @return SimpleBucket
 	 */
 	public static void setWaterVariant(Item waterBucket)
 	{

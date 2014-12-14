@@ -25,9 +25,9 @@ public class StatTriggersHelper
 	 * @param itemstackCrafted The itemstack that should trigger the achievement when taken from the Crafting Grid.
 	 * @param achievementToTrigger The Achievement that you want to trigger.
 	 */
-	public void addCraftingTrigger(ItemStack itemstackCrafted, Achievement achievementToTrigger)
+	public static void addCraftingTrigger(ItemStack itemstackCrafted, Achievement achievementToTrigger)
 	{
-		this.craftingAchievs.put(itemstackCrafted.getItem(), achievementToTrigger);
+		craftingAchievs.put(itemstackCrafted.getItem(), achievementToTrigger);
 	}
 	
 	/**
@@ -35,9 +35,9 @@ public class StatTriggersHelper
 	 * @param itemstackSmelted The itemstack that should trigger the achievement when taken from the Furnace output slot.
 	 * @param achievementToTrigger The Achievement that you want to trigger.
 	 */
-	public void addSmeltingTrigger(ItemStack itemstackSmelted, Achievement achievementToTrigger)
+	public static void addSmeltingTrigger(ItemStack itemstackSmelted, Achievement achievementToTrigger)
 	{
-		this.smeltingAchievs.put(itemstackSmelted.getItem(), achievementToTrigger);
+		smeltingAchievs.put(itemstackSmelted.getItem(), achievementToTrigger);
 	}
 	
 	/**
@@ -45,9 +45,9 @@ public class StatTriggersHelper
 	 * @param itemstackPickedUp The itemstack that should trigger the Achievement when it is picked up.
 	 * @param achievementToTrigger The Achievement that you want to trigger.
 	 */
-	public void addPickupTrigger(ItemStack itemstackPickedUp, Achievement achievementToTrigger)
+	public static void addPickupTrigger(ItemStack itemstackPickedUp, Achievement achievementToTrigger)
 	{
-		this.pickupAchievs.put(itemstackPickedUp.getItem(), achievementToTrigger);
+		pickupAchievs.put(itemstackPickedUp.getItem(), achievementToTrigger);
 	}
 	
 	/**
