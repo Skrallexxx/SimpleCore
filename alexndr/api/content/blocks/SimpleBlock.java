@@ -32,6 +32,10 @@ public class SimpleBlock extends Block
 	private ItemStack stackToDrop = null;
 	private boolean isBeaconBase = false;
 	
+	/**
+	 * Creates a simple block, such as an ore or a storage block.
+	 * @param material The material of the block.
+	 */
 	public SimpleBlock(Material material) 
 	{
 		super(material);
@@ -90,6 +94,12 @@ public class SimpleBlock extends Block
 		return this;
 	}
 	
+	/**
+	 * Sets the harvest level of the block, and the effective tool against it.
+	 * @param toolClass The tool most effective against it.
+	 * @param harvestLevel The harvest level of the block.
+	 * @return SimpleBlock
+	 */
 	public SimpleBlock setHarvestLvl(String toolClass, int harvestLevel)
 	{
 		this.setHarvestLevel(toolClass, harvestLevel);

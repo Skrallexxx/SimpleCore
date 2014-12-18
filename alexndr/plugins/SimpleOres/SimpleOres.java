@@ -40,6 +40,7 @@ public class SimpleOres
 	public void PreInit(FMLPreInitializationEvent event)
 	{
 		LogHelper.info("Loading SimpleOres...");
+		
 		//Configuration
 		ModInfo.setModInfoProperties(event);
 		Settings.createOrLoadSettings(event);

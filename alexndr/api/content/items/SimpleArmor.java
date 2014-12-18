@@ -26,12 +26,32 @@ public class SimpleArmor extends ItemArmor
 	private final ArmorMaterial material;
 	private boolean hasToolTip = false;
 	private static HashMap<String, List<SimpleArmor>> armorWithModIdMap = new HashMap<String, List<SimpleArmor>>();
+	private static int renderer;
 	private int slotnumber;
 	private List<String> toolTipStrings = Lists.newArrayList();
-	private String modId;
-	private String texturePath;
-	private String type;
+	private String modId, texturePath, type;
 	
+	/**
+	 * Adds a new SimpleArmor item.
+	 * @param material The ArmorMaterial of your armor piece.
+	 * @param slotnumber The slotnumber of your armor piece. 0 = helmet, 1 = chestplate, 2 = leggings, 3 = boots.
+	 */
+	public SimpleArmor(ArmorMaterial material, int slotnumber) 
+	{
+		super(material, renderer, slotnumber);
+		this.material = material;
+		this.slotnumber = slotnumber;
+	}
+	
+	/**
+	 * @deprecated
+	 * Adds a new SimpleArmor item. Deprecated for compatibility as it was deprecated so soon after an update.
+	 * Will be removed in the next major update.
+	 * @param material
+	 * @param renderer
+	 * @param slotnumber
+	 */
+	@Deprecated
 	public SimpleArmor(ArmorMaterial material, int renderer, int slotnumber) 
 	{
 		super(material, renderer, slotnumber);
