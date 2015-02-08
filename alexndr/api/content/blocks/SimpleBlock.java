@@ -14,6 +14,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import alexndr.api.core.ContentRegistry;
+import alexndr.api.core.ContentTypes;
 
 import com.google.common.collect.Lists;
 
@@ -90,7 +91,7 @@ public class SimpleBlock extends Block
 	{
 		super.setBlockName(blockName);
 		GameRegistry.registerBlock(this, blockName);
-		ContentRegistry.registerBlock(this, blockName, modId, this.isOre ? "ore" : "other");
+		ContentRegistry.registerBlock(this, blockName, modId, this.isOre ? ContentTypes.Block.ORE : ContentTypes.Block.GENERAL);
 		return this;
 	}
 	

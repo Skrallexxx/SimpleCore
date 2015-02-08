@@ -11,7 +11,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 /**
  * @author AleXndrTheGr8st
  */
-@Mod(modid = ModInfo.ID, name = ModInfo.NAME, version = ModInfo.VERSION, dependencies="required-after:simplecore")
+@Mod(modid = ModInfo.ID, name = ModInfo.NAME, version = ModInfo.VERSION, dependencies="required-after:simplecore; required-after:simpleores; required-after:netherrocks; required-after:fusion")
 public class Aesthetics {
 	
 	@EventHandler
@@ -21,7 +21,7 @@ public class Aesthetics {
 		//Configuration
 		ModInfo.setModInfoProperties(event);
 		Settings.createOrLoadSettings(event);
-		Recipes.preInitialize();
+		Content.preInitialize();
 	}
 	
 	@EventHandler

@@ -1,10 +1,15 @@
 package alexndr.plugins.Fusion.nei;
 
+import alexndr.plugins.Fusion.GuiFusionFurnace;
 import alexndr.plugins.Fusion.ModInfo;
 import codechicken.nei.api.API;
 import codechicken.nei.api.IConfigureNEI;
 
-public class NEIFusionRecipeConfig implements IConfigureNEI{
+/**
+ * @author AleXndrTheGr8st
+ * With help from Zot201
+ */
+public class NEIFusionConfig implements IConfigureNEI{
 
 	@Override
 	public String getName() {
@@ -18,9 +23,11 @@ public class NEIFusionRecipeConfig implements IConfigureNEI{
 
 	@Override
 	public void loadConfig() {
-		FusionRecipeHandler recipeHandler = new FusionRecipeHandler();
+		NeiFusionRecipeHandler recipeHandler = new NeiFusionRecipeHandler();
 		API.registerRecipeHandler(recipeHandler);
 		API.registerUsageHandler(recipeHandler);
-		API.setGuiOffset(recipeHandler.getGuiClass(), 16, 5);
+		
+		API.registerGuiOverlay(GuiFusionFurnace.class, "fusionfurnace");
+		API.setGuiOffset(GuiFusionFurnace.class, 50, 50);
 	}
 }

@@ -12,6 +12,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import alexndr.api.core.ContentRegistry;
+import alexndr.api.core.ContentTypes;
 
 import com.google.common.collect.Lists;
 
@@ -103,7 +104,7 @@ public class SimpleHoe extends ItemHoe
 	{
 		super.setUnlocalizedName(unlocalizedName);
 		GameRegistry.registerItem(this, unlocalizedName);
-		ContentRegistry.registerItem(this, unlocalizedName, modId, "tool");
+		ContentRegistry.registerItem(this, unlocalizedName, modId, ContentTypes.Item.TOOL);
 		return this;
 	}
 	

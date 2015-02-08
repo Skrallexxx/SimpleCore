@@ -10,6 +10,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
 import alexndr.api.core.ContentRegistry;
+import alexndr.api.core.ContentTypes;
 
 import com.google.common.collect.Lists;
 
@@ -89,7 +90,7 @@ public class SimpleItem extends Item
 	{
 		super.setUnlocalizedName(unlocalizedName);
 		GameRegistry.registerItem(this, unlocalizedName);
-		ContentRegistry.registerItem(this, unlocalizedName, modId, this.isIngot ? "ingot" : "other");
+		ContentRegistry.registerItem(this, unlocalizedName, modId, this.isIngot ? ContentTypes.Item.INGOT : ContentTypes.Item.OTHER);
 		return this;
 	}
 	

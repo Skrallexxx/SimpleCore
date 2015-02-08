@@ -6,9 +6,11 @@ import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.util.EnumHelper;
 import alexndr.api.content.inventory.SimpleTab;
+import alexndr.api.core.ContentTypes;
 import alexndr.api.core.LogHelper;
 import alexndr.api.core.UpdateChecker;
 import alexndr.api.helpers.game.OreGenerator;
+import alexndr.api.helpers.game.SimpleBucketType;
 import alexndr.api.helpers.game.StatTriggersHelper;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -20,14 +22,15 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
  * @author AleXndrTheGr8st
  */
 @Mod(modid = ModInfo.ID, name = ModInfo.NAME, version= ModInfo.VERSION, dependencies="required-after:simplecore")
-public class SimpleOres
-{
+public class SimpleOres {
 	//Tool Materials
 	public static ToolMaterial toolCopper, toolTin, toolMythril, toolAdamantium, toolOnyx;
 	
 	//Armor Materials
 	public static ArmorMaterial armorCopper, armorTin, armorMythril, armorAdamantium, armorOnyx;
-	public static int rendererCopper, rendererTin, rendererMythril, rendererAdamantium, rendererOnyx;
+	
+	//SimpleBucketType
+	public static SimpleBucketType copperBucketType = new SimpleBucketType("copper");
 	
 	//Creative Inventory Tabs
 	public static SimpleTab simpleOresBlocks, simpleOresDecorations, simpleOresMaterials, simpleOresTools, simpleOresCombat;
@@ -37,8 +40,7 @@ public class SimpleOres
 	 * @param event FMLPreInitializationEvent
 	 */
 	@EventHandler
-	public void PreInit(FMLPreInitializationEvent event)
-	{
+	public void PreInit(FMLPreInitializationEvent event) {
 		LogHelper.info("Loading SimpleOres...");
 		
 		//Configuration
@@ -57,16 +59,17 @@ public class SimpleOres
 	 * @param event FMLInitializationEvent
 	 */
 	@EventHandler
-	public void Init(FMLInitializationEvent event)
-	{
+	public void Init(FMLInitializationEvent event) {
 		if(Settings.enableUpdateChecker){UpdateChecker.checkUpdates(ModInfo.VERSIONURL, ModInfo.ID, ModInfo.VERSION);}
 		
 		//Content
 		Recipes.initialize();
 		tabInit();
+		setBucketVariants();
 		setRepairMaterials();
 		setAchievementTriggers();
 		setOreGenSettings();
+		
 	}
 	
 	/**
@@ -74,16 +77,14 @@ public class SimpleOres
 	 * @param event FMLPostInitializationEvent
 	 */
 	@EventHandler
-	public void postInit(FMLPostInitializationEvent event)
-	{
+	public void postInit(FMLPostInitializationEvent event) {
 		LogHelper.info("SimpleOres loaded");
 	}
 	
 	/**
 	 * Sets the achievement triggers for each achievement.
 	 */
-	private static void setAchievementTriggers()
-	{
+	private static void setAchievementTriggers() {
     	
 		//Pickup Triggers
 		StatTriggersHelper.addPickupTrigger(new ItemStack(Content.copper_ore), Content.copperAch);
@@ -109,10 +110,18 @@ public class SimpleOres
 	}
 	
 	/**
+	 * Sets the variants and other properties of the Copper Bucket.
+	 */
+	private static void setBucketVariants() {
+		copperBucketType.setVariant(Blocks.air, Content.copper_bucket, "empty")
+		.setVariant(Blocks.water, Content.copper_bucket_water, "water")
+		.setDestroyIfNoLavaBucket(true);
+	}
+	
+	/**
 	 * Registers each ore to be generated.
 	 */
-	private static void setOreGenSettings()
-	{
+	private static void setOreGenSettings() {
 		OreGenerator.INSTANCE.registerOreForGeneration(0, Content.copper_ore, Blocks.stone, Settings.copperVeinSize, Settings.copperSpawnRate, Settings.copperMaxHeight, Settings.copperMinHeight);
 		OreGenerator.INSTANCE.registerOreForGeneration(0, Content.tin_ore, Blocks.stone, Settings.tinVeinSize, Settings.tinSpawnRate, Settings.tinMaxHeight, Settings.tinMinHeight);
 		OreGenerator.INSTANCE.registerOreForGeneration(0, Content.mythril_ore, Blocks.stone, Settings.mythrilVeinSize, Settings.mythrilSpawnRate, Settings.mythrilMaxHeight, Settings.mythrilMinHeight);
@@ -123,8 +132,7 @@ public class SimpleOres
 	/**
 	 * Sets repair materials for the tools/armor of that type. ie. Copper Ingot to repair copper tools and armor.
 	 */
-	private static void setRepairMaterials()
-	{
+	private static void setRepairMaterials() {
 		//Tools
 		toolCopper.customCraftingMaterial = Content.copper_ingot;
 		toolTin.customCraftingMaterial = Content.tin_ingot;
@@ -143,8 +151,7 @@ public class SimpleOres
 	/**
 	 * Sets the tool and armor stats from the Settings file.
 	 */
-	private static void setToolAndArmorStats()
-	{
+	private static void setToolAndArmorStats() {
 		toolCopper = EnumHelper.addToolMaterial("COPPER", Settings.copperMiningLevel, Settings.copperUsesNum, Settings.copperMiningSpeed, Settings.copperDamageVsEntity, Settings.copperEnchantability);
   		toolTin = EnumHelper.addToolMaterial("TIN", Settings.tinMiningLevel, Settings.tinUsesNum, Settings.tinMiningSpeed, Settings.tinDamageVsEntity, Settings.tinEnchantability);
   		toolMythril = EnumHelper.addToolMaterial("MYTHRIL", Settings.mythrilMiningLevel, Settings.mythrilUsesNum, Settings.mythrilMiningSpeed, Settings.mythrilDamageVsEntity, Settings.mythrilEnchantability);
@@ -161,8 +168,7 @@ public class SimpleOres
 	/**
 	 * Sets the icons for the custom Creative Tabs.
 	 */
-	private static void tabInit()
-	{
+	private static void tabInit() {
 		if(Settings.enableSimpleOresTabs)
 		{
 			simpleOresBlocks.setIcon(new ItemStack(Content.copper_ore));
@@ -179,17 +185,14 @@ public class SimpleOres
 	/**
 	 * Creates the custom Creative Tabs using the API class "SimpleTab".
 	 */
-	private static void tabPreInit()
-	{
-		if(Settings.enableSimpleOresTabs)
-		{
-			simpleOresBlocks = new SimpleTab("simpleOresBlocks", "blocks");
-			if(Settings.enableSeparateTabs)
-			{
-				simpleOresDecorations = new SimpleTab("simpleOresDecorations", "decorations");
-				simpleOresMaterials = new SimpleTab("simpleOresMaterials", "materials");
-				simpleOresTools = new SimpleTab("simpleOresTools", "tools");
-				simpleOresCombat = new SimpleTab("simpleOresCombat", "combat");
+	private static void tabPreInit() {
+		if(Settings.enableSimpleOresTabs) {
+			simpleOresBlocks = new SimpleTab("simpleOresBlocks", ContentTypes.CreativeTab.BLOCKS);
+			if(Settings.enableSeparateTabs) {
+				simpleOresDecorations = new SimpleTab("simpleOresDecorations", ContentTypes.CreativeTab.DECORATIONS);
+				simpleOresMaterials = new SimpleTab("simpleOresMaterials", ContentTypes.CreativeTab.MATERIALS);
+				simpleOresTools = new SimpleTab("simpleOresTools", ContentTypes.CreativeTab.TOOLS);
+				simpleOresCombat = new SimpleTab("simpleOresCombat", ContentTypes.CreativeTab.COMBAT);
 			}
 		}
 	}

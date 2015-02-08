@@ -15,6 +15,7 @@ import alexndr.api.content.items.SimplePickaxe;
 import alexndr.api.content.items.SimpleShovel;
 import alexndr.api.content.items.SimpleSword;
 import alexndr.api.core.ContentRegistry;
+import alexndr.api.core.ContentTypes;
 import alexndr.api.core.LogHelper;
 import alexndr.api.helpers.game.TabHelper;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -52,22 +53,22 @@ public class Content
 	
 	public static void doArmor()
 	{
-		fyrite_helmet = new SimpleArmor(Netherrocks.armorFyrite, Netherrocks.rendererFyrite, 0).modId("netherrocks").setType("fyrite").addToolTip("netherrocks.fyriteArmor.info").setUnlocalizedName("fyrite_helmet");
-		fyrite_chestplate = new SimpleArmor(Netherrocks.armorFyrite, Netherrocks.rendererFyrite, 1).modId("netherrocks").setType("fyrite").addToolTip("netherrocks.fyriteArmor.info").setUnlocalizedName("fyrite_chestplate");
-		fyrite_leggings = new SimpleArmor(Netherrocks.armorFyrite, Netherrocks.rendererFyrite, 2).modId("netherrocks").setType("fyrite").addToolTip("netherrocks.fyriteArmor.info").setUnlocalizedName("fyrite_leggings");
-		fyrite_boots = new SimpleArmor(Netherrocks.armorFyrite, Netherrocks.rendererFyrite, 3).modId("netherrocks").setType("fyrite").addToolTip("netherrocks.fyriteArmor.info").setUnlocalizedName("fyrite_boots");
-		malachite_helmet = new SimpleArmor(Netherrocks.armorMalachite, Netherrocks.rendererMalachite, 0).modId("netherrocks").setType("malachite").addToolTip("netherrocks.malachiteArmor.info").setUnlocalizedName("malachite_helmet");
-		malachite_chestplate = new SimpleArmor(Netherrocks.armorMalachite, Netherrocks.rendererMalachite, 1).modId("netherrocks").setType("malachite").addToolTip("netherrocks.malachiteArmor.info").setUnlocalizedName("malachite_chestplate");
-		malachite_leggings = new SimpleArmor(Netherrocks.armorMalachite, Netherrocks.rendererMalachite, 2).modId("netherrocks").setType("malachite").addToolTip("netherrocks.malachiteArmor.info").setUnlocalizedName("malachite_leggings");
-		malachite_boots = new SimpleArmor(Netherrocks.armorMalachite, Netherrocks.rendererMalachite, 3).modId("netherrocks").setType("malachite").addToolTip("netherrocks.malachiteArmor.info").setUnlocalizedName("malachite_boots");
-		illumenite_helmet = new SimpleArmor(Netherrocks.armorIllumenite, Netherrocks.rendererIllumenite, 0).modId("netherrocks").setType("illumenite").addToolTip("netherrocks.illumeniteArmor.info").setUnlocalizedName("illumenite_helmet");
-		illumenite_chestplate = new SimpleArmor(Netherrocks.armorIllumenite, Netherrocks.rendererIllumenite, 1).modId("netherrocks").setType("illumenite").addToolTip("netherrocks.illumeniteArmor.info").setUnlocalizedName("illumenite_chestplate");
-		illumenite_leggings = new SimpleArmor(Netherrocks.armorIllumenite, Netherrocks.rendererIllumenite, 2).modId("netherrocks").setType("illumenite").addToolTip("netherrocks.illumeniteArmor.info").setUnlocalizedName("illumenite_leggings");
-		illumenite_boots = new SimpleArmor(Netherrocks.armorIllumenite, Netherrocks.rendererIllumenite, 3).modId("netherrocks").setType("illumenite").addToolTip("netherrocks.illumeniteArmor.info").setUnlocalizedName("illumenite_boots");
-		dragonstone_helmet = new SimpleArmor(Netherrocks.armorDragonstone, Netherrocks.rendererDragonstone, 0).modId("netherrocks").setType("dragonstone").setUnlocalizedName("dragonstone_helmet");
-		dragonstone_chestplate = new SimpleArmor(Netherrocks.armorDragonstone, Netherrocks.rendererDragonstone, 1).modId("netherrocks").setType("dragonstone").setUnlocalizedName("dragonstone_chestplate");
-		dragonstone_leggings = new SimpleArmor(Netherrocks.armorDragonstone, Netherrocks.rendererDragonstone, 2).modId("netherrocks").setType("dragonstone").setUnlocalizedName("dragonstone_leggings");
-		dragonstone_boots = new SimpleArmor(Netherrocks.armorDragonstone, Netherrocks.rendererDragonstone, 3).modId("netherrocks").setType("dragonstone").setUnlocalizedName("dragonstone_boots");
+		fyrite_helmet = new SimpleArmor(Netherrocks.armorFyrite, 0).modId("netherrocks").setType("fyrite").addToolTip("netherrocks.fyriteArmor.info").setUnlocalizedName("fyrite_helmet");
+		fyrite_chestplate = new SimpleArmor(Netherrocks.armorFyrite, 1).modId("netherrocks").setType("fyrite").addToolTip("netherrocks.fyriteArmor.info").setUnlocalizedName("fyrite_chestplate");
+		fyrite_leggings = new SimpleArmor(Netherrocks.armorFyrite, 2).modId("netherrocks").setType("fyrite").addToolTip("netherrocks.fyriteArmor.info").setUnlocalizedName("fyrite_leggings");
+		fyrite_boots = new SimpleArmor(Netherrocks.armorFyrite, 3).modId("netherrocks").setType("fyrite").addToolTip("netherrocks.fyriteArmor.info").setUnlocalizedName("fyrite_boots");
+		malachite_helmet = new SimpleArmor(Netherrocks.armorMalachite, 0).modId("netherrocks").setType("malachite").addToolTip("netherrocks.malachiteArmor.info").setUnlocalizedName("malachite_helmet");
+		malachite_chestplate = new SimpleArmor(Netherrocks.armorMalachite, 1).modId("netherrocks").setType("malachite").addToolTip("netherrocks.malachiteArmor.info").setUnlocalizedName("malachite_chestplate");
+		malachite_leggings = new SimpleArmor(Netherrocks.armorMalachite, 2).modId("netherrocks").setType("malachite").addToolTip("netherrocks.malachiteArmor.info").setUnlocalizedName("malachite_leggings");
+		malachite_boots = new SimpleArmor(Netherrocks.armorMalachite, 3).modId("netherrocks").setType("malachite").addToolTip("netherrocks.malachiteArmor.info").setUnlocalizedName("malachite_boots");
+		illumenite_helmet = new SimpleArmor(Netherrocks.armorIllumenite, 0).modId("netherrocks").setType("illumenite").addToolTip("netherrocks.illumeniteArmor.info").setUnlocalizedName("illumenite_helmet");
+		illumenite_chestplate = new SimpleArmor(Netherrocks.armorIllumenite, 1).modId("netherrocks").setType("illumenite").addToolTip("netherrocks.illumeniteArmor.info").setUnlocalizedName("illumenite_chestplate");
+		illumenite_leggings = new SimpleArmor(Netherrocks.armorIllumenite, 2).modId("netherrocks").setType("illumenite").addToolTip("netherrocks.illumeniteArmor.info").setUnlocalizedName("illumenite_leggings");
+		illumenite_boots = new SimpleArmor(Netherrocks.armorIllumenite, 3).modId("netherrocks").setType("illumenite").addToolTip("netherrocks.illumeniteArmor.info").setUnlocalizedName("illumenite_boots");
+		dragonstone_helmet = new SimpleArmor(Netherrocks.armorDragonstone, 0).modId("netherrocks").setType("dragonstone").setUnlocalizedName("dragonstone_helmet");
+		dragonstone_chestplate = new SimpleArmor(Netherrocks.armorDragonstone, 1).modId("netherrocks").setType("dragonstone").setUnlocalizedName("dragonstone_chestplate");
+		dragonstone_leggings = new SimpleArmor(Netherrocks.armorDragonstone, 2).modId("netherrocks").setType("dragonstone").setUnlocalizedName("dragonstone_leggings");
+		dragonstone_boots = new SimpleArmor(Netherrocks.armorDragonstone, 3).modId("netherrocks").setType("dragonstone").setUnlocalizedName("dragonstone_boots");
 	}
 	
 	public static void doBlocks()
@@ -92,7 +93,7 @@ public class Content
 		//Block Registering
 		GameRegistry.registerBlock(nether_furnace, "nether_furnace");
 		GameRegistry.registerBlock(nether_furnace_lit, "nether_furnace_lit");
-		ContentRegistry.registerBlock(nether_furnace, "nether_furnace", "netherrocks", "machine");
+		ContentRegistry.registerBlock(nether_furnace, "nether_furnace", "netherrocks", ContentTypes.Block.MACHINE);
 		
 		//Ore Harvest Levels
 		fyrite_ore.setHarvestLevel("pickaxe", Settings.fyriteOreHarvestLevel);
@@ -163,15 +164,15 @@ public class Content
 	{
 		for(Block block : ContentRegistry.getBlockListFromModId("netherrocks"))
 			block.setCreativeTab(TabHelper.decorationsTab());
-		for(Block ore : ContentRegistry.getBlockListFromModId("netherrocks", "ore"))
+		for(Block ore : ContentRegistry.getBlockListFromModId("netherrocks", ContentTypes.Block.ORE))
 			ore.setCreativeTab(TabHelper.blocksTab());
-		for(Item item : ContentRegistry.getItemListFromModId("netherrocks", "ingot"))
+		for(Item item : ContentRegistry.getItemListFromModId("netherrocks", ContentTypes.Item.INGOT))
 			item.setCreativeTab(TabHelper.materialsTab());
-		for(Item tool : ContentRegistry.getItemListFromModId("netherrocks", "tool"))
+		for(Item tool : ContentRegistry.getItemListFromModId("netherrocks", ContentTypes.Item.TOOL))
 			tool.setCreativeTab(TabHelper.toolsTab());
-		for(Item armor : ContentRegistry.getItemListFromModId("netherrocks", "armor"))
+		for(Item armor : ContentRegistry.getItemListFromModId("netherrocks", ContentTypes.Item.ARMOR))
 			armor.setCreativeTab(TabHelper.combatTab());
-		for(Item weapon : ContentRegistry.getItemListFromModId("netherrocks", "weapon"))
+		for(Item weapon : ContentRegistry.getItemListFromModId("netherrocks", ContentTypes.Item.WEAPON))
 			weapon.setCreativeTab(TabHelper.combatTab());
 	}
 	

@@ -187,15 +187,19 @@ public class Settings
 		copperArmorDurability = 8;
 		copperArmorDamageReduction = new int[] {2, 3, 2, 1};
 		copperArmorEnchantability = 8;
+		
 		tinArmorDurability = 8;
 		tinArmorDamageReduction = new int[] {2, 3, 2, 1};
 		tinArmorEnchantability = 8;
+		
 		mythrilArmorDurability = 22;
 		mythrilArmorDamageReduction = new int[] {3, 5, 4, 3};
 		mythrilArmorEnchantability = 12;
+		
 		adamantiumArmorDurability = 28;
 		adamantiumArmorDamageReduction = new int[] {3, 8, 6, 2};
 		adamantiumArmorEnchantability = 3;
+		
 		onyxArmorDurability = 45;
 		onyxArmorDamageReduction = new int[] {5, 8, 6, 5};
 		onyxArmorEnchantability = 15;

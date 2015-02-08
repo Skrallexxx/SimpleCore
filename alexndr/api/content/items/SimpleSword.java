@@ -11,6 +11,7 @@ import net.minecraft.item.ItemSword;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import alexndr.api.core.ContentRegistry;
+import alexndr.api.core.ContentTypes;
 
 import com.google.common.collect.Lists;
 
@@ -95,7 +96,7 @@ public class SimpleSword extends ItemSword
 	{
 		super.setUnlocalizedName(unlocalizedName);
 		GameRegistry.registerItem(this, unlocalizedName);
-		ContentRegistry.registerItem(this, unlocalizedName, modId, "weapon");
+		ContentRegistry.registerItem(this, unlocalizedName, modId, ContentTypes.Item.WEAPON);
 		return this;
 	}
 	

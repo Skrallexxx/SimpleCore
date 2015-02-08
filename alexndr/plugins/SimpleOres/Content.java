@@ -56,11 +56,8 @@ public class Content
 		onyx_gem = new SimpleItem().modId("simpleores").isIngot().setTab(TabHelper.materialsTab()).setUnlocalizedName("onyx_gem");
 		mythril_rod = new SimpleItem().modId("simpleores").isIngot().setTab(TabHelper.materialsTab()).setUnlocalizedName("mythril_rod");
 		onyx_rod = new SimpleItem().modId("simpleores").isIngot().setTab(TabHelper.materialsTab()).setUnlocalizedName("onyx_rod");
-		copper_bucket = new SimpleBucket(Blocks.air).modId("simpleores").setTab(TabHelper.toolsTab()).setAsEmptyVariant().setUnlocalizedName("copper_bucket").setMaxStackSize(16);
-		copper_bucket_water = new SimpleBucket(Blocks.flowing_water).modId("simpleores").setTab(TabHelper.toolsTab()).setAsWaterVariant().setContainerItem(copper_bucket).setUnlocalizedName("copper_bucket_water");
-		
-		((SimpleBucket) copper_bucket).setWaterVariant(copper_bucket_water);
-		((SimpleBucket) copper_bucket_water).setEmptyVariant(copper_bucket);
+		copper_bucket = new SimpleBucket(Blocks.air, SimpleOres.copperBucketType).modId("simpleores").setTab(TabHelper.toolsTab()).setUnlocalizedName("copper_bucket").setMaxStackSize(16);
+		copper_bucket_water = new SimpleBucket(Blocks.flowing_water, SimpleOres.copperBucketType).modId("simpleores").setTab(TabHelper.toolsTab()).setContainerItem(copper_bucket).setUnlocalizedName("copper_bucket_water");
 	}
 	
 	/**
@@ -72,7 +69,7 @@ public class Content
 		tin_ore = new SimpleBlock(Material.rock).modId("simpleores").setTab(TabHelper.blocksTab()).isOre().setHarvestLvl("pickaxe", Settings.tinOreHarvestLevel).setHardness(Settings.tinOreHardness).setResistance(Settings.tinOreResistance).setBlockName("tin_ore");
 		mythril_ore = new SimpleBlock(Material.rock).modId("simpleores").setTab(TabHelper.blocksTab()).isOre().setHarvestLvl("pickaxe", Settings.mythrilOreHarvestLevel).setHardness(Settings.mythrilOreHardness).setResistance(Settings.mythrilOreResistance).setBlockName("mythril_ore");
 		adamantium_ore = new SimpleBlock(Material.rock).modId("simpleores").setTab(TabHelper.blocksTab()).isOre().setHarvestLvl("pickaxe", Settings.adamantiumOreHarvestLevel).setHardness(Settings.adamantiumOreHardness).setResistance(Settings.adamantiumOreResistance).setBlockName("adamantium_ore");
-		onyx_ore = new SimpleBlock(Material.rock).modId("simpleores").setTab(TabHelper.blocksTab()).isOre().setHarvestLvl("pickaxe", Settings.onyxOreHarvestLevel).setHardness(Settings.onyxOreHardness).setResistance(Settings.onyxOreResistance).setBlockName("onyx_ore");
+		onyx_ore = new SimpleBlock(Material.rock).modId("simpleores").setTab(TabHelper.blocksTab()).isOre().setStackToDrop(new ItemStack(onyx_gem)).setHarvestLvl("pickaxe", Settings.onyxOreHarvestLevel).setHardness(Settings.onyxOreHardness).setResistance(Settings.onyxOreResistance).setBlockName("onyx_ore");
 		copper_block = new SimpleBlock(Material.iron).modId("simpleores").setTab(TabHelper.decorationsTab()).setBeaconBase(true).setHardness(Settings.copperBlockHardness).setResistance(Settings.copperBlockResistance).setBlockName("copper_block");
 		tin_block = new SimpleBlock(Material.iron).modId("simpleores").setTab(TabHelper.decorationsTab()).setBeaconBase(true).setHardness(Settings.tinBlockHardness).setResistance(Settings.tinBlockResistance).setBlockName("tin_block");
 		mythril_block = new SimpleBlock(Material.iron).modId("simpleores").setTab(TabHelper.decorationsTab()).setBeaconBase(true).setHardness(Settings.mythrilBlockHardness).setResistance(Settings.mythrilBlockResistance).setBlockName("mythril_block");
@@ -137,26 +134,26 @@ public class Content
 	 */
 	public static void doArmor()
 	{
-        copper_helmet = new SimpleArmor(SimpleOres.armorCopper, SimpleOres.rendererCopper, 0).modId("simpleores").setTab(TabHelper.combatTab()).setType("copper").setUnlocalizedName("copper_helmet");
-		copper_chestplate = new SimpleArmor(SimpleOres.armorCopper, SimpleOres.rendererCopper, 1).modId("simpleores").setTab(TabHelper.combatTab()).setType("copper").setUnlocalizedName("copper_chestplate");
-		copper_leggings = new SimpleArmor(SimpleOres.armorCopper, SimpleOres.rendererCopper, 2).modId("simpleores").setTab(TabHelper.combatTab()).setType("copper").setUnlocalizedName("copper_leggings");
-		copper_boots = new SimpleArmor(SimpleOres.armorCopper, SimpleOres.rendererCopper, 3).modId("simpleores").setTab(TabHelper.combatTab()).setType("copper").setUnlocalizedName("copper_boots");
-        tin_helmet = new SimpleArmor(SimpleOres.armorTin, SimpleOres.rendererTin, 0).modId("simpleores").setTab(TabHelper.combatTab()).setType("tin").setUnlocalizedName("tin_helmet");
-		tin_chestplate = new SimpleArmor(SimpleOres.armorTin, SimpleOres.rendererTin, 1).modId("simpleores").setTab(TabHelper.combatTab()).setType("tin").setUnlocalizedName("tin_chestplate");
-		tin_leggings = new SimpleArmor(SimpleOres.armorTin, SimpleOres.rendererTin, 2).modId("simpleores").setTab(TabHelper.combatTab()).setType("tin").setUnlocalizedName("tin_leggings");
-		tin_boots = new SimpleArmor(SimpleOres.armorTin, SimpleOres.rendererTin, 3).modId("simpleores").setTab(TabHelper.combatTab()).setType("tin").setUnlocalizedName("tin_boots");
-		mythril_helmet = new SimpleArmor(SimpleOres.armorMythril, SimpleOres.rendererMythril, 0).modId("simpleores").setTab(TabHelper.combatTab()).setType("mythril").setUnlocalizedName("mythril_helmet");
-		mythril_chestplate = new SimpleArmor(SimpleOres.armorMythril, SimpleOres.rendererMythril, 1).modId("simpleores").setTab(TabHelper.combatTab()).setType("mythril").setUnlocalizedName("mythril_chestplate");
-		mythril_leggings = new SimpleArmor(SimpleOres.armorMythril, SimpleOres.rendererMythril, 2).modId("simpleores").setTab(TabHelper.combatTab()).setType("mythril").setUnlocalizedName("mythril_leggings");
-		mythril_boots = new SimpleArmor(SimpleOres.armorMythril, SimpleOres.rendererMythril, 3).modId("simpleores").setTab(TabHelper.combatTab()).setType("mythril").setUnlocalizedName("mythril_boots");
-		adamantium_helmet = new SimpleArmor(SimpleOres.armorAdamantium, SimpleOres.rendererAdamantium, 0).modId("simpleores").setTab(TabHelper.combatTab()).setType("adamantium").setUnlocalizedName("adamantium_helmet");
-		adamantium_chestplate = new SimpleArmor(SimpleOres.armorAdamantium, SimpleOres.rendererAdamantium, 1).modId("simpleores").setTab(TabHelper.combatTab()).setType("adamantium").setUnlocalizedName("adamantium_chestplate");
-		adamantium_leggings = new SimpleArmor(SimpleOres.armorAdamantium, SimpleOres.rendererAdamantium, 2).modId("simpleores").setTab(TabHelper.combatTab()).setType("adamantium").setUnlocalizedName("adamantium_leggings");
-		adamantium_boots = new SimpleArmor(SimpleOres.armorAdamantium, SimpleOres.rendererAdamantium, 3).modId("simpleores").setTab(TabHelper.combatTab()).setType("adamantium").setUnlocalizedName("adamantium_boots");
-		onyx_helmet = new SimpleArmor(SimpleOres.armorOnyx, SimpleOres.rendererOnyx, 0).modId("simpleores").setTab(TabHelper.combatTab()).setType("onyx").setUnlocalizedName("onyx_helmet");
-		onyx_chestplate = new SimpleArmor(SimpleOres.armorOnyx, SimpleOres.rendererOnyx, 1).modId("simpleores").setTab(TabHelper.combatTab()).setType("onyx").setUnlocalizedName("onyx_chestplate");
-		onyx_leggings = new SimpleArmor(SimpleOres.armorOnyx, SimpleOres.rendererOnyx, 2).modId("simpleores").setTab(TabHelper.combatTab()).setType("onyx").setUnlocalizedName("onyx_leggings");
-		onyx_boots = new SimpleArmor(SimpleOres.armorOnyx, SimpleOres.rendererOnyx, 3).modId("simpleores").setTab(TabHelper.combatTab()).setType("onyx").setUnlocalizedName("onyx_boots");
+        copper_helmet = new SimpleArmor(SimpleOres.armorCopper, 0).modId("simpleores").setTab(TabHelper.combatTab()).setType("copper").setUnlocalizedName("copper_helmet");
+		copper_chestplate = new SimpleArmor(SimpleOres.armorCopper, 1).modId("simpleores").setTab(TabHelper.combatTab()).setType("copper").setUnlocalizedName("copper_chestplate");
+		copper_leggings = new SimpleArmor(SimpleOres.armorCopper, 2).modId("simpleores").setTab(TabHelper.combatTab()).setType("copper").setUnlocalizedName("copper_leggings");
+		copper_boots = new SimpleArmor(SimpleOres.armorCopper, 3).modId("simpleores").setTab(TabHelper.combatTab()).setType("copper").setUnlocalizedName("copper_boots");
+        tin_helmet = new SimpleArmor(SimpleOres.armorTin, 0).modId("simpleores").setTab(TabHelper.combatTab()).setType("tin").setUnlocalizedName("tin_helmet");
+		tin_chestplate = new SimpleArmor(SimpleOres.armorTin, 1).modId("simpleores").setTab(TabHelper.combatTab()).setType("tin").setUnlocalizedName("tin_chestplate");
+		tin_leggings = new SimpleArmor(SimpleOres.armorTin, 2).modId("simpleores").setTab(TabHelper.combatTab()).setType("tin").setUnlocalizedName("tin_leggings");
+		tin_boots = new SimpleArmor(SimpleOres.armorTin, 3).modId("simpleores").setTab(TabHelper.combatTab()).setType("tin").setUnlocalizedName("tin_boots");
+		mythril_helmet = new SimpleArmor(SimpleOres.armorMythril, 0).modId("simpleores").setTab(TabHelper.combatTab()).setType("mythril").setUnlocalizedName("mythril_helmet");
+		mythril_chestplate = new SimpleArmor(SimpleOres.armorMythril, 1).modId("simpleores").setTab(TabHelper.combatTab()).setType("mythril").setUnlocalizedName("mythril_chestplate");
+		mythril_leggings = new SimpleArmor(SimpleOres.armorMythril, 2).modId("simpleores").setTab(TabHelper.combatTab()).setType("mythril").setUnlocalizedName("mythril_leggings");
+		mythril_boots = new SimpleArmor(SimpleOres.armorMythril, 3).modId("simpleores").setTab(TabHelper.combatTab()).setType("mythril").setUnlocalizedName("mythril_boots");
+		adamantium_helmet = new SimpleArmor(SimpleOres.armorAdamantium, 0).modId("simpleores").setTab(TabHelper.combatTab()).setType("adamantium").setUnlocalizedName("adamantium_helmet");
+		adamantium_chestplate = new SimpleArmor(SimpleOres.armorAdamantium, 1).modId("simpleores").setTab(TabHelper.combatTab()).setType("adamantium").setUnlocalizedName("adamantium_chestplate");
+		adamantium_leggings = new SimpleArmor(SimpleOres.armorAdamantium, 2).modId("simpleores").setTab(TabHelper.combatTab()).setType("adamantium").setUnlocalizedName("adamantium_leggings");
+		adamantium_boots = new SimpleArmor(SimpleOres.armorAdamantium, 3).modId("simpleores").setTab(TabHelper.combatTab()).setType("adamantium").setUnlocalizedName("adamantium_boots");
+		onyx_helmet = new SimpleArmor(SimpleOres.armorOnyx, 0).modId("simpleores").setTab(TabHelper.combatTab()).setType("onyx").setUnlocalizedName("onyx_helmet");
+		onyx_chestplate = new SimpleArmor(SimpleOres.armorOnyx, 1).modId("simpleores").setTab(TabHelper.combatTab()).setType("onyx").setUnlocalizedName("onyx_chestplate");
+		onyx_leggings = new SimpleArmor(SimpleOres.armorOnyx, 2).modId("simpleores").setTab(TabHelper.combatTab()).setType("onyx").setUnlocalizedName("onyx_leggings");
+		onyx_boots = new SimpleArmor(SimpleOres.armorOnyx, 3).modId("simpleores").setTab(TabHelper.combatTab()).setType("onyx").setUnlocalizedName("onyx_boots");
 	}
 	
 	/**

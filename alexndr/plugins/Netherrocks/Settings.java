@@ -49,11 +49,11 @@ public class Settings
 			//Furnace Stats
 			netherFurnaceSpeed = settings.getInt("Nether Furnace Smelting Time (ticks)", "Furnace Stats", 100, 0, 32000, "Sets the number of ticks that it takes for each item to smelt in the Nether Furnace (normal furnace is 200).");
 			netherrackBurnTime = settings.getInt("Netherrack Burn Time (ticks)", "Furnace Stats", 200, 0, 32000, "Sets the number of ticks that Netherrack will burn for in the Nether Furnace.");
-			fyriteIngotBurnTime = settings.getInt("Dragonstone Ingot Burn Time (ticks)", "Furnace Stats", 8000, 0, 32000, "Sets the number of ticks that a Dragonstone Ingot will burn for in the Nether Furnace.");
+			fyriteIngotBurnTime = settings.getInt("Fyrite Ingot Burn Time (ticks)", "Furnace Stats", 8000, 0, 32000, "Sets the number of ticks that a Fyrite Ingot will burn for in the Nether Furnace.");
 			blazeRodBurnTime = settings.getInt("Blaze Rod Burn Time (ticks)", "Furnace Stats", 2400, 0, 32000, "Sets the number of ticks that a Blaze Rod will burn for in the Nether Furnace.");
 			
 			//Ore Spawn Rates
-			fyriteSpawnRate = settings.getInt("Dragonstone Spawn Rate", "Ore Spawn Rates", 10, 0, 5000, "Controls the spawn rate of Dragonstone Ore.");
+			fyriteSpawnRate = settings.getInt("Fyrite Spawn Rate", "Ore Spawn Rates", 10, 0, 5000, "Controls the spawn rate of Fyrite Ore.");
 			malachiteSpawnRate = settings.getInt("Malachite Spawn Rate", "Ore Spawn Rates", 10, 0, 5000, "Controls the spawn rate of Malachite Ore.");
 			ashstoneSpawnRate = settings.getInt("Ashstone Spawn Rate", "Ore Spawn Rates", 10, 0, 5000, "Controls the spawn rate of Ashstone Ore.");
 			illumeniteSpawnRate = settings.getInt("Illumenite Spawn Rate", "Ore Spawn Rates", 350, 0, 5000, "Controls the spawn rate of Illumenite Ore.");
@@ -61,7 +61,7 @@ public class Settings
 			argoniteSpawnRate = settings.getInt("Argonite Spawn Rate", "Ore Spawn Rates", 10, 0, 5000, "Controls the spawn rate of Argonite Ore.");
 			
 			//Ore Vein Sizes
-			fyriteVeinSize = settings.getInt("Dragonstone Vein Size", "Ore Vein Sizes", 6, 0, 5000, "Controls the vein size of Dragonstone Ore.");
+			fyriteVeinSize = settings.getInt("Fyrite Vein Size", "Ore Vein Sizes", 6, 0, 5000, "Controls the vein size of Fyrite Ore.");
 			malachiteVeinSize = settings.getInt("Malachite Vein Size", "Ore Vein Sizes", 7, 0, 5000, "Controls the vein size of Malachite Ore.");
 			ashstoneVeinSize = settings.getInt("Ashstone Vein Size", "Ore Vein Sizes", 5, 0, 5000, "Controls the vein size of Ashstone Ore.");
 			illumeniteVeinSize = settings.getInt("Illumenite Vein Size", "Ore Vein Sizes", 15, 0, 5000, "Controls the vein size of Illumenite Ore.");
@@ -69,8 +69,8 @@ public class Settings
 			argoniteVeinSize = settings.getInt("Argonite Vein Size", "Ore Vein Sizes", 6, 0, 5000, "Controls the vein size of Argonite Ore.");
 			
 			//Ore Spawn Heights
-			fyriteSpawnHeightMax = settings.getInt("Dragonstone Spawn Height Max", "Ore Spawn Heights", 255, 0, 255, "Controls the max spawn height of Dragonstone Ore.");
-			fyriteSpawnHeightMin = settings.getInt("Dragonstone Spawn Height Min", "Ore Spawn Heights", 0, 0, 255, "Controls the min spawn height of Dragonstone Ore.");
+			fyriteSpawnHeightMax = settings.getInt("Fyrite Spawn Height Max", "Ore Spawn Heights", 255, 0, 255, "Controls the max spawn height of Fyrite Ore.");
+			fyriteSpawnHeightMin = settings.getInt("Fyrite Spawn Height Min", "Ore Spawn Heights", 0, 0, 255, "Controls the min spawn height of Fyrite Ore.");
 			malachiteSpawnHeightMax = settings.getInt("Malachite Spawn Height Max", "Ore Spawn Heights", 255, 0, 255, "Controls the max spawn height of Malachite Ore.");
 			malachiteSpawnHeightMin = settings.getInt("Malachite Spawn Height Min", "Ore Spawn Heights", 0, 0, 255, "Controls the min spawn height of Malachite Ore");
 			ashstoneSpawnHeightMax = settings.getInt("Ashstone Spawn Height Max", "Ore Spawn Heights", 255, 0, 255, "Controls the max spawn height of Ashstone Ore");

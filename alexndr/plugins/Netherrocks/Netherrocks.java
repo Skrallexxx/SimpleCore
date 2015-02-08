@@ -34,7 +34,6 @@ public class Netherrocks
 	
 	//Armor Materials
 	public static ArmorMaterial armorFyrite, armorMalachite, armorIllumenite, armorDragonstone;
-	public static int rendererFyrite, rendererMalachite, rendererIllumenite, rendererDragonstone;
 	
 	/**
 	 * Called during the PreInit phase.

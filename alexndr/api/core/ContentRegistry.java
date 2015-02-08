@@ -28,9 +28,9 @@ public class ContentRegistry
 	 * @param block Block to be registered.
 	 * @param name Name of the block, usually the setBlockName name.
 	 * @param modId The ModId of the mod that the block belongs to.
-	 * @param type The type of the block. "ore", "machine", "other".
+	 * @param type The type of the block. "general", "ore", "machine", "other".
 	 */
-	public static void registerBlock(Block block, String name, String modId, String type)
+	public static void registerBlock(Block block, String name, String modId, ContentTypes.Block type)
 	{
 		blockNames.put(name, block);
 		Object details[] = new Object[4];
@@ -47,7 +47,7 @@ public class ContentRegistry
 	 * @param name Name of the CreativeTab.
 	 * @param category The category of the tab. "blocks", "decorations", "tools", "combat", "materials", "general", "other"
 	 */
-	public static void registerCreativeTab(CreativeTabs tab, String name, String category)
+	public static void registerCreativeTab(CreativeTabs tab, String name, ContentTypes.CreativeTab category)
 	{
 		tabNames.put(name, tab);
 		Object details[] = new Object[3];
@@ -64,7 +64,7 @@ public class ContentRegistry
 	 * @param modId The ModId of the mod that the item belongs to.
 	 * @param type The type of the item. "tool", "armor", "ingot", "weapon", "other".
 	 */
-	public static void registerItem(Item item, String name, String modId, String type)
+	public static void registerItem(Item item, String name, String modId, ContentTypes.Item type)
 	{
 		itemNames.put(name, item);
 		Object details[] = new Object[4];
@@ -151,11 +151,11 @@ public class ContentRegistry
 	 * @param type The String type of the Block. "ore", "machine", "other"
 	 * @return List of all the blocks belonging to the modId, with the matching type.
 	 */
-	public static List<Block> getBlockListFromModId(String modId, String type)
+	public static List<Block> getBlockListFromModId(String modId, ContentTypes.Block type)
 	{
 		List<Block> list = Lists.newArrayList();
 		for(Object[] details : blockList)
-			if(((String)details[0]).equals(modId) && ((String)details[3]).equals(type))
+			if(((String)details[0]).equals(modId) && ((ContentTypes.Block)details[3]).equals(type))
 				list.add((Block)details[1]);
 		return list;
 	}
@@ -197,11 +197,11 @@ public class ContentRegistry
 	 * @param type The String type of the Item. "tool", "armor", "ingot", "weapon", "other"
 	 * @return List of all the blocks belonging to the modId, with the matching type.
 	 */
-	public static List<Item> getItemListFromModId(String modId, String type)
+	public static List<Item> getItemListFromModId(String modId, ContentTypes.Item type)
 	{
 		List<Item> list = Lists.newArrayList();
 		for(Object[] details : itemList)
-			if(((String)details[0]).equals(modId) && ((String)details[3]).equals(type))
+			if(((String)details[0]).equals(modId) && ((ContentTypes.Item)details[3]).equals(type))
 				list.add((Item)details[1]);
 		return list;
 	}
@@ -228,10 +228,10 @@ public class ContentRegistry
 	 * @param category The category the CreativeTab is registered with. "blocks", "decorations", "tools", "combat", "materials", "general", "other"
 	 * @return The first CreativeTab registered with a category if it exists, or null if it doesn't.
 	 */
-	public static CreativeTabs getFirstTabFromCategory(String category)
+	public static CreativeTabs getFirstTabFromCategory(ContentTypes.CreativeTab category)
 	{
 		for(Object[] details : tabList)
-			if(((String)details[2]).equals(category))
+			if(((ContentTypes.CreativeTab)details[2]).equals(category))
 				return (CreativeTabs)details[0];
 		return null;
 	}

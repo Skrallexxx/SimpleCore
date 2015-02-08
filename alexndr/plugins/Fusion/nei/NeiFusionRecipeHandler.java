@@ -5,14 +5,10 @@ import java.util.List;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.item.ItemStack;
-
-import org.lwjgl.opengl.GL11;
-
 import alexndr.plugins.Fusion.FusionFurnaceRecipes;
 import alexndr.plugins.Fusion.GuiFusionFurnace;
 import alexndr.plugins.Fusion.RecipeEntry;
 import codechicken.nei.PositionedStack;
-import codechicken.nei.api.API;
 import codechicken.nei.recipe.FurnaceRecipeHandler;
 import codechicken.nei.recipe.TemplateRecipeHandler;
 
@@ -22,52 +18,30 @@ import com.google.common.collect.ImmutableList;
  * @author AleXndrTheGr8st
  * With help from Zot201
  */
-public class FusionRecipeHandler extends TemplateRecipeHandler{
+public class NeiFusionRecipeHandler extends TemplateRecipeHandler{
 
-	public static final String ID = "fusion";
+	public static final String ID = "fusionfurnace";
 	
-	private static final int X0 = 0;
-	private static final int Y0 = 15;
-	
-	private static final int X1 = 5;
-	private static final int Y1 = 5;
-	
-	@Override 
-	public void drawBackground(int i) {
-		GL11.glColor4f(1, 1, 1, 1);
-	}
-	
-	static {
-		API.setGuiOffset(GuiFusionFurnace.class, -x(0), -y(0));
-	}
-	
-	protected static int x(int x) {
-		return x + X0 - X1;
-	}
-	protected static int y(int y) {
-		return y + Y0 - Y1;
-	}
-
 	@Override 
 	public void loadTransferRects() {
-		transferRects.add(new RecipeTransferRect(new Rectangle(x(51), y(34), 24, 18), ID));
-		transferRects.add(new RecipeTransferRect(new Rectangle(x(100), y(34), 24, 18), ID));
+		transferRects.add(new RecipeTransferRect(new Rectangle(46, 44, 24, 18), ID));
+		transferRects.add(new RecipeTransferRect(new Rectangle(95, 44, 24, 18), ID));
 	}
 	
 	@Override 
 	public void drawExtras(int recipe) {
-		drawProgressBar(x(105), y(55), 176, 0, 190 - 176, 14, 48, 7); // Left Flames
-		drawProgressBar(x(55), y(55), 176, 0, 190 - 176, 14, 48, 7); // Right Flames
-		drawProgressBar(x(51), y(34), 176, 14, 200 - 176, 31 - 14, 48, 0); // Left Arrow
-		drawProgressBar(x(100), y(34), 176, 31, 200 - 176, 31 - 14, 48, 2); // Right Arrow
-		drawProgressBar(x(64), y(4), 176, 64, 11, 92 - 64, 48, 3); // Left Bubbles
-		drawProgressBar(x(98), y(4), 188, 64, 11, 92 - 64, 48, 3); // Right Bubbles
+		drawProgressBar(100, 44, 176, 0, 190 - 176, 14, 48, 7); // Left Flames
+		drawProgressBar(50, 44, 176, 0, 190 - 176, 14, 48, 7); // Right Flames
+		drawProgressBar(46, 23, 176, 14, 200 - 176, 31 - 14, 48, 0); // Left Arrow
+		drawProgressBar(95, 23, 176, 31, 200 - 176, 31 - 14, 48, 2); // Right Arrow
+		drawProgressBar(59, -6, 176, 64, 11, 92 - 64, 48, 3); // Left Bubbles
+		drawProgressBar(93, -6, 188, 64, 11, 92 - 64, 48, 3); // Right Bubbles
 	}
 	
 	protected static PositionedStack convertFuelStack(PositionedStack stack) {
 		stack = stack.copy();
-		stack.relx = x(79);
-		stack.rely = y(62);
+		stack.relx = 74;
+		stack.rely = 51;
 		return stack;
 	}
 	
@@ -78,7 +52,7 @@ public class FusionRecipeHandler extends TemplateRecipeHandler{
 	
 	@Override 
 	public String getRecipeName() {
-		return "Fusion";
+		return "Fusion Furnace";
 	}
 	
 	@Override 
@@ -131,10 +105,10 @@ public class FusionRecipeHandler extends TemplateRecipeHandler{
 		
 		public CachedFusionRecipe(RecipeEntry entry) {
 			ingredients = ImmutableList.of(
-					new PositionedStack(entry.input1.itemsList(), x(33), y(35)),
-					new PositionedStack(entry.input2.itemsList(), x(126), y(34)),
-					new PositionedStack(entry.catalyst.itemsList(), x(79), y(7)));
-			result = new PositionedStack(entry.getOutput(), x(79), y(34));
+					new PositionedStack(entry.input1.itemsList(), 28, 24),
+					new PositionedStack(entry.input2.itemsList(), 121, 23),
+					new PositionedStack(entry.catalyst.itemsList(), 74, -4));
+			result = new PositionedStack(entry.getOutput(), 74, 23);
 		}
 		
 		@Override 

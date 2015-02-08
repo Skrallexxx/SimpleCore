@@ -1,31 +1,15 @@
-package alexndr.plugins.Fusion.addons;
+package alexndr.plugins.Fusion;
 
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
-import alexndr.api.core.LogHelper;
-import alexndr.plugins.Fusion.FusionFurnaceRecipes;
-import alexndr.plugins.Fusion.FusionMaterial;
-import alexndr.plugins.Fusion.Settings;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class RecipesSimpleOres 
 {
-private static final int WILDCARD_VALUE = OreDictionary.WILDCARD_VALUE;
-	
-	public static void preInitialize()
-	{
-		try{doOreDictRecipes(); LogHelper.verboseInfo("Fusion", "All OreDictionary entries were added successfully");}
-		catch(Exception e){LogHelper.severe("Fusion", "OreDictionary entries were not added successfully. This is a serious problem!"); e.printStackTrace();}
-	}
-	
-	public static void initialize()
-	{
-		try{doRecipes(); LogHelper.verboseInfo("Fusion", "All recipes were added successfully");}
-		catch(Exception e){LogHelper.severe("Fusion", "Recipes were not added successfully. This is a serious problem!"); e.printStackTrace();}
-	}
+	private static final int WILDCARD_VALUE = OreDictionary.WILDCARD_VALUE;
 	
 	public static void doOreDictRecipes()
 	{

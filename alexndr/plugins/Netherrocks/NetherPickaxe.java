@@ -18,6 +18,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import alexndr.api.core.ContentRegistry;
+import alexndr.api.core.ContentTypes;
 import alexndr.api.helpers.game.TabHelper;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -138,7 +139,7 @@ public class NetherPickaxe extends ItemPickaxe
 	{
 		super.setUnlocalizedName(unlocalizedName);
 		GameRegistry.registerItem(this, unlocalizedName);
-		ContentRegistry.registerItem(this, unlocalizedName, "netherrocks", "tool");
+		ContentRegistry.registerItem(this, unlocalizedName, "netherrocks", ContentTypes.Item.TOOL);
 		return this;
 	}
 	

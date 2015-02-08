@@ -23,6 +23,7 @@ import net.minecraftforge.event.entity.player.ArrowLooseEvent;
 import org.lwjgl.opengl.GL11;
 
 import alexndr.api.core.ContentRegistry;
+import alexndr.api.core.ContentTypes;
 import alexndr.api.core.SimpleCoreAPI;
 
 import com.google.common.collect.Lists;
@@ -166,7 +167,7 @@ public class SimpleBow extends ItemBow
 	{
 		super.setUnlocalizedName(unlocalizedName);
 		GameRegistry.registerItem(this, unlocalizedName);
-		ContentRegistry.registerItem(this, unlocalizedName, modId, "weapon");
+		ContentRegistry.registerItem(this, unlocalizedName, modId, ContentTypes.Item.WEAPON);
 		SimpleCoreAPI.proxy.setZoomAmount(this, this.zoomAmount);
 		return this;
 	}

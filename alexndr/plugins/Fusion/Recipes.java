@@ -7,7 +7,6 @@ import net.minecraft.item.crafting.CraftingManager;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import alexndr.api.core.LogHelper;
-import alexndr.plugins.Fusion.addons.RecipesSimpleOres;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.registry.GameRegistry;
 

@@ -11,6 +11,7 @@ import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
 import alexndr.api.core.ContentRegistry;
+import alexndr.api.core.ContentTypes;
 
 import com.google.common.collect.Lists;
 
@@ -37,22 +38,6 @@ public class SimpleArmor extends ItemArmor
 	 * @param slotnumber The slotnumber of your armor piece. 0 = helmet, 1 = chestplate, 2 = leggings, 3 = boots.
 	 */
 	public SimpleArmor(ArmorMaterial material, int slotnumber) 
-	{
-		super(material, renderer, slotnumber);
-		this.material = material;
-		this.slotnumber = slotnumber;
-	}
-	
-	/**
-	 * @deprecated
-	 * Adds a new SimpleArmor item. Deprecated for compatibility as it was deprecated so soon after an update.
-	 * Will be removed in the next major update.
-	 * @param material
-	 * @param renderer
-	 * @param slotnumber
-	 */
-	@Deprecated
-	public SimpleArmor(ArmorMaterial material, int renderer, int slotnumber) 
 	{
 		super(material, renderer, slotnumber);
 		this.material = material;
@@ -123,7 +108,7 @@ public class SimpleArmor extends ItemArmor
 	{
 		super.setUnlocalizedName(unlocalizedName);
 		GameRegistry.registerItem(this, unlocalizedName);
-		ContentRegistry.registerItem(this, unlocalizedName, modId, "armor");
+		ContentRegistry.registerItem(this, unlocalizedName, modId, ContentTypes.Item.ARMOR);
 		return this;
 	}
 	

@@ -1,4 +1,4 @@
-package alexndr.plugins.Fusion.addons;
+package alexndr.plugins.Fusion;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -20,25 +20,23 @@ import alexndr.api.content.items.SimplePickaxe;
 import alexndr.api.content.items.SimpleShovel;
 import alexndr.api.content.items.SimpleSword;
 import alexndr.api.helpers.game.StatTriggersHelper;
-import alexndr.plugins.Fusion.Content;
-import alexndr.plugins.Fusion.Settings;
 
 public class ContentSimpleOres 
 {
 	public static void doArmor()
 	{
-		bronze_helmet = new SimpleArmor(armorBronze, rendererBronze, 0).modId("fusion").setType("bronze").setUnlocalizedName("bronze_helmet");
-		bronze_chestplate = new SimpleArmor(armorBronze, rendererBronze, 1).modId("fusion").setType("bronze").setUnlocalizedName("bronze_chestplate");
-		bronze_leggings = new SimpleArmor(armorBronze, rendererBronze, 2).modId("fusion").setType("bronze").setUnlocalizedName("bronze_leggings");
-		bronze_boots = new SimpleArmor(armorBronze, rendererBronze, 3).modId("fusion").setType("bronze").setUnlocalizedName("bronze_boots");
-		thyrium_helmet = new SimpleArmor(armorThyrium, rendererThyrium, 0).modId("fusion").setType("thyrium").setUnlocalizedName("thyrium_helmet");
-		thyrium_chestplate = new SimpleArmor(armorThyrium, rendererThyrium, 1).modId("fusion").setType("thyrium").setUnlocalizedName("thyrium_chestplate");
-		thyrium_leggings = new SimpleArmor(armorThyrium, rendererThyrium, 2).modId("fusion").setType("thyrium").setUnlocalizedName("thyrium_leggings");
-		thyrium_boots = new SimpleArmor(armorThyrium, rendererThyrium, 3).modId("fusion").setType("thyrium").setUnlocalizedName("thyrium_boots");
-		sinisite_helmet = new SimpleArmor(armorSinisite, rendererSinisite, 0).modId("fusion").setType("sinisite").setUnlocalizedName("sinisite_helmet");
-		sinisite_chestplate = new SimpleArmor(armorSinisite, rendererSinisite, 1).modId("fusion").setType("sinisite").setUnlocalizedName("sinisite_chestplate");
-		sinisite_leggings = new SimpleArmor(armorSinisite, rendererSinisite, 2).modId("fusion").setType("sinisite").setUnlocalizedName("sinisite_leggings");
-		sinisite_boots = new SimpleArmor(armorSinisite, rendererSinisite, 3).modId("fusion").setType("sinisite").setUnlocalizedName("sinisite_boots");
+		bronze_helmet = new SimpleArmor(armorBronze, 0).modId("fusion").setType("bronze").setUnlocalizedName("bronze_helmet");
+		bronze_chestplate = new SimpleArmor(armorBronze, 1).modId("fusion").setType("bronze").setUnlocalizedName("bronze_chestplate");
+		bronze_leggings = new SimpleArmor(armorBronze, 2).modId("fusion").setType("bronze").setUnlocalizedName("bronze_leggings");
+		bronze_boots = new SimpleArmor(armorBronze, 3).modId("fusion").setType("bronze").setUnlocalizedName("bronze_boots");
+		thyrium_helmet = new SimpleArmor(armorThyrium, 0).modId("fusion").setType("thyrium").setUnlocalizedName("thyrium_helmet");
+		thyrium_chestplate = new SimpleArmor(armorThyrium, 1).modId("fusion").setType("thyrium").setUnlocalizedName("thyrium_chestplate");
+		thyrium_leggings = new SimpleArmor(armorThyrium, 2).modId("fusion").setType("thyrium").setUnlocalizedName("thyrium_leggings");
+		thyrium_boots = new SimpleArmor(armorThyrium, 3).modId("fusion").setType("thyrium").setUnlocalizedName("thyrium_boots");
+		sinisite_helmet = new SimpleArmor(armorSinisite, 0).modId("fusion").setType("sinisite").setUnlocalizedName("sinisite_helmet");
+		sinisite_chestplate = new SimpleArmor(armorSinisite, 1).modId("fusion").setType("sinisite").setUnlocalizedName("sinisite_chestplate");
+		sinisite_leggings = new SimpleArmor(armorSinisite, 2).modId("fusion").setType("sinisite").setUnlocalizedName("sinisite_leggings");
+		sinisite_boots = new SimpleArmor(armorSinisite, 3).modId("fusion").setType("sinisite").setUnlocalizedName("sinisite_boots");
 	}
 	
 	public static void doBlocks()
@@ -180,5 +178,4 @@ public class ContentSimpleOres
 	
 	//Armor Materials
 	public static ArmorMaterial armorBronze, armorThyrium, armorSinisite;
-	public static int rendererBronze, rendererThyrium, rendererSinisite;
 }

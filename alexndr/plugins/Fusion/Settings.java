@@ -52,7 +52,7 @@ public class Settings
 			{
 				LogHelper.verboseInfo("Fusion", "Tool Stat Modification enabled!");
         		steelMiningLevel = settings.getInt("Steel Mining Level", "Tool Stat Modification", 2, 0, 255, "Controls the mining level of Steel Tools. 0 = wood, 1 = stone, 2 = iron, 3 = diamond.");
-        		steelUsesNum = settings.getInt("Steel Uses Number", "Tool Stat Modification", 750, 0, 32000, "Controls the number of uses Steel Tools have.");
+        		steelUsesNum = settings.getInt("Steel Uses Number", "Tool Stat Modification", 700, 0, 32000, "Controls the number of uses Steel Tools have.");
         		steelMiningSpeed = settings.getFloat("Steel Mining Speed", "Tool Stat Modification", 7.5F, 0, 32000, "Controls the speed at which Steel Tools harvest their appropriate blocks.");
         		steelDamageVsEntity = settings.getFloat("Steel Damage Vs Entity", "Tool Stat Modification", 3.0F, 0, 32000, "Controls the amount of damage that Steel Tools will do to entities.");
         		steelEnchantability = settings.getInt("Steel Enchantability", "Tool Stat Modification", 24, 0, 32000, "Controls the enchantability of Steel Tools.");
@@ -80,20 +80,20 @@ public class Settings
 			
 			if(enableArmorStatModification)
 			{
-				steelArmorDurability = settings.getInt("Steel Armor Durability", "Armor Stat Modification", 25, 0, 255, "Controls the durability of Steel Armor.");
-				steelArmorDamageReduction = settings.get("Armor Stat Modification", "Steel Armor Damage Reduction Array", new int[] {3, 6, 6,  3}).getIntList();
-				steelArmorEnchantability = settings.getInt("Steel Armor Enchantability", "Armor Stat Modification", 24, 0, 255, "Controls the enchantability of Steel Armor.");
+				steelArmorDurability = settings.getInt("Steel Armor Durability", "Armor Stat Modification", 20, 0, 255, "Controls the durability of Steel Armor.");
+				steelArmorDamageReduction = settings.get("Armor Stat Modification", "Steel Armor Damage Reduction Array", new int[] {3, 6, 5, 3}).getIntList();
+				steelArmorEnchantability = settings.getInt("Steel Armor Enchantability", "Armor Stat Modification", 14, 0, 255, "Controls the enchantability of Steel Armor.");
 				
 				bronzeArmorDurability = settings.getInt("Bronze Armor Durability", "Armor Stat Modification", 16, 0, 255, "Controls the durability of Bronze Armor.");
 				bronzeArmorDamageReduction = settings.get("Armor Stat Modification", "Bronze Armor Damage Reduction Array", new int[] {3, 5, 3, 1}).getIntList();
 				bronzeArmorEnchantability = settings.getInt("Bronze Armor Enchantability", "Armor Stat Modification", 7, 0, 255, "Controls the enchantability of Bronze Armor.");
 				
 				thyriumArmorDurability = settings.getInt("Thyrium Armor Durability", "Armor Stat Modification", 39, 0, 255, "Controls the durability of Thyrium Armor.");
-				thyriumArmorDamageReduction = settings.get("Armor Stat Modification", "Thyrium Armor Damage Reduction Array", new int[] {4, 8, 7, 4}).getIntList();
+				thyriumArmorDamageReduction = settings.get("Armor Stat Modification", "Thyrium Armor Damage Reduction Array", new int[] {4, 7, 6, 3}).getIntList();
 				thyriumArmorEnchantability = settings.getInt("Thyrium Armor Enchantability", "Armor Stat Modification", 28, 0, 255, "Controls the enchantability of Thyrium Armor.");
 				
 				sinisiteArmorDurability = settings.getInt("Sinisite Armor Durability", "Armor Stat Modification", 56, 0, 255, "Controls the durability of Sinisite Armor.");
-				sinisiteArmorDamageReduction = settings.get("Armor Stat Modification", "Sinisite Armor Damage Reduction Array", new int[] {6, 8, 8, 7}).getIntList();
+				sinisiteArmorDamageReduction = settings.get("Armor Stat Modification", "Sinisite Armor Damage Reduction Array", new int[] {5, 8, 6, 5}).getIntList();
 				sinisiteArmorEnchantability = settings.getInt("Sinisite Armor Enchantability", "Armor Stat Modification", 11, 0, 255, "Controls the enchantability of Sinisite Armor.");
 			}
 			else
@@ -136,7 +136,7 @@ public class Settings
 	public static void defaultToolStats()
 	{
 		steelMiningLevel = 2;
-		steelUsesNum = 750;
+		steelUsesNum = 700;
 		steelMiningSpeed = 7.5F;
 		steelDamageVsEntity = 3.0F;
 		steelEnchantability = 24;
@@ -162,20 +162,20 @@ public class Settings
 	
 	public static void defaultArmorStats()
 	{
-		steelArmorDurability = 25;
-		steelArmorDamageReduction = new int[] {3, 6, 6, 3};
-		steelArmorEnchantability = 24;
+		steelArmorDurability = 20;
+		steelArmorDamageReduction = new int[] {3, 6, 5, 3};
+		steelArmorEnchantability = 14;
 		
 		bronzeArmorDurability = 16;
 		bronzeArmorDamageReduction = new int[] {3, 5, 3, 1};
 		bronzeArmorEnchantability = 7;
 		
 		thyriumArmorDurability = 39;
-		thyriumArmorDamageReduction = new int[] {4, 8, 7, 4};
+		thyriumArmorDamageReduction = new int[] {4, 7, 6, 3};
 		thyriumArmorEnchantability = 28;
 		
 		sinisiteArmorDurability = 56;
-		sinisiteArmorDamageReduction = new int[] {6, 8, 8, 7};
+		sinisiteArmorDamageReduction = new int[] {5, 8, 6, 5};
 		sinisiteArmorEnchantability = 11;
 	}
 	

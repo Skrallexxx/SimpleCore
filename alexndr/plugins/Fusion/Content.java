@@ -13,9 +13,9 @@ import alexndr.api.content.items.SimplePickaxe;
 import alexndr.api.content.items.SimpleShovel;
 import alexndr.api.content.items.SimpleSword;
 import alexndr.api.core.ContentRegistry;
+import alexndr.api.core.ContentTypes;
 import alexndr.api.core.LogHelper;
 import alexndr.api.helpers.game.TabHelper;
-import alexndr.plugins.Fusion.addons.ContentSimpleOres;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.registry.GameRegistry;
 
@@ -58,10 +58,10 @@ public class Content
 	 */
 	public static void doArmor()
 	{
-		steel_helmet = new SimpleArmor(Fusion.armorSteel, Fusion.rendererSteel, 0).modId("fusion").setType("steel").setUnlocalizedName("steel_helmet");
-		steel_chestplate = new SimpleArmor(Fusion.armorSteel, Fusion.rendererSteel, 1).modId("fusion").setType("steel").setUnlocalizedName("steel_chestplate");
-		steel_leggings = new SimpleArmor(Fusion.armorSteel, Fusion.rendererSteel, 2).modId("fusion").setType("steel").setUnlocalizedName("steel_leggings");
-		steel_boots = new SimpleArmor(Fusion.armorSteel, Fusion.rendererSteel, 3).modId("fusion").setType("steel").setUnlocalizedName("steel_boots");
+		steel_helmet = new SimpleArmor(Fusion.armorSteel, 0).modId("fusion").setType("steel").setUnlocalizedName("steel_helmet");
+		steel_chestplate = new SimpleArmor(Fusion.armorSteel, 1).modId("fusion").setType("steel").setUnlocalizedName("steel_chestplate");
+		steel_leggings = new SimpleArmor(Fusion.armorSteel, 2).modId("fusion").setType("steel").setUnlocalizedName("steel_leggings");
+		steel_boots = new SimpleArmor(Fusion.armorSteel, 3).modId("fusion").setType("steel").setUnlocalizedName("steel_boots");
 		
 		if(simpleores)
 			ContentSimpleOres.doArmor();
@@ -80,7 +80,7 @@ public class Content
 		//Block Registering
 		GameRegistry.registerBlock(fusion_furnace, "fusion_furnace");
 		GameRegistry.registerBlock(fusion_furnace_lit, "fusion_furnace_lit");
-		ContentRegistry.registerBlock(fusion_furnace, "fusion_furnace", "fusion", "machine");
+		ContentRegistry.registerBlock(fusion_furnace, "fusion_furnace", "fusion", ContentTypes.Block.MACHINE);
 		
 		if(simpleores)
 			ContentSimpleOres.doBlocks();
@@ -134,17 +134,17 @@ public class Content
 	public static void setTabs()
 	{
 		fusion_furnace.setCreativeTab(TabHelper.decorationsTab());
-		for(Item armor : ContentRegistry.getItemListFromModId("fusion", "armor"))
+		for(Item armor : ContentRegistry.getItemListFromModId("fusion", ContentTypes.Item.ARMOR))
 			armor.setCreativeTab(TabHelper.combatTab());
 		for(Block block : ContentRegistry.getBlockListFromModId("fusion"))
 			block.setCreativeTab(TabHelper.decorationsTab());
-		for(Block ore : ContentRegistry.getBlockListFromModId("fusion", "ore"))
+		for(Block ore : ContentRegistry.getBlockListFromModId("fusion", ContentTypes.Block.ORE))
 			ore.setCreativeTab(TabHelper.blocksTab());
-		for(Item item : ContentRegistry.getItemListFromModId("fusion", "ingot"))
+		for(Item item : ContentRegistry.getItemListFromModId("fusion", ContentTypes.Item.INGOT))
 			item.setCreativeTab(TabHelper.materialsTab());
-		for(Item tool : ContentRegistry.getItemListFromModId("fusion", "tool"))
+		for(Item tool : ContentRegistry.getItemListFromModId("fusion", ContentTypes.Item.TOOL))
 			tool.setCreativeTab(TabHelper.toolsTab());
-		for(Item weapon : ContentRegistry.getItemListFromModId("fusion", "weapon"))
+		for(Item weapon : ContentRegistry.getItemListFromModId("fusion", ContentTypes.Item.WEAPON))
 			weapon.setCreativeTab(TabHelper.combatTab());
 	}
 	

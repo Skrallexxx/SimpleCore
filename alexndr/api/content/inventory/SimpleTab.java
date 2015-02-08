@@ -4,6 +4,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import alexndr.api.core.ContentRegistry;
+import alexndr.api.core.ContentTypes;
 
 /**
  * @author AleXndrTheGr8st
@@ -17,7 +18,7 @@ public class SimpleTab extends CreativeTabs
 	 * @param label The label of the tab.
 	 * @param category The category of the tab. "blocks", "decorations", "tools", "combat", "materials", "general", "other"
 	 */
-	public SimpleTab(String label, String category) 
+	public SimpleTab(String label, ContentTypes.CreativeTab category) 
 	{
 		super(label);
 		ContentRegistry.registerCreativeTab(this, label, category);

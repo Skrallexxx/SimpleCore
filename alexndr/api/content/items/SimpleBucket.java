@@ -9,7 +9,6 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBucket;
 import net.minecraft.item.ItemStack;
@@ -19,6 +18,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.FillBucketEvent;
 import alexndr.api.core.ContentRegistry;
+import alexndr.api.core.ContentTypes;
+import alexndr.api.helpers.game.SimpleBucketType;
 
 import com.google.common.collect.Lists;
 
@@ -32,21 +33,23 @@ import cpw.mods.fml.relauncher.SideOnly;
  */
 public class SimpleBucket extends ItemBucket
 {
-	private Block isFull;
-	private boolean hasToolTip = false;
-	private static boolean hasLavaVariant = false;
-	private static boolean hasWaterVariant = false;
-	private static HashMap<String, List<SimpleBucket>> bucketWithModIdMap = new HashMap<String, List<SimpleBucket>>();
-	private static Item emptyVariant = Items.bucket;
-	private static Item lavaVariant = Items.lava_bucket;
-	private static Item waterVariant = Items.water_bucket;
-	private List<String> toolTipStrings = Lists.newArrayList();
 	private String modId;
+	private Block isFull;
+	private SimpleBucketType type;
+	private boolean hasToolTip = false;
+	private static HashMap<String, List<SimpleBucket>> bucketWithModIdMap = new HashMap<String, List<SimpleBucket>>();
+	private List<String> toolTipStrings = Lists.newArrayList();
 	
-	public SimpleBucket(Block block) 
+	/**
+	 * Creates a new SimpleBucket
+	 * @param liquid The liquid in the bucket.
+	 * @param type The type of bucket.
+	 */
+	public SimpleBucket(Block liquid, SimpleBucketType type) 
 	{
-		super(block);
-		this.isFull = block;
+		super(liquid);
+		this.isFull = liquid;
+		this.type = type;
 	}
 	
 	/**
@@ -80,38 +83,6 @@ public class SimpleBucket extends ItemBucket
 	}
 	
 	/**
-	 * Sets the current SimpleBucket as the empty variant.
-	 * @return SimpleBucket
-	 */
-	public SimpleBucket setAsEmptyVariant()
-	{
-		this.emptyVariant = this;
-		return this;
-	}
-	
-	/**
-	 * Sets the current SimpleBucket as the lava variant.
-	 * @return SimpleBucket
-	 */
-	public SimpleBucket setAsLavaVariant()
-	{
-		this.hasLavaVariant = true;
-		this.lavaVariant = this;
-		return this;
-	}
-	
-	/**
-	 * Sets the current SimpleBucket as the water variant.
-	 * @return SimpleBucket
-	 */
-	public SimpleBucket setAsWaterVariant()
-	{
-		this.hasWaterVariant = true;
-		this.waterVariant = this;
-		return this;
-	}
-	
-	/**
 	 * Sets which creative tab the item will appear in in Creative Mode.
 	 * @param creativeTab The CreativeTabs tab for the item to appear in.
 	 * @return SimpleBucket
@@ -132,37 +103,8 @@ public class SimpleBucket extends ItemBucket
 	{
 		super.setUnlocalizedName(unlocalizedName);
 		GameRegistry.registerItem(this, unlocalizedName);
-		ContentRegistry.registerItem(this, unlocalizedName, modId, "other");
+		ContentRegistry.registerItem(this, unlocalizedName, modId, ContentTypes.Item.OTHER);
 		return this;
-	}
-	
-	/**
-	 * Sets an empty variant of the bucket. 
-	 * @param emptyBucket The SimpleBucket item that will be the empty variant.
-	 */
-	public static void setEmptyVariant(Item emptyBucket)
-	{
-		emptyVariant = emptyBucket;
-	}
-	
-	/**
-	 * Sets a lava variant of the bucket.
-	 * @param lavaBucket The SimpleBucket item that will be the lava variant.
-	 */
-	public static void setLavaVariant(Item lavaBucket)
-	{
-		hasLavaVariant = true;
-		lavaVariant = lavaBucket;
-	}
-	
-	/**
-	 * Sets a water variant of the bucket. 
-	 * @param waterBucket The SimpleBucket item that will be the water variant.
-	 */
-	public static void setWaterVariant(Item waterBucket)
-	{
-		hasWaterVariant = true;
-		waterVariant = waterBucket;
 	}
 	
 	/**
@@ -172,7 +114,7 @@ public class SimpleBucket extends ItemBucket
 	 * @param item The new bucket to give the player.
 	 * @return ItemStack of the new bucket.
 	 */
-	public ItemStack giveNewBucket(ItemStack itemstack, EntityPlayer entityplayer, Item item)
+	private ItemStack giveNewBucket(ItemStack itemstack, EntityPlayer entityplayer, Item item)
 	{
 		if(entityplayer.capabilities.isCreativeMode)
 			return itemstack;
@@ -233,29 +175,22 @@ public class SimpleBucket extends ItemBucket
 					Material material = world.getBlock(x, y, z).getMaterial();
 					int meta = world.getBlockMetadata(x, y, z);
 					
-					if(material == Material.water && meta == 0 && this.hasWaterVariant)
-					{
+					if(material.isLiquid() && meta == 0) {
+						Block liquid = world.getBlock(x, y, z);
+						
+						if(this.type.getLiquidList().contains(liquid)) {
 							world.setBlockToAir(x, y, z);
-							return this.giveNewBucket(itemstack, entityplayer, this.waterVariant);
-					}
-					
-					if(material == Material.lava && meta == 0)
-					{
-						if(this.hasLavaVariant)
-						{
-							world.setBlockToAir(x, y, z);
-							return this.giveNewBucket(itemstack, entityplayer, this.lavaVariant);
+							return this.giveNewBucket(itemstack, entityplayer, this.type.getVariantFromLiquid(liquid));
 						}
 						
-						else
-						{
-							if(entityplayer.capabilities.isCreativeMode)
-								return itemstack;
-							
-							else
-							{
-								--itemstack.stackSize;
-								world.playSoundEffect(x + 0.5F, y + 0.5F, z + 0.5F, "random.fizz", 0.5F, 2.6F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.8F);
+						else {
+							if(material == Material.lava && !this.type.getLiquidList().contains(liquid) && this.type.getDestroyIfNoLavaBucket()) {
+								if(entityplayer.capabilities.isCreativeMode)
+									return itemstack;
+								else {
+									--itemstack.stackSize;
+									world.playSoundEffect(x + 0.5F, y + 0.5F, z + 0.5F, "random.fizz", 0.5F, 2.6F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.8F);
+								}
 							}
 						}
 					}
@@ -264,7 +199,7 @@ public class SimpleBucket extends ItemBucket
 				else
 				{
 					if(this.isFull== Blocks.air)
-						return new ItemStack(this.emptyVariant);
+						return new ItemStack(this.type.getVariantFromLiquid(Blocks.air));
 					
 					if(movingobjectposition.sideHit == 0)
 						--y;
@@ -288,7 +223,7 @@ public class SimpleBucket extends ItemBucket
 						return itemstack;
 					
 					if(this.tryPlaceContainedLiquid(world, x, y, z) && !entityplayer.capabilities.isCreativeMode)
-						return new ItemStack(this.emptyVariant);
+						return new ItemStack(this.type.getVariantFromLiquid(Blocks.air));
 				}
 			}
 			

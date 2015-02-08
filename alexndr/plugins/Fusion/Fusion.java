@@ -7,7 +7,6 @@ import net.minecraftforge.common.util.EnumHelper;
 import alexndr.api.core.LogHelper;
 import alexndr.api.core.UpdateChecker;
 import alexndr.api.helpers.game.StatTriggersHelper;
-import alexndr.plugins.Fusion.addons.ContentSimpleOres;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -33,7 +32,6 @@ public class Fusion
 	
 	//Armor Materials
 	public static ArmorMaterial armorSteel;
-	public static int rendererSteel;
 	
 	/**
 	 * Called during the PreInit phase.
