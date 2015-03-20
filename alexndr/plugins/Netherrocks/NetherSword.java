@@ -47,7 +47,7 @@ public class NetherSword extends ItemSword
 	@Override
 	public boolean getIsRepairable(ItemStack par1ItemStack, ItemStack par2ItemStack)
 	{
-		return this.toolMaterial.customCraftingMaterial == par2ItemStack.getItem() ? true : super.getIsRepairable(par1ItemStack, par2ItemStack);
+		return this.toolMaterial.getRepairItemStack() == par2ItemStack ? true : super.getIsRepairable(par1ItemStack, par2ItemStack);
 	}
     
     /**	
@@ -63,12 +63,12 @@ public class NetherSword extends ItemSword
     	
     	if(this == Content.illumenite_sword)
     	{
-            par3EntityLivingBase.addPotionEffect(new PotionEffect(Potion.nightVision.id, Settings.illumeniteSwordNVLength));
-            par2EntityLivingBase.addPotionEffect(new PotionEffect(Potion.blindness.id, Settings.illumeniteSwordBlindnessLength));
+            par3EntityLivingBase.addPotionEffect(new PotionEffect(Potion.nightVision.id, Settings.illumeniteNVLength.asInteger()));
+            par2EntityLivingBase.addPotionEffect(new PotionEffect(Potion.blindness.id, Settings.illumeniteBlindnessLength.asInteger()));
             
             if(!(par2EntityLivingBase instanceof EntityPlayer))
             {
-            	par2EntityLivingBase.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, Settings.illumeniteSwordSlowLength, Settings.illumeniteSwordSlowAmplifier));
+            	par2EntityLivingBase.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, Settings.illumeniteSlowLength.asInteger(), Settings.illumeniteSlowLevel.asInteger()));
             }
     	}
         par1ItemStack.damageItem(1, par3EntityLivingBase);

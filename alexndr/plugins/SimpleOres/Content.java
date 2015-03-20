@@ -65,22 +65,16 @@ public class Content
 	 */
 	public static void doBlocks()
 	{
-		copper_ore = new SimpleBlock(Material.rock).modId("simpleores").setTab(TabHelper.blocksTab()).isOre().setHarvestLvl("pickaxe", Settings.copperOreHarvestLevel).setHardness(Settings.copperOreHardness).setResistance(Settings.copperOreResistance).setBlockName("copper_ore");
-		tin_ore = new SimpleBlock(Material.rock).modId("simpleores").setTab(TabHelper.blocksTab()).isOre().setHarvestLvl("pickaxe", Settings.tinOreHarvestLevel).setHardness(Settings.tinOreHardness).setResistance(Settings.tinOreResistance).setBlockName("tin_ore");
-		mythril_ore = new SimpleBlock(Material.rock).modId("simpleores").setTab(TabHelper.blocksTab()).isOre().setHarvestLvl("pickaxe", Settings.mythrilOreHarvestLevel).setHardness(Settings.mythrilOreHardness).setResistance(Settings.mythrilOreResistance).setBlockName("mythril_ore");
-		adamantium_ore = new SimpleBlock(Material.rock).modId("simpleores").setTab(TabHelper.blocksTab()).isOre().setHarvestLvl("pickaxe", Settings.adamantiumOreHarvestLevel).setHardness(Settings.adamantiumOreHardness).setResistance(Settings.adamantiumOreResistance).setBlockName("adamantium_ore");
-		onyx_ore = new SimpleBlock(Material.rock).modId("simpleores").setTab(TabHelper.blocksTab()).isOre().setStackToDrop(new ItemStack(onyx_gem)).setHarvestLvl("pickaxe", Settings.onyxOreHarvestLevel).setHardness(Settings.onyxOreHardness).setResistance(Settings.onyxOreResistance).setBlockName("onyx_ore");
-		copper_block = new SimpleBlock(Material.iron).modId("simpleores").setTab(TabHelper.decorationsTab()).setBeaconBase(true).setHardness(Settings.copperBlockHardness).setResistance(Settings.copperBlockResistance).setBlockName("copper_block");
-		tin_block = new SimpleBlock(Material.iron).modId("simpleores").setTab(TabHelper.decorationsTab()).setBeaconBase(true).setHardness(Settings.tinBlockHardness).setResistance(Settings.tinBlockResistance).setBlockName("tin_block");
-		mythril_block = new SimpleBlock(Material.iron).modId("simpleores").setTab(TabHelper.decorationsTab()).setBeaconBase(true).setHardness(Settings.mythrilBlockHardness).setResistance(Settings.mythrilBlockResistance).setBlockName("mythril_block");
-		adamantium_block = new SimpleBlock(Material.iron).modId("simpleores").setTab(TabHelper.decorationsTab()).setBeaconBase(true).setHardness(Settings.adamantiumBlockHardness).setResistance(Settings.adamantiumBlockResistance).setBlockName("adamantium_block");
-		onyx_block = new SimpleBlock(Material.iron).modId("simpleores").setTab(TabHelper.decorationsTab()).setBeaconBase(true).setHardness(Settings.onyxBlockHardness).setResistance(Settings.onyxBlockResistance).setBlockName("onyx_block");
-	
-		copper_ore.setHarvestLevel("pickaxe", Settings.copperOreHarvestLevel);
-		tin_ore.setHarvestLevel("pickaxe", Settings.tinOreHarvestLevel);
-		mythril_ore.setHarvestLevel("pickaxe", Settings.mythrilOreHarvestLevel);
-		adamantium_ore.setHarvestLevel("pickaxe", Settings.adamantiumOreHarvestLevel);
-		onyx_ore.setHarvestLevel("pickaxe", Settings.onyxOreHarvestLevel);
+		copper_ore = new SimpleBlock(Material.rock).modId("simpleores").setTab(TabHelper.blocksTab()).isOre().setConfigValues(Settings.copperOre).setBlockName("copper_ore");
+		tin_ore = new SimpleBlock(Material.rock).modId("simpleores").setTab(TabHelper.blocksTab()).isOre().setConfigValues(Settings.tinOre).setBlockName("tin_ore");
+		mythril_ore = new SimpleBlock(Material.rock).modId("simpleores").setTab(TabHelper.blocksTab()).isOre().setConfigValues(Settings.mythrilOre).setBlockName("mythril_ore");
+		adamantium_ore = new SimpleBlock(Material.rock).modId("simpleores").setTab(TabHelper.blocksTab()).isOre().setConfigValues(Settings.adamantiumOre).setBlockName("adamantium_ore");
+		onyx_ore = new SimpleBlock(Material.rock).modId("simpleores").setTab(TabHelper.blocksTab()).isOre().setStackToDrop(new ItemStack(onyx_gem)).setConfigValues(Settings.onyxOre).setBlockName("onyx_ore");
+		copper_block = new SimpleBlock(Material.iron).modId("simpleores").setTab(TabHelper.decorationsTab()).setBeaconBase(true).setConfigValues(Settings.copperBlock).setBlockName("copper_block");
+		tin_block = new SimpleBlock(Material.iron).modId("simpleores").setTab(TabHelper.decorationsTab()).setBeaconBase(true).setConfigValues(Settings.tinBlock).setBlockName("tin_block");
+		mythril_block = new SimpleBlock(Material.iron).modId("simpleores").setTab(TabHelper.decorationsTab()).setBeaconBase(true).setConfigValues(Settings.mythrilBlock).setBlockName("mythril_block");
+		adamantium_block = new SimpleBlock(Material.iron).modId("simpleores").setTab(TabHelper.decorationsTab()).setBeaconBase(true).setConfigValues(Settings.adamantiumBlock).setBlockName("adamantium_block");
+		onyx_block = new SimpleBlock(Material.iron).modId("simpleores").setTab(TabHelper.decorationsTab()).setBeaconBase(true).setConfigValues(Settings.onyxBlock).setBlockName("onyx_block");
 	}
 	
 	/**
@@ -118,10 +112,10 @@ public class Content
 		onyx_hoe = new SimpleHoe(SimpleOres.toolOnyx).modId("simpleores").setTab(TabHelper.toolsTab()).setUnlocalizedName("onyx_hoe");
 		onyx_sword = new SimpleSword(SimpleOres.toolOnyx).modId("simpleores").setTab(TabHelper.combatTab()).setUnlocalizedName("onyx_sword");
 		
-		mythril_bow = new SimpleBow(750).modId("simpleores").setTextures("mythril_bow").setEffect(SimpleBowEffects.damageEffect, Settings.mythrilBowDamageModifier)
-				.setEffect(SimpleBowEffects.efficiencyEffect, Settings.mythrilBowEfficiencyChance).addToolTip("tips.damageTooltip").addToolTip("tips.efficiencyTooltip").setTab(TabHelper.combatTab())
+		mythril_bow = new SimpleBow(750).modId("simpleores").setTextures("mythril_bow").setEffect(SimpleBowEffects.damageEffect, Settings.mythrilBowDamageModifier.asFloat())
+				.setEffect(SimpleBowEffects.efficiencyEffect, Settings.mythrilBowEfficiencyChance.asInteger()).addToolTip("tips.damageTooltip").addToolTip("tips.efficiencyTooltip").setTab(TabHelper.combatTab())
 				.setRepairMaterial(new ItemStack(mythril_rod)).setUnlocalizedName("mythril_bow");
-		onyx_bow = new SimpleBow(1000).modId("simpleores").setTextures("onyx_bow").setEffect(SimpleBowEffects.damageEffect, Settings.onyxBowDamageModifier).setEffect(SimpleBowEffects.critFlameEffect)
+		onyx_bow = new SimpleBow(1000).modId("simpleores").setTextures("onyx_bow").setEffect(SimpleBowEffects.damageEffect, Settings.onyxBowDamageModifier.asFloat()).setEffect(SimpleBowEffects.critFlameEffect)
 				.addToolTip("tips.damageTooltip").addToolTip("tips.flameTooltip").setTab(TabHelper.combatTab()).setRepairMaterial(new ItemStack(onyx_rod)).setUnlocalizedName("onyx_bow");
 		
 		tin_shears = new SimpleShears(176).modId("simpleores").setTab(TabHelper.toolsTab()).setRepairMaterial(new ItemStack(tin_ingot)).setUnlocalizedName("tin_shears");

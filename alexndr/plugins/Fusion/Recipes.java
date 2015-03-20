@@ -34,7 +34,7 @@ public class Recipes
 		OreDictionary.registerOre("ingotSteel", new ItemStack(Content.steel_ingot));
 		OreDictionary.registerOre("blockSteel", new ItemStack(Content.steel_block));
 		
-		if(Loader.isModLoaded("simpleores") && Settings.enableSimpleOres)
+		if(Loader.isModLoaded("simpleores") && Settings.enableSimpleOres.asBoolean())
 			RecipesSimpleOres.doOreDictRecipes();
 	}
 	
@@ -61,7 +61,7 @@ public class Recipes
 				Content.medium_steel_chunk, Content.medium_steel_chunk, Content.medium_steel_chunk});
 			
 			//Extra Chunk Recipes
-			if(Settings.enableExtraChunkRecipes)
+			if(Settings.extraChunkRecipes.asBoolean())
 			{
 				GameRegistry.addShapelessRecipe(new ItemStack(Content.large_steel_chunk), new Object[]{
 					Content.small_steel_chunk, Content.small_steel_chunk, Content.medium_steel_chunk, Content.medium_steel_chunk});
@@ -106,7 +106,7 @@ public class Recipes
 			//Regular Furnace
 			GameRegistry.addSmelting(Content.large_steel_chunk, new ItemStack(Content.steel_ingot), 0.4F);
 			
-		if(Loader.isModLoaded("simpleores") && Settings.enableSimpleOres)
+		if(Loader.isModLoaded("simpleores") && Settings.enableSimpleOres.asBoolean())
 			RecipesSimpleOres.doRecipes();
 	}
 }

@@ -48,6 +48,7 @@ public class Netherrocks
 		//Configuration
 		ModInfo.setModInfoProperties(event);
 		Settings.createOrLoadSettings(event);
+		if(Settings.updateChecker.asBoolean()) {UpdateChecker updateChecker = new UpdateChecker(ModInfo.ID, ModInfo.VERSION, ModInfo.VERSIONURL);}
 		
 		//Content
 		setToolAndArmorStats();
@@ -63,7 +64,6 @@ public class Netherrocks
 	public void Init(FMLInitializationEvent event)
 	{
 		INSTANCE = this;
-		if(Settings.enableUpdateChecker){UpdateChecker.checkUpdates(ModInfo.VERSIONURL, ModInfo.ID, ModInfo.VERSION);}
 		
 		//Registers
 		GameRegistry.registerTileEntity(TileEntityNetherFurnace.class, "netherFurnace");
@@ -110,22 +110,22 @@ public class Netherrocks
 	
 	private static void setOreGenSettings()
 	{
-		OreGenerator.INSTANCE.registerOreForGeneration(-1, Content.fyrite_ore, Blocks.netherrack, Settings.fyriteVeinSize, Settings.fyriteSpawnRate, Settings.fyriteSpawnHeightMax, Settings.fyriteSpawnHeightMin);
-		OreGenerator.INSTANCE.registerOreForGeneration(-1, Content.malachite_ore, Blocks.netherrack, Settings.malachiteVeinSize, Settings.malachiteSpawnRate, Settings.malachiteSpawnHeightMax, Settings.malachiteSpawnHeightMin);
-		OreGenerator.INSTANCE.registerOreForGeneration(-1, Content.ashstone_ore, Blocks.netherrack, Settings.ashstoneVeinSize, Settings.ashstoneSpawnRate, Settings.ashstoneSpawnHeightMax, Settings.ashstoneSpawnHeightMin);
-		OreGenerator.INSTANCE.registerOreForGeneration(-1, Content.illumenite_ore, Blocks.glowstone, Settings.illumeniteVeinSize, Settings.illumeniteSpawnRate, Settings.illumeniteSpawnHeightMax, Settings.illumeniteSpawnHeightMin);
-		OreGenerator.INSTANCE.registerOreForGeneration(-1, Content.dragonstone_ore, Blocks.netherrack, Settings.dragonstoneVeinSize, Settings.dragonstoneSpawnRate, Settings.dragonstoneSpawnHeightMax, Settings.dragonstoneSpawnHeightMin);
-		OreGenerator.INSTANCE.registerOreForGeneration(-1, Content.argonite_ore, Blocks.netherrack, Settings.argoniteVeinSize, Settings.argoniteSpawnRate, Settings.argoniteSpawnHeightMax, Settings.argoniteSpawnHeightMin);
+		OreGenerator.INSTANCE.registerOreForGeneration(-1, Content.fyrite_ore, Blocks.netherrack, Settings.fyriteOre.getVeinSize(), Settings.fyriteOre.getSpawnRate(), Settings.fyriteOre.getMaxHeight(), Settings.fyriteOre.getMinHeight());
+		OreGenerator.INSTANCE.registerOreForGeneration(-1, Content.malachite_ore, Blocks.netherrack, Settings.malachiteOre.getVeinSize(), Settings.malachiteOre.getSpawnRate(), Settings.malachiteOre.getMaxHeight(), Settings.malachiteOre.getMinHeight());
+		OreGenerator.INSTANCE.registerOreForGeneration(-1, Content.ashstone_ore, Blocks.netherrack, Settings.ashstoneOre.getVeinSize(), Settings.ashstoneOre.getSpawnRate(), Settings.ashstoneOre.getMaxHeight(), Settings.ashstoneOre.getMinHeight());
+		OreGenerator.INSTANCE.registerOreForGeneration(-1, Content.illumenite_ore, Blocks.glowstone, Settings.illumeniteOre.getVeinSize(), Settings.illumeniteOre.getSpawnRate(), Settings.illumeniteOre.getMaxHeight(), Settings.illumeniteOre.getMinHeight());
+		OreGenerator.INSTANCE.registerOreForGeneration(-1, Content.dragonstone_ore, Blocks.netherrack, Settings.dragonstoneOre.getVeinSize(), Settings.dragonstoneOre.getSpawnRate(), Settings.dragonstoneOre.getMaxHeight(), Settings.dragonstoneOre.getMinHeight());
+		OreGenerator.INSTANCE.registerOreForGeneration(-1, Content.argonite_ore, Blocks.netherrack, Settings.argoniteOre.getVeinSize(), Settings.argoniteOre.getSpawnRate(), Settings.argoniteOre.getMaxHeight(), Settings.argoniteOre.getMinHeight());
 	}
 	
 	private static void setRepairMaterials()
 	{
-		toolFyrite.customCraftingMaterial = Content.fyrite_ingot;
-		toolMalachite.customCraftingMaterial = Content.malachite_ingot;
-		toolAshstone.customCraftingMaterial = Content.ashstone_gem;
-		toolIllumenite.customCraftingMaterial = Content.illumenite_ingot;
-		toolDragonstone.customCraftingMaterial = Content.dragonstone_gem;
-		toolArgonite.customCraftingMaterial = Content.argonite_ingot;
+		toolFyrite.setRepairItem(new ItemStack(Content.fyrite_ingot));
+		toolMalachite.setRepairItem(new ItemStack(Content.malachite_ingot));
+		toolAshstone.setRepairItem(new ItemStack(Content.ashstone_gem));
+		toolIllumenite.setRepairItem(new ItemStack(Content.illumenite_ingot));
+		toolDragonstone.setRepairItem(new ItemStack(Content.dragonstone_gem));
+		toolArgonite.setRepairItem(new ItemStack(Content.argonite_ingot));
 		
 		armorFyrite.customCraftingMaterial = Content.fyrite_ingot;
 		armorMalachite.customCraftingMaterial = Content.malachite_ingot;
@@ -135,16 +135,16 @@ public class Netherrocks
 	
 	private static void setToolAndArmorStats()
 	{
-		toolFyrite = EnumHelper.addToolMaterial("FYRITE", Settings.fyriteMiningLevel, Settings.fyriteUsesNum, Settings.fyriteMiningSpeed, Settings.fyriteDamageVsEntity, Settings.fyriteEnchantability);
-		toolMalachite = EnumHelper.addToolMaterial("MALACHITE", Settings.malachiteMiningLevel, Settings.malachiteUsesNum, Settings.malachiteMiningSpeed, Settings.malachiteDamageVsEntity, Settings.malachiteEnchantability);
-		toolAshstone = EnumHelper.addToolMaterial("ASHSTONE", Settings.ashstoneMiningLevel, Settings.ashstoneUsesNum, Settings.ashstoneMiningSpeed, Settings.ashstoneDamageVsEntity, Settings.ashstoneEnchantability);
-		toolIllumenite = EnumHelper.addToolMaterial("ILLUMENITE", Settings.illumeniteMiningLevel, Settings.illumeniteUsesNum, Settings.illumeniteMiningSpeed, Settings.illumeniteDamageVsEntity, Settings.illumeniteEnchantability);
-		toolDragonstone = EnumHelper.addToolMaterial("DRAGONSTONE", Settings.dragonstoneMiningLevel, Settings.dragonstoneUsesNum, Settings.dragonstoneMiningSpeed, Settings.dragonstoneDamageVsEntity, Settings.dragonstoneEnchantability);
-		toolArgonite = EnumHelper.addToolMaterial("ARGONITE", Settings.argoniteMiningLevel, Settings.argoniteUsesNum, Settings.argoniteMiningSpeed, Settings.argoniteDamageVsEntity, Settings.argoniteEnchantability);
+		toolFyrite = EnumHelper.addToolMaterial("FYRITE", Settings.fyriteTools.getMiningLevel(), Settings.fyriteTools.getUses(), Settings.fyriteTools.getMiningSpeed(), Settings.fyriteTools.getDamageVsEntity(), Settings.fyriteTools.getEnchantability());
+		toolMalachite = EnumHelper.addToolMaterial("MALACHITE", Settings.malachiteTools.getMiningLevel(), Settings.malachiteTools.getUses(), Settings.malachiteTools.getMiningSpeed(), Settings.malachiteTools.getDamageVsEntity(), Settings.malachiteTools.getEnchantability());
+		toolAshstone = EnumHelper.addToolMaterial("ASHSTONE", Settings.ashstoneTools.getMiningLevel(), Settings.ashstoneTools.getUses(), Settings.ashstoneTools.getMiningSpeed(), Settings.ashstoneTools.getDamageVsEntity(), Settings.ashstoneTools.getEnchantability());
+		toolIllumenite = EnumHelper.addToolMaterial("ILLUMENITE", Settings.illumeniteTools.getMiningLevel(), Settings.illumeniteTools.getUses(), Settings.illumeniteTools.getMiningSpeed(), Settings.illumeniteTools.getDamageVsEntity(), Settings.illumeniteTools.getEnchantability());
+		toolDragonstone = EnumHelper.addToolMaterial("DRAGONSTONE", Settings.dragonstoneTools.getMiningLevel(), Settings.dragonstoneTools.getUses(), Settings.dragonstoneTools.getMiningSpeed(), Settings.dragonstoneTools.getDamageVsEntity(), Settings.dragonstoneTools.getEnchantability());
+		toolArgonite = EnumHelper.addToolMaterial("ARGONITE", Settings.argoniteTools.getMiningLevel(), Settings.argoniteTools.getUses(), Settings.argoniteTools.getMiningSpeed(), Settings.argoniteTools.getDamageVsEntity(), Settings.argoniteTools.getEnchantability());
 		
-		armorFyrite = EnumHelper.addArmorMaterial("FYRITE", Settings.fyriteArmorDurability, Settings.fyriteArmorDamageReduction, Settings.fyriteArmorEnchantability);
-		armorMalachite = EnumHelper.addArmorMaterial("MALACHITE", Settings.malachiteArmorDurability, Settings.malachiteArmorDamageReduction, Settings.malachiteArmorEnchantability);
-		armorIllumenite = EnumHelper.addArmorMaterial("ILLUMENITE", Settings.illumeniteArmorDurability, Settings.illumeniteArmorDamageReduction, Settings.illumeniteArmorEnchantability);
-		armorDragonstone = EnumHelper.addArmorMaterial("DRAGONSTONE", Settings.dragonstoneArmorDurability, Settings.dragonstoneArmorDamageReduction, Settings.dragonstoneArmorEnchantability);
+		armorFyrite = EnumHelper.addArmorMaterial("FYRITE", Settings.fyriteArmor.getDurability(), new int[] {Settings.fyriteArmor.getHelmetReduction(), Settings.fyriteArmor.getChestplateReduction(), Settings.fyriteArmor.getLeggingsReduction(), Settings.fyriteArmor.getBootsReduction()}, Settings.fyriteArmor.getEnchantability());
+		armorMalachite = EnumHelper.addArmorMaterial("MALACHITE", Settings.malachiteArmor.getDurability(), new int[] {Settings.malachiteArmor.getHelmetReduction(), Settings.malachiteArmor.getChestplateReduction(), Settings.malachiteArmor.getLeggingsReduction(), Settings.malachiteArmor.getBootsReduction()}, Settings.malachiteArmor.getEnchantability());
+		armorIllumenite = EnumHelper.addArmorMaterial("ILLUMENITE", Settings.illumeniteArmor.getDurability(), new int[] {Settings.illumeniteArmor.getHelmetReduction(), Settings.illumeniteArmor.getChestplateReduction(), Settings.illumeniteArmor.getLeggingsReduction(), Settings.illumeniteArmor.getBootsReduction()}, Settings.illumeniteArmor.getEnchantability());
+		armorDragonstone = EnumHelper.addArmorMaterial("DRAGONSTONE", Settings.dragonstoneArmor.getDurability(), new int[] {Settings.dragonstoneArmor.getHelmetReduction(), Settings.dragonstoneArmor.getChestplateReduction(), Settings.dragonstoneArmor.getLeggingsReduction(), Settings.dragonstoneArmor.getBootsReduction()}, Settings.dragonstoneArmor.getEnchantability());
 	}
 }

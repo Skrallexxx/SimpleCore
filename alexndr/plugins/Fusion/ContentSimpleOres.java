@@ -41,9 +41,9 @@ public class ContentSimpleOres
 	
 	public static void doBlocks()
 	{
-		bronze_block = new SimpleBlock(Material.iron).modId("fusion").setBeaconBase(true).setHardness(Settings.bronzeBlockHardness).setResistance(Settings.bronzeBlockResistance).setBlockName("bronze_block");
-		thyrium_block = new SimpleBlock(Material.iron).modId("fusion").setBeaconBase(true).setHardness(Settings.thyriumBlockHardness).setResistance(Settings.thyriumBlockResistance).setBlockName("thyrium_block");
-		sinisite_block = new SimpleBlock(Material.iron).modId("fusion").setBeaconBase(true).setHardness(Settings.sinisiteBlockHardness).setResistance(Settings.sinisiteBlockResistance).setBlockName("sinisite_block");	
+		bronze_block = new SimpleBlock(Material.iron).modId("fusion").setBeaconBase(true).setConfigValues(Settings.bronzeBlock).setBlockName("bronze_block");
+		thyrium_block = new SimpleBlock(Material.iron).modId("fusion").setBeaconBase(true).setConfigValues(Settings.thyriumBlock).setBlockName("thyrium_block");
+		sinisite_block = new SimpleBlock(Material.iron).modId("fusion").setBeaconBase(true).setConfigValues(Settings.sinisiteBlock).setBlockName("sinisite_block");	
 	}
 	
 	public static void doItems()
@@ -81,10 +81,10 @@ public class ContentSimpleOres
 		sinisite_shovel = new SimpleShovel(toolSinisite).modId("fusion").setUnlocalizedName("sinisite_shovel");
 		sinisite_sword = new SimpleSword(toolSinisite).modId("fusion").setUnlocalizedName("sinisite_sword");
 		sinisite_hoe = new SimpleHoe(toolSinisite).modId("fusion").setUnlocalizedName("sinisite_hoe");
-		thyrium_bow = new SimpleBow(900).modId("fusion").setTextures("thyrium_bow").setEffect(SimpleBowEffects.damageEffect, Settings.thyriumBowDamageModifier)
-				.setZoomAmount(Settings.thyriumBowZoomModifier).addToolTip("tips.damageTooltip").addToolTip("tips.zoomTooltip").setRepairMaterial(new ItemStack(thyrium_rod)).setUnlocalizedName("thyrium_bow");
-		sinisite_bow = new SimpleBow(1200).modId("fusion").setTextures("sinisite_bow").setEffect(SimpleBowEffects.damageEffect, Settings.sinisiteBowDamageModifier)
-				.setEffect(SimpleBowEffects.knockbackEffect, Settings.sinisiteBowKnockbackModifier).addToolTip("tips.damageTooltip").addToolTip("tips.knockbackTooltip")
+		thyrium_bow = new SimpleBow(900).modId("fusion").setTextures("thyrium_bow").setEffect(SimpleBowEffects.damageEffect, Settings.thyriumBowDamageModifier.asFloat())
+				.setZoomAmount(Settings.thyriumBowZoomAmount.asFloat()).addToolTip("tips.damageTooltip").addToolTip("tips.zoomTooltip").setRepairMaterial(new ItemStack(thyrium_rod)).setUnlocalizedName("thyrium_bow");
+		sinisite_bow = new SimpleBow(1200).modId("fusion").setTextures("sinisite_bow").setEffect(SimpleBowEffects.damageEffect, Settings.sinisiteBowDamageModifier.asFloat())
+				.setEffect(SimpleBowEffects.knockbackEffect, Settings.sinisiteBowKnockbackAmount.asFloat()).addToolTip("tips.damageTooltip").addToolTip("tips.knockbackTooltip")
 				.setRepairMaterial(new ItemStack(sinisite_rod)).setUnlocalizedName("sinisite_bow");
 	}
 	
@@ -112,9 +112,9 @@ public class ContentSimpleOres
 	
 	public static void setRepairMaterials()
 	{
-		toolBronze.customCraftingMaterial = bronze_ingot;
-		toolThyrium.customCraftingMaterial = thyrium_ingot;
-		toolSinisite.customCraftingMaterial = sinisite_ingot;
+		toolBronze.setRepairItem(new ItemStack(bronze_ingot));
+		toolThyrium.setRepairItem(new ItemStack(thyrium_ingot));
+		toolSinisite.setRepairItem(new ItemStack(sinisite_ingot));
 		
 		armorBronze.customCraftingMaterial = bronze_ingot;
 		armorThyrium.customCraftingMaterial = thyrium_ingot;
@@ -123,13 +123,13 @@ public class ContentSimpleOres
 	
 	public static void setToolAndArmorStats()
 	{
-    	toolBronze = EnumHelper.addToolMaterial("BRONZE", Settings.bronzeMiningLevel, Settings.bronzeUsesNum, Settings.bronzeMiningSpeed, Settings.bronzeDamageVsEntity, Settings.bronzeEnchantability);
-    	toolThyrium = EnumHelper.addToolMaterial("THYRIUM", Settings.thyriumMiningLevel, Settings.thyriumUsesNum, Settings.thyriumMiningSpeed, Settings.thyriumDamageVsEntity, Settings.thyriumEnchantability);
-    	toolSinisite = EnumHelper.addToolMaterial("SINISITE", Settings.sinisiteMiningLevel, Settings.sinisiteUsesNum, Settings.sinisiteMiningSpeed, Settings.sinisiteDamageVsEntity, Settings.sinisiteEnchantability);
+    	toolBronze = EnumHelper.addToolMaterial("BRONZE", Settings.bronzeTools.getMiningLevel(), Settings.bronzeTools.getUses(), Settings.bronzeTools.getMiningSpeed(), Settings.bronzeTools.getDamageVsEntity(), Settings.bronzeTools.getEnchantability());
+    	toolThyrium = EnumHelper.addToolMaterial("THYRIUM", Settings.thyriumTools.getMiningLevel(), Settings.thyriumTools.getUses(), Settings.thyriumTools.getMiningSpeed(), Settings.thyriumTools.getDamageVsEntity(), Settings.thyriumTools.getEnchantability());
+    	toolSinisite = EnumHelper.addToolMaterial("SINISITE", Settings.sinisiteTools.getMiningLevel(), Settings.sinisiteTools.getUses(), Settings.sinisiteTools.getMiningSpeed(), Settings.sinisiteTools.getDamageVsEntity(), Settings.sinisiteTools.getEnchantability());
     	
-    	armorBronze = EnumHelper.addArmorMaterial("BRONZE", Settings.bronzeArmorDurability, Settings.bronzeArmorDamageReduction, Settings.bronzeArmorEnchantability);
-    	armorThyrium = EnumHelper.addArmorMaterial("THYRIUM", Settings.thyriumArmorDurability, Settings.thyriumArmorDamageReduction, Settings.thyriumArmorEnchantability);
-    	armorSinisite = EnumHelper.addArmorMaterial("SINISITE", Settings.sinisiteArmorDurability, Settings.sinisiteArmorDamageReduction, Settings.sinisiteArmorEnchantability);
+    	armorBronze = EnumHelper.addArmorMaterial("BRONZE", Settings.bronzeArmor.getDurability(), new int[] {Settings.bronzeArmor.getHelmetReduction(), Settings.bronzeArmor.getChestplateReduction(), Settings.bronzeArmor.getLeggingsReduction(), Settings.bronzeArmor.getBootsReduction()}, Settings.bronzeArmor.getEnchantability());
+    	armorThyrium = EnumHelper.addArmorMaterial("THYRIUM", Settings.thyriumArmor.getDurability(), new int[] {Settings.thyriumArmor.getHelmetReduction(), Settings.thyriumArmor.getChestplateReduction(), Settings.thyriumArmor.getLeggingsReduction(), Settings.thyriumArmor.getBootsReduction()}, Settings.thyriumArmor.getEnchantability());
+    	armorSinisite = EnumHelper.addArmorMaterial("SINISITE", Settings.sinisiteArmor.getDurability(), new int[] {Settings.sinisiteArmor.getHelmetReduction(), Settings.sinisiteArmor.getChestplateReduction(), Settings.sinisiteArmor.getLeggingsReduction(), Settings.sinisiteArmor.getBootsReduction()}, Settings.sinisiteArmor.getEnchantability());
 	}
 	
 	public static void setAchievementTriggers()

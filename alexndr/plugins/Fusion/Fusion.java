@@ -44,11 +44,13 @@ public class Fusion
 		//Configuration
 		ModInfo.setModInfoProperties(event);
 		Settings.createOrLoadSettings(event);
+		if(Settings.updateChecker.asBoolean()) {UpdateChecker updateChecker = new UpdateChecker(ModInfo.ID, ModInfo.VERSION, ModInfo.VERSIONURL);}
 		
 		//Content
 		setToolAndArmorStats();
-		if(Loader.isModLoaded("simpleores") && Settings.enableSimpleOres)
+		if(Loader.isModLoaded("simpleores") && Settings.enableSimpleOres.asBoolean()) {
 			ContentSimpleOres.setToolAndArmorStats();
+		}
 		
 		Content.preInitialize();
 		Recipes.preInitialize();
@@ -62,7 +64,6 @@ public class Fusion
 	public void Init(FMLInitializationEvent event)
 	{
 		INSTANCE = this;
-		if(Settings.enableUpdateChecker){UpdateChecker.checkUpdates(ModInfo.VERSIONURL, ModInfo.ID, ModInfo.VERSION);}
 		
 		//Registers
 		GameRegistry.registerTileEntity(TileEntityFusionFurnace.class, "fusionFurnace");
@@ -73,7 +74,7 @@ public class Fusion
 		Recipes.initialize();
 		setRepairMaterials();
 		setAchievementTriggers();
-		if(Loader.isModLoaded("simpleores") && Settings.enableSimpleOres)
+		if(Loader.isModLoaded("simpleores") && Settings.enableSimpleOres.asBoolean())
 			ContentSimpleOres.setRepairMaterials(); ContentSimpleOres.setAchievementTriggers();
 	}
 	
@@ -100,13 +101,13 @@ public class Fusion
 	
 	private static void setRepairMaterials()
 	{
-		toolSteel.customCraftingMaterial = Content.steel_ingot;
+		toolSteel.setRepairItem(new ItemStack(Content.steel_ingot));
 		armorSteel.customCraftingMaterial = Content.steel_ingot;
 	}
 	
     private static void setToolAndArmorStats()
     {
-    	toolSteel = EnumHelper.addToolMaterial("STEEL", Settings.steelMiningLevel, Settings.steelUsesNum, Settings.steelMiningSpeed, Settings.steelDamageVsEntity, Settings.steelEnchantability);
-    	armorSteel = EnumHelper.addArmorMaterial("STEEL", Settings.steelArmorDurability, Settings.steelArmorDamageReduction, Settings.steelArmorEnchantability);
+    	toolSteel = EnumHelper.addToolMaterial("STEEL", Settings.steelTools.getMiningLevel(), Settings.steelTools.getUses(), Settings.steelTools.getMiningSpeed(), Settings.steelTools.getDamageVsEntity(), Settings.steelTools.getEnchantability());
+    	armorSteel = EnumHelper.addArmorMaterial("STEEL", Settings.steelArmor.getDurability(), new int[] {Settings.steelArmor.getHelmetReduction(), Settings.steelArmor.getChestplateReduction(), Settings.steelArmor.getLeggingsReduction(), Settings.steelArmor.getBootsReduction()}, Settings.steelArmor.getEnchantability());
     }
 }

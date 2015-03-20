@@ -15,6 +15,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+import alexndr.api.config.types.ConfigBlock;
 import alexndr.api.core.ContentRegistry;
 import alexndr.api.core.ContentTypes;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -72,6 +73,18 @@ public class SimpleBars extends BlockPane{
 	public SimpleBars setTab(CreativeTabs creativetab)
 	{
 		this.setCreativeTab(creativetab);
+		return this;
+	}
+	
+	/**
+	 * Sets the blocks properties from the ConfigBlock entry given.
+	 * @param entry The ConfigBlock entry associated with the block.
+	 * @return SimpleBars.
+	 */
+	public SimpleBars setConfigValues(ConfigBlock entry) {
+		this.setHardness(entry.getHardness());
+		this.setResistance(entry.getResistance());
+		this.setLightLevel(entry.getLightValue());
 		return this;
 	}
 

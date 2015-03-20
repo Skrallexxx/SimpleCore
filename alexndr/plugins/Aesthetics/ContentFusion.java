@@ -16,25 +16,25 @@ import cpw.mods.fml.common.Loader;
  */
 public class ContentFusion {
 	public static void doItems() {
-		if(Settings.enableFDoors) {
+		if(Settings.FDoors.asBoolean()) {
 			bronze_door = new SimpleDoorItem().modId("aesthetics").setDoorBlockName("bronze_door_block").setUnlocalizedName("bronze_door");
 		}
 	}
 	
 	public static void doBlocks() {
-		if(Settings.enableFBricks) {
-			steel_bricks = new SimpleBlock(Material.iron).modId("aesthetics").setHardness(Settings.steelBricksHardness).setResistance(Settings.steelBricksResistance).setBlockName("steel_bricks");
+		if(Settings.FBricks.asBoolean()) {
+			steel_bricks = new SimpleBlock(Material.iron).modId("aesthetics").setConfigValues(Settings.steelBricks).setBlockName("steel_bricks");
 			
-			if(Loader.isModLoaded("simpleores") && Settings.enableSimpleOres){
-				bronze_bricks = new SimpleBlock(Material.iron).modId("aesthetics").setHardness(Settings.bronzeBricksHardness).setResistance(Settings.bronzeBricksResistance).setBlockName("bronze_bricks");
-				thyrium_bricks = new SimpleBlock(Material.iron).modId("aesthetics").setHardness(Settings.thyriumBricksHardness).setResistance(Settings.thyriumBricksResistance).setBlockName("thyrium_bricks");
-				sinisite_bricks = new SimpleBlock(Material.iron).modId("aesthetics").setHardness(Settings.sinisiteBricksHardness).setResistance(Settings.sinisiteBricksResistance).setBlockName("sinisite_bricks");
+			if(Loader.isModLoaded("simpleores") && Settings.enableSimpleOres.asBoolean()){
+				bronze_bricks = new SimpleBlock(Material.iron).modId("aesthetics").setConfigValues(Settings.bronzeBricks).setBlockName("bronze_bricks");
+				thyrium_bricks = new SimpleBlock(Material.iron).modId("aesthetics").setConfigValues(Settings.thyriumBricks).setBlockName("thyrium_bricks");
+				sinisite_bricks = new SimpleBlock(Material.iron).modId("aesthetics").setConfigValues(Settings.sinisiteBricks).setBlockName("sinisite_bricks");
 			}
 			
-			if(Settings.enableFBrickStairs) {
+			if(Settings.FBrickStairs.asBoolean()) {
 				steel_brick_stairs = new SimpleStairs(steel_bricks).modId("aesthetics").setBlockName("steel_brick_stairs");
 				
-				if(Loader.isModLoaded("simpleores") && Settings.enableSimpleOres){
+				if(Loader.isModLoaded("simpleores") && Settings.enableSimpleOres.asBoolean()){
 					bronze_brick_stairs = new SimpleStairs(bronze_bricks).modId("aesthetics").setBlockName("bronze_brick_stairs");
 					thyrium_brick_stairs = new SimpleStairs(thyrium_bricks).modId("aesthetics").setBlockName("thyrium_brick_stairs");
 					sinisite_brick_stairs = new SimpleStairs(sinisite_bricks).modId("aesthetics").setBlockName("sinisite_brick_stairs");
@@ -42,15 +42,15 @@ public class ContentFusion {
 			}
 		}
 		
-		if(Settings.enableFDoors) {
+		if(Settings.FDoors.asBoolean()) {
 			bronze_door_block = new SimpleDoor(false).modId("aesthetics").setBaseName("bronze_door").setStackToDrop(new ItemStack(bronze_door)).setBlockName("bronze_door_block");
 		}
 		
-		if(Settings.enableFBars) {
-			steel_bars = new SimpleBars("aesthetics:steel_bars").modId("aesthetics").setHardness(Settings.steelBarsHardness).setResistance(Settings.steelBarsResistance).setBlockName("steel_bars");
-			bronze_bars = new SimpleBars("aesthetics:bronze_bars").modId("aesthetics").setHardness(Settings.bronzeBarsHardness).setResistance(Settings.bronzeBarsResistance).setBlockName("bronze_bars");
-			thyrium_bars = new SimpleBars("aesthetics:thyrium_bars").modId("aesthetics").setHardness(Settings.thyriumBarsHardness).setResistance(Settings.thyriumBarsResistance).setBlockName("thyrium_bars");
-			sinisite_bars = new SimpleBars("aesthetics:sinisite_bars").modId("aesthetics").setHardness(Settings.sinisiteBarsHardness).setResistance(Settings.sinisiteBarsResistance).setBlockName("sinisite_bars");
+		if(Settings.FBars.asBoolean()) {
+			steel_bars = new SimpleBars("aesthetics:steel_bars").modId("aesthetics").setConfigValues(Settings.steelBars).setBlockName("steel_bars");
+			bronze_bars = new SimpleBars("aesthetics:bronze_bars").modId("aesthetics").setConfigValues(Settings.bronzeBars).setBlockName("bronze_bars");
+			thyrium_bars = new SimpleBars("aesthetics:thyrium_bars").modId("aesthetics").setConfigValues(Settings.thyriumBars).setBlockName("thyrium_bars");
+			sinisite_bars = new SimpleBars("aesthetics:sinisite_bars").modId("aesthetics").setConfigValues(Settings.sinisiteBars).setBlockName("sinisite_bars");
 		}
 	}
 	

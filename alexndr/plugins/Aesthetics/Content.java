@@ -16,17 +16,15 @@ import cpw.mods.fml.common.Loader;
  */
 public class Content {
 	
-	private static boolean simpleores = Loader.isModLoaded("simpleores") && Settings.enableSimpleOres;
-	private static boolean fusion = Loader.isModLoaded("fusion") && Settings.enableFusion;
-	private static boolean netherrocks = Loader.isModLoaded("netherrocks") && Settings.enableNetherrocks;
+	private static boolean simpleores = Loader.isModLoaded("simpleores") && Settings.enableSimpleOres.asBoolean();
+	private static boolean fusion = Loader.isModLoaded("fusion") && Settings.enableFusion.asBoolean();
+	private static boolean netherrocks = Loader.isModLoaded("netherrocks") && Settings.enableNetherrocks.asBoolean();
 	
 	public static void preInitialize() {
 		try{doItems(); LogHelper.verboseInfo("Aesthetics", "All items were added successfully");}
-		catch(Exception e){LogHelper.severe("Aesthetics", "Items were not added successfully. This is a serious problem!"); e.printStackTrace();}
+			catch(Exception e){LogHelper.severe("Aesthetics", "Items were not added successfully. This is a serious problem!"); e.printStackTrace();}
 		try{doBlocks(); LogHelper.verboseInfo("Aesthetics", "All blocks were added successfully");}
 			catch(Exception e){LogHelper.severe("Aesthetics", "Blocks were not added successfully. This is a serious problem!"); e.printStackTrace();}
-		//try{doAchievements(); LogHelper.verboseInfo("Aesthetics", "All achievements were added successfully");}
-			//catch(Exception e){LogHelper.severe("Aesthetics", "Achievements were not added successfully. This is a serious problem!"); e.printStackTrace();}
 	}
 	
 	public static void initialize()
@@ -47,12 +45,12 @@ public class Content {
 	}
 	
 	public static void doBlocks() {
-		if(Settings.enableMCBricks) {
-			iron_bricks = new SimpleBlock(Material.iron).modId("aesthetics").setHardness(Settings.ironBricksHardness).setResistance(Settings.ironBricksResistance).setBlockName("iron_bricks");
-			gold_bricks = new SimpleBlock(Material.iron).modId("aesthetics").setHardness(Settings.goldBricksHardness).setResistance(Settings.goldBricksResistance).setBlockName("gold_bricks");
-			diamond_bricks = new SimpleBlock(Material.iron).modId("aesthetics").setHardness(Settings.diamondBricksHardness).setResistance(Settings.diamondBricksResistance).setBlockName("diamond_bricks");
+		if(Settings.MCBricks.asBoolean()) {
+			iron_bricks = new SimpleBlock(Material.iron).modId("aesthetics").setConfigValues(Settings.ironBricks).setBlockName("iron_bricks");
+			gold_bricks = new SimpleBlock(Material.iron).modId("aesthetics").setConfigValues(Settings.goldBricks).setBlockName("gold_bricks");
+			diamond_bricks = new SimpleBlock(Material.iron).modId("aesthetics").setConfigValues(Settings.diamondBricks).setBlockName("diamond_bricks");
 			
-			if(Settings.enableMCBrickStairs) {
+			if(Settings.MCBricks.asBoolean()) {
 				iron_brick_stairs = new SimpleStairs(iron_bricks).modId("aesthetics").setBlockName("iron_brick_stairs");
 				gold_brick_stairs = new SimpleStairs(gold_bricks).modId("aesthetics").setBlockName("gold_brick_stairs");
 				diamond_brick_stairs = new SimpleStairs(diamond_bricks).modId("aesthetics").setBlockName("diamond_brick_stairs");

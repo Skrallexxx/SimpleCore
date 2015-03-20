@@ -73,35 +73,27 @@ public class Content
 	
 	public static void doBlocks()
 	{
-		fyrite_ore = new SimpleBlock(Material.rock).modId("netherrocks").isOre().setHardness(Settings.fyriteOreHardness).setResistance(Settings.fyriteOreResistance).setBlockName("fyrite_ore");
-		malachite_ore = new SimpleBlock(Material.rock).modId("netherrocks").isOre().setHardness(Settings.malachiteOreHardness).setResistance(Settings.malachiteBlockResistance).setBlockName("malachite_ore");
-		ashstone_ore = new SimpleBlock(Material.rock).modId("netherrocks").isOre().setStackToDrop(new ItemStack(ashstone_gem)).setHardness(Settings.ashstoneOreHardness).setResistance(Settings.ashstoneOreResistance).setBlockName("ashstone_ore");
-		illumenite_ore = new SimpleBlock(Material.rock).modId("netherrocks").isOre().setHardness(Settings.illumeniteOreHardness).setResistance(Settings.illumeniteOreResistance).setLightLevel(Settings.illumeniteOreLightValue).setBlockName("illumenite_ore");
-		dragonstone_ore = new SimpleBlock(Material.rock).modId("netherrocks").isOre().setStackToDrop(new ItemStack(dragonstone_gem)).setHardness(Settings.dragonstoneOreHardness).setResistance(Settings.dragonstoneOreResistance).setBlockName("dragonstone_ore");
-		argonite_ore = new SimpleBlock(Material.rock).modId("netherrocks").isOre().setHardness(Settings.argoniteOreHardness).setResistance(Settings.argoniteOreResistance).setBlockName("argonite_ore");
+		fyrite_ore = new SimpleBlock(Material.rock).modId("netherrocks").isOre().setConfigValues(Settings.fyriteOre).setBlockName("fyrite_ore");
+		malachite_ore = new SimpleBlock(Material.rock).modId("netherrocks").isOre().setConfigValues(Settings.malachiteOre).setBlockName("malachite_ore");
+		ashstone_ore = new SimpleBlock(Material.rock).modId("netherrocks").isOre().setStackToDrop(new ItemStack(ashstone_gem)).setConfigValues(Settings.ashstoneOre).setBlockName("ashstone_ore");
+		illumenite_ore = new SimpleBlock(Material.rock).modId("netherrocks").isOre().setConfigValues(Settings.illumeniteOre).setBlockName("illumenite_ore");
+		dragonstone_ore = new SimpleBlock(Material.rock).modId("netherrocks").isOre().setStackToDrop(new ItemStack(dragonstone_gem)).setConfigValues(Settings.dragonstoneOre).setBlockName("dragonstone_ore");
+		argonite_ore = new SimpleBlock(Material.rock).modId("netherrocks").isOre().setConfigValues(Settings.argoniteOre).setBlockName("argonite_ore");
 		
-		fyrite_block = new SimpleBlock(Material.iron).setBeaconBase(true).modId("netherrocks").setHardness(Settings.fyriteBlockHardness).setResistance(Settings.fyriteBlockResistance).setBlockName("fyrite_block");
-		malachite_block = new SimpleBlock(Material.iron).setBeaconBase(true).modId("netherrocks").setHardness(Settings.malachiteBlockHardness).setResistance(Settings.malachiteBlockResistance).setBlockName("malachite_block");
-		ashstone_block = new SimpleBlock(Material.iron).setBeaconBase(true).modId("netherrocks").setHardness(Settings.ashstoneBlockHardness).setResistance(Settings.ashstoneBlockResistance).setBlockName("ashstone_block");
-		illumenite_block = new SimpleBlock(Material.iron).setBeaconBase(true).modId("netherrocks").setHardness(Settings.illumeniteBlockHardness).setResistance(Settings.illumeniteBlockResistance).setLightLevel(Settings.illumeniteBlockLightValue).setBlockName("illumenite_block");
-		dragonstone_block = new SimpleBlock(Material.iron).setBeaconBase(true).modId("netherrocks").setHardness(Settings.dragonstoneBlockHardness).setResistance(Settings.dragonstoneBlockResistance).setBlockName("dragonstone_block");
-		argonite_block = new SimpleBlock(Material.iron).setBeaconBase(true).modId("netherrocks").setHardness(Settings.argoniteBlockHardness).setResistance(Settings.argoniteBlockResistance).setBlockName("argonite_block");
+		fyrite_block = new SimpleBlock(Material.iron).setBeaconBase(true).modId("netherrocks").setConfigValues(Settings.fyriteBlock).setBlockName("fyrite_block");
+		malachite_block = new SimpleBlock(Material.iron).setBeaconBase(true).modId("netherrocks").setConfigValues(Settings.malachiteBlock).setBlockName("malachite_block");
+		ashstone_block = new SimpleBlock(Material.iron).setBeaconBase(true).modId("netherrocks").setConfigValues(Settings.ashstoneBlock).setBlockName("ashstone_block");
+		illumenite_block = new SimpleBlock(Material.iron).setBeaconBase(true).modId("netherrocks").setConfigValues(Settings.illumeniteBlock).setBlockName("illumenite_block");
+		dragonstone_block = new SimpleBlock(Material.iron).setBeaconBase(true).modId("netherrocks").setConfigValues(Settings.dragonstoneBlock).setBlockName("dragonstone_block");
+		argonite_block = new SimpleBlock(Material.iron).setBeaconBase(true).modId("netherrocks").setConfigValues(Settings.argoniteBlock).setBlockName("argonite_block");
 		
-		nether_furnace = new BlockNetherFurnace(false).setHardness(Settings.netherFurnaceHardness).setResistance(Settings.netherFurnaceResistance).setBlockName("nether_furnace");
-		nether_furnace_lit = new BlockNetherFurnace(true).setHardness(Settings.netherFurnaceHardness).setResistance(Settings.netherFurnaceResistance).setLightLevel(Settings.netherFurnaceLightValue).setBlockName("nether_furnace_lit");
+		nether_furnace = new BlockNetherFurnace(false).setHardness(Settings.netherFurnace.getHardness()).setResistance(Settings.netherFurnace.getResistance()).setBlockName("nether_furnace");
+		nether_furnace_lit = new BlockNetherFurnace(true).setHardness(Settings.netherFurnace.getHardness()).setResistance(Settings.netherFurnace.getResistance()).setLightLevel(Settings.netherFurnace.getLightValue()).setBlockName("nether_furnace_lit");
 		
 		//Block Registering
 		GameRegistry.registerBlock(nether_furnace, "nether_furnace");
 		GameRegistry.registerBlock(nether_furnace_lit, "nether_furnace_lit");
 		ContentRegistry.registerBlock(nether_furnace, "nether_furnace", "netherrocks", ContentTypes.Block.MACHINE);
-		
-		//Ore Harvest Levels
-		fyrite_ore.setHarvestLevel("pickaxe", Settings.fyriteOreHarvestLevel);
-		malachite_ore.setHarvestLevel("pickaxe", Settings.malachiteOreHarvestLevel);
-		ashstone_ore.setHarvestLevel("pickaxe", Settings.ashstoneOreHarvestLevel);
-		illumenite_ore.setHarvestLevel("pickaxe", Settings.illumeniteOreHarvestLevel);
-		dragonstone_ore.setHarvestLevel("pickaxe", Settings.dragonstoneOreHarvestLevel);
-		argonite_ore.setHarvestLevel("pickaxe", Settings.argoniteOreHarvestLevel);
 	}
 	
 	public static void doItems()

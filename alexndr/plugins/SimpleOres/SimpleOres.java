@@ -46,6 +46,7 @@ public class SimpleOres {
 		//Configuration
 		ModInfo.setModInfoProperties(event);
 		Settings.createOrLoadSettings(event);
+		if(Settings.updateChecker.asBoolean()) {UpdateChecker updateChecker = new UpdateChecker(ModInfo.ID, ModInfo.VERSION, ModInfo.VERSIONURL);}
 		
 		//Content
 		tabPreInit();
@@ -60,8 +61,6 @@ public class SimpleOres {
 	 */
 	@EventHandler
 	public void Init(FMLInitializationEvent event) {
-		if(Settings.enableUpdateChecker){UpdateChecker.checkUpdates(ModInfo.VERSIONURL, ModInfo.ID, ModInfo.VERSION);}
-		
 		//Content
 		Recipes.initialize();
 		tabInit();
@@ -122,11 +121,11 @@ public class SimpleOres {
 	 * Registers each ore to be generated.
 	 */
 	private static void setOreGenSettings() {
-		OreGenerator.INSTANCE.registerOreForGeneration(0, Content.copper_ore, Blocks.stone, Settings.copperVeinSize, Settings.copperSpawnRate, Settings.copperMaxHeight, Settings.copperMinHeight);
-		OreGenerator.INSTANCE.registerOreForGeneration(0, Content.tin_ore, Blocks.stone, Settings.tinVeinSize, Settings.tinSpawnRate, Settings.tinMaxHeight, Settings.tinMinHeight);
-		OreGenerator.INSTANCE.registerOreForGeneration(0, Content.mythril_ore, Blocks.stone, Settings.mythrilVeinSize, Settings.mythrilSpawnRate, Settings.mythrilMaxHeight, Settings.mythrilMinHeight);
-		OreGenerator.INSTANCE.registerOreForGeneration(0, Content.adamantium_ore, Blocks.stone, Settings.adamantiumVeinSize, Settings.adamantiumSpawnRate, Settings.adamantiumMaxHeight, Settings.adamantiumMinHeight);
-		OreGenerator.INSTANCE.registerOreForGeneration(-1, Content.onyx_ore, Blocks.netherrack, Settings.onyxVeinSize, Settings.onyxSpawnRate, Settings.onyxMaxHeight, Settings.onyxMinHeight);
+		OreGenerator.INSTANCE.registerOreForGeneration(0, Content.copper_ore, Blocks.stone, Settings.copperOre.getVeinSize(), Settings.copperOre.getSpawnRate(), Settings.copperOre.getMaxHeight(), Settings.copperOre.getMinHeight());
+		OreGenerator.INSTANCE.registerOreForGeneration(0, Content.tin_ore, Blocks.stone, Settings.tinOre.getVeinSize(), Settings.tinOre.getSpawnRate(), Settings.tinOre.getMaxHeight(), Settings.tinOre.getMinHeight());
+		OreGenerator.INSTANCE.registerOreForGeneration(0, Content.mythril_ore, Blocks.stone, Settings.mythrilOre.getVeinSize(), Settings.mythrilOre.getSpawnRate(), Settings.mythrilOre.getMaxHeight(), Settings.mythrilOre.getMinHeight());
+		OreGenerator.INSTANCE.registerOreForGeneration(0, Content.adamantium_ore, Blocks.stone, Settings.adamantiumOre.getVeinSize(), Settings.adamantiumOre.getSpawnRate(), Settings.adamantiumOre.getMaxHeight(), Settings.adamantiumOre.getMinHeight());
+		OreGenerator.INSTANCE.registerOreForGeneration(-1, Content.onyx_ore, Blocks.netherrack, Settings.onyxOre.getVeinSize(), Settings.onyxOre.getSpawnRate(), Settings.onyxOre.getMaxHeight(), Settings.onyxOre.getMinHeight());
 	}
 	
 	/**
@@ -134,11 +133,11 @@ public class SimpleOres {
 	 */
 	private static void setRepairMaterials() {
 		//Tools
-		toolCopper.customCraftingMaterial = Content.copper_ingot;
-		toolTin.customCraftingMaterial = Content.tin_ingot;
-		toolMythril.customCraftingMaterial = Content.mythril_ingot;
-		toolAdamantium.customCraftingMaterial = Content.adamantium_ingot;
-		toolOnyx.customCraftingMaterial = Content.onyx_gem;
+		toolCopper.setRepairItem(new ItemStack(Content.copper_ingot));
+		toolTin.setRepairItem(new ItemStack(Content.tin_ingot));
+		toolMythril.setRepairItem(new ItemStack(Content.mythril_ingot));
+		toolAdamantium.setRepairItem(new ItemStack(Content.adamantium_ingot));
+		toolOnyx.setRepairItem(new ItemStack(Content.onyx_gem));
 		
 		//Armor
 		armorCopper.customCraftingMaterial = Content.copper_ingot;
@@ -152,28 +151,26 @@ public class SimpleOres {
 	 * Sets the tool and armor stats from the Settings file.
 	 */
 	private static void setToolAndArmorStats() {
-		toolCopper = EnumHelper.addToolMaterial("COPPER", Settings.copperMiningLevel, Settings.copperUsesNum, Settings.copperMiningSpeed, Settings.copperDamageVsEntity, Settings.copperEnchantability);
-  		toolTin = EnumHelper.addToolMaterial("TIN", Settings.tinMiningLevel, Settings.tinUsesNum, Settings.tinMiningSpeed, Settings.tinDamageVsEntity, Settings.tinEnchantability);
-  		toolMythril = EnumHelper.addToolMaterial("MYTHRIL", Settings.mythrilMiningLevel, Settings.mythrilUsesNum, Settings.mythrilMiningSpeed, Settings.mythrilDamageVsEntity, Settings.mythrilEnchantability);
-  		toolAdamantium = EnumHelper.addToolMaterial("ADAMANTIUM", Settings.adamantiumMiningLevel, Settings.adamantiumUsesNum, Settings.adamantiumMiningSpeed, Settings.adamantiumDamageVsEntity, Settings.adamantiumEnchantability);
-  		toolOnyx = EnumHelper.addToolMaterial("ONYX", Settings.onyxMiningLevel, Settings.onyxUsesNum, Settings.onyxMiningSpeed, Settings.onyxDamageVsEntity, Settings.onyxEnchantability);
+		toolCopper = EnumHelper.addToolMaterial("COPPER", Settings.copperTools.getMiningLevel(), Settings.copperTools.getUses(), Settings.copperTools.getMiningSpeed(), Settings.copperTools.getDamageVsEntity(), Settings.copperTools.getEnchantability());
+  		toolTin = EnumHelper.addToolMaterial("TIN", Settings.tinTools.getMiningLevel(), Settings.tinTools.getUses(), Settings.tinTools.getMiningSpeed(), Settings.tinTools.getDamageVsEntity(), Settings.tinTools.getEnchantability());
+  		toolMythril = EnumHelper.addToolMaterial("MYTHRIL", Settings.mythrilTools.getMiningLevel(), Settings.mythrilTools.getUses(), Settings.mythrilTools.getMiningSpeed(), Settings.mythrilTools.getDamageVsEntity(), Settings.mythrilTools.getEnchantability());
+  		toolAdamantium = EnumHelper.addToolMaterial("ADAMANTIUM", Settings.adamantiumTools.getMiningLevel(), Settings.adamantiumTools.getUses(), Settings.adamantiumTools.getMiningSpeed(), Settings.adamantiumTools.getDamageVsEntity(), Settings.adamantiumTools.getEnchantability());
+  		toolOnyx = EnumHelper.addToolMaterial("ONYX", Settings.onyxTools.getMiningLevel(), Settings.onyxTools.getUses(), Settings.onyxTools.getMiningSpeed(), Settings.onyxTools.getDamageVsEntity(), Settings.onyxTools.getEnchantability());
   	
-  		armorCopper = EnumHelper.addArmorMaterial("COPPER", Settings.copperArmorDurability, Settings.copperArmorDamageReduction, Settings.copperArmorEnchantability);
-  		armorTin = EnumHelper.addArmorMaterial("TIN", Settings.tinArmorDurability, Settings.tinArmorDamageReduction, Settings.tinArmorEnchantability);
-  		armorMythril = EnumHelper.addArmorMaterial("MYTHRIL", Settings.mythrilArmorDurability, Settings.mythrilArmorDamageReduction, Settings.mythrilArmorEnchantability);
-  		armorAdamantium = EnumHelper.addArmorMaterial("ADAMANTIUM", Settings.adamantiumArmorDurability, Settings.adamantiumArmorDamageReduction, Settings.adamantiumArmorEnchantability);
-  		armorOnyx = EnumHelper.addArmorMaterial("ONYX", Settings.onyxArmorDurability, Settings.onyxArmorDamageReduction, Settings.onyxArmorEnchantability);
+  		armorCopper = EnumHelper.addArmorMaterial("COPPER", Settings.copperArmor.getDurability(), new int[] {Settings.copperArmor.getHelmetReduction(), Settings.copperArmor.getChestplateReduction(), Settings.copperArmor.getLeggingsReduction(), Settings.copperArmor.getBootsReduction()}, Settings.copperArmor.getEnchantability());
+  		armorTin = EnumHelper.addArmorMaterial("TIN", Settings.tinArmor.getDurability(), new int[] {Settings.tinArmor.getHelmetReduction(), Settings.tinArmor.getChestplateReduction(), Settings.tinArmor.getLeggingsReduction(), Settings.tinArmor.getBootsReduction()}, Settings.tinArmor.getEnchantability());
+  		armorMythril = EnumHelper.addArmorMaterial("MYTHRIL", Settings.mythrilArmor.getDurability(), new int[] {Settings.mythrilArmor.getHelmetReduction(), Settings.mythrilArmor.getChestplateReduction(), Settings.mythrilArmor.getLeggingsReduction(), Settings.mythrilArmor.getBootsReduction()}, Settings.mythrilArmor.getEnchantability());
+  		armorAdamantium = EnumHelper.addArmorMaterial("ADAMANTIUM", Settings.adamantiumArmor.getDurability(), new int[] {Settings.adamantiumArmor.getHelmetReduction(), Settings.adamantiumArmor.getChestplateReduction(), Settings.adamantiumArmor.getLeggingsReduction(), Settings.adamantiumArmor.getBootsReduction()}, Settings.adamantiumArmor.getEnchantability());
+  		armorOnyx = EnumHelper.addArmorMaterial("ONYX", Settings.onyxArmor.getDurability(), new int[] {Settings.onyxArmor.getHelmetReduction(), Settings.onyxArmor.getChestplateReduction(), Settings.onyxArmor.getLeggingsReduction(), Settings.onyxArmor.getBootsReduction()}, Settings.onyxArmor.getEnchantability());
 	}
 	
 	/**
 	 * Sets the icons for the custom Creative Tabs.
 	 */
 	private static void tabInit() {
-		if(Settings.enableSimpleOresTabs)
-		{
+		if(Settings.tabs.asBoolean()) {
 			simpleOresBlocks.setIcon(new ItemStack(Content.copper_ore));
-			if(Settings.enableSeparateTabs)
-			{
+			if(Settings.separateTabs.asBoolean()) {
 				simpleOresDecorations.setIcon(new ItemStack(Content.adamantium_block));
 				simpleOresMaterials.setIcon(new ItemStack(Content.mythril_ingot));
 				simpleOresTools.setIcon(new ItemStack(Content.onyx_pickaxe));
@@ -186,9 +183,9 @@ public class SimpleOres {
 	 * Creates the custom Creative Tabs using the API class "SimpleTab".
 	 */
 	private static void tabPreInit() {
-		if(Settings.enableSimpleOresTabs) {
+		if(Settings.tabs.asBoolean()) {
 			simpleOresBlocks = new SimpleTab("simpleOresBlocks", ContentTypes.CreativeTab.BLOCKS);
-			if(Settings.enableSeparateTabs) {
+			if(Settings.separateTabs.asBoolean()) {
 				simpleOresDecorations = new SimpleTab("simpleOresDecorations", ContentTypes.CreativeTab.DECORATIONS);
 				simpleOresMaterials = new SimpleTab("simpleOresMaterials", ContentTypes.CreativeTab.MATERIALS);
 				simpleOresTools = new SimpleTab("simpleOresTools", ContentTypes.CreativeTab.TOOLS);

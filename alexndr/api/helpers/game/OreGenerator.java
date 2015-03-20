@@ -109,12 +109,18 @@ public class OreGenerator implements IWorldGenerator
 			List<GeneratorEntry> genList = genMap.get(world.provider.dimensionId);
 			for(GeneratorEntry e : genList)
 			{
-				for(int i = 0; i < e.spawnRate; i++)
-				{
-					int randPosX = Xcoord + random.nextInt(16);
-					int randPosY = random.nextInt(e.maxHeight - e.minHeight);
-					int randPosZ = Zcoord + random.nextInt(16);
-					new OreGenHelper(e.blockToGenerate, e.veinSize, e.blockToReplace).setReplaceableOreGenBlock(e.blockToReplace).disableReplaceableOreGenBlock(e.disableReplaceable).generate(world, random, randPosX, randPosY + e.minHeight, randPosZ);
+				if(e.maxHeight <= e.minHeight) {
+					LogHelper.warning("WorldGen: Max height is higher than min height! BlockToGenerate: " + e.blockToGenerate.getUnlocalizedName() + ", BlockToReplace:" + e.blockToReplace.getUnlocalizedName());
+				}
+				
+				else {
+					for(int i = 0; i < e.spawnRate; i++)
+					{
+						int randPosX = Xcoord + random.nextInt(16);
+						int randPosY = random.nextInt(e.maxHeight - e.minHeight);
+						int randPosZ = Zcoord + random.nextInt(16);
+						new OreGenHelper(e.blockToGenerate, e.veinSize, e.blockToReplace).setReplaceableOreGenBlock(e.blockToReplace).disableReplaceableOreGenBlock(e.disableReplaceable).generate(world, random, randPosX, randPosY + e.minHeight, randPosZ);
+					}
 				}
 			}
 		}

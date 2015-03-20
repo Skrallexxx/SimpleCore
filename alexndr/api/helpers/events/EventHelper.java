@@ -25,7 +25,7 @@ public class EventHelper
 	@SubscribeEvent
 	public void playerLoggedIn(PlayerLoggedInEvent event)
 	{
-		List<String> messages = UpdateChecker.getMessages();
+		List<String> messages = UpdateChecker.getUpdateMessageList();
 		if(messages != null && messages.size() > 0)
 		{
 			try

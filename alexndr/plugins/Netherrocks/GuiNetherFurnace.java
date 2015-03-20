@@ -18,7 +18,7 @@ public class GuiNetherFurnace extends GuiContainer
 	private static String defaultGui = "textures/gui/container/furnace.png";
     private static String coloredGui = "netherrocks:" + "textures/gui/nether_furnace_gui.png";
     
-	private static final ResourceLocation field_110410_t = new ResourceLocation(Settings.enableColoredGuis ? coloredGui : defaultGui);
+	private static final ResourceLocation field_110410_t = new ResourceLocation(Settings.coloredGUIs.asBoolean() ? coloredGui : defaultGui);
 	private TileEntityNetherFurnace furnaceInventory;
 
     public GuiNetherFurnace(InventoryPlayer par1InventoryPlayer, TileEntityNetherFurnace par2TileEntityFurnace)

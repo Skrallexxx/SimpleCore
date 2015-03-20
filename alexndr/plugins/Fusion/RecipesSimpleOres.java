@@ -61,7 +61,7 @@ public class RecipesSimpleOres
 				ContentSimpleOres.medium_sinisite_chunk, ContentSimpleOres.medium_sinisite_chunk, ContentSimpleOres.medium_sinisite_chunk });
 			
 			//Extra Chunk Recipes
-			if(Settings.enableExtraChunkRecipes)
+			if(Settings.extraChunkRecipes.asBoolean())
 			{
 				GameRegistry.addShapelessRecipe(new ItemStack(ContentSimpleOres.large_bronze_chunk, 1), new Object[] { 
 					ContentSimpleOres.small_bronze_chunk, ContentSimpleOres.small_bronze_chunk, ContentSimpleOres.medium_bronze_chunk, ContentSimpleOres.medium_bronze_chunk });

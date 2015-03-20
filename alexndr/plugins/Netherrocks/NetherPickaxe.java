@@ -8,6 +8,7 @@ import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemPickaxe;
@@ -15,6 +16,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import alexndr.api.core.ContentRegistry;
@@ -97,12 +99,34 @@ public class NetherPickaxe extends ItemPickaxe
 							block.stepSound.getBreakSound(),
 							(block.stepSound.getVolume() + 1.0F) / 2.0F,
 							block.stepSound.getPitch() * 0.8F);
-
+					
 					world.setBlock(i, j, k, Blocks.air);
 					if(!world.isRemote)
-					{		
+					{
 						EntityItem entityitem = new EntityItem(world, i + 0.5, j + 0.5, k + 0.5, drop);
 						world.spawnEntityInWorld(entityitem);
+						
+						try {
+							int exp = drop.stackSize;
+							float expFloat = FurnaceRecipes.smelting().func_151398_b(FurnaceRecipes.smelting().getSmeltingResult(item).copy());
+							int expAmount;
+							if(expFloat == 0.0F)
+								exp = 0;
+							else if(expFloat < 1.0F) {
+								expAmount = MathHelper.floor_float(exp * expFloat);
+								if(expAmount < MathHelper.ceiling_float_int(exp * expFloat) && (float)Math.random() < exp * expFloat - expAmount) {
+									++expAmount;
+								}
+								exp = expAmount;
+							}
+							while(exp > 0) {
+								expAmount = EntityXPOrb.getXPSplit(exp);
+								exp -= expAmount;
+								world.spawnEntityInWorld(new EntityXPOrb(world, i + 0.5, j + 0.5, k + 0.5, expAmount));
+							}
+						} catch(Exception e) {
+							e.printStackTrace();
+						}
 					}
 					itemstack.damageItem(1, player);
 					
@@ -128,7 +152,7 @@ public class NetherPickaxe extends ItemPickaxe
 	@Override
 	public boolean getIsRepairable(ItemStack par1ItemStack, ItemStack par2ItemStack)
 	{
-		return this.toolMaterial.customCraftingMaterial == par2ItemStack.getItem() ? true : super.getIsRepairable(par1ItemStack, par2ItemStack);
+		return this.toolMaterial.getRepairItemStack() == par2ItemStack ? true : super.getIsRepairable(par1ItemStack, par2ItemStack);
 	}
 	
 	/**

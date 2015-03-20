@@ -1,13 +1,12 @@
 package alexndr.api.core;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.SocketTimeoutException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.HashMap;
 import java.util.List;
-
-import javax.net.ssl.HttpsURLConnection;
 
 import net.minecraft.util.StatCollector;
 
@@ -16,120 +15,158 @@ import com.google.common.collect.Lists;
 /**
  * @author AleXndrTheGr8st
  */
-public class UpdateChecker 
-{
-	private static boolean hasAlreadyFailed;
-	private static String VERSION = "";
-	private static List<String> modsList = Lists.newArrayList();
-	private static HashMap<String, Boolean> isModOutOfDateMap = new HashMap<String, Boolean>();
-	private static HashMap<String, String> newVersionsMap = new HashMap<String, String>();
-	private static StringBuffer newVersion = new StringBuffer();
+public class UpdateChecker{
+	static int numMods = 0;
+	static List<String> updateMessages = Lists.newArrayList();
+	
+	UpdateCheckerThread checkerThread;
 	
 	/**
-	 * Allows the checking of updates for a mod. An online, accessible text file containing only the new version.
+	 * Creates a new instance of the UpdateChecker. Used to check for updates to a mod/plugin.
+	 * This UpdateChecker uses its own thread, so it will not slow down the game loading.
+	 * An online, accessible text file containing only the new version.
 	 * Consistent versioning is a must. Otherwise, eg. 1.3 < 1.2.4. Use 1.3.0, etc.
-	 * Localised messages are required. Add two entries called modId.updateMessage1 and modId.updateMessage2.
-	 * The new version will be appended between the two. See the SimpleCore lang files for an example.
-	 * @param linkToVersionFile The url for the text file that contains the newest version number. MUST be https://!
-	 * @param modId The modId of the mod you want to check for.
-	 * @param currentModVersion The current version of the mod, such as the version number in the @Mod annotation.
+	 * Localised update messages can be disabled and the messages set manually, but localised is preferred.
+	 * @param modId ModId of the mod/plugin.
+	 * @param currentVersion The current version of the mod/plugin.
+	 * @param newVersionLink The url link to the plaintext file containing only the new version number.
 	 */
-	public static void checkUpdates(String linkToVersionFile, String modId, String currentModVersion)
-	{
-		hasAlreadyFailed = false;
-		if(!APISettings.disableAllUpdateChecking)
-		{
-			modsList.add(modId);
-			VERSION = currentModVersion;
-			
-			try
-			{
-				URL url = new URL(linkToVersionFile);
-				HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
-				connection.setConnectTimeout(999);
+	public UpdateChecker(String modId, String currentVersion, String newVersionLink) {
+		numMods += 1;
+		checkerThread = new UpdateCheckerThread(modId, currentVersion, newVersionLink);
+		checkerThread.start();
+		checkerThread.setName("UpdateCheckerThread");
+	}
+	
+	/**
+	 * Sets the update messages to be unlocalised.
+	 * @param message1 The message to appear before the new version number.
+	 * @param message2 The message to appear after the new version number.
+	 * @return UpdateCheckerNew
+	 */
+	public UpdateChecker setUnlocalisedMessages(String message1, String message2) {
+		checkerThread.setUnlocalisedMessages(message1, message2);
+		return this;
+	}
+	
+	/**
+	 * Adds a new update message to be sent to the player upon login.
+	 * @param message The message to be sent to the player.
+	 */
+	protected static void addUpdateMessage(String message) {
+		updateMessages.add(message);
+	}
+	
+	/**
+	 * Gets the number of mods that the UpdateChecker is checking for.
+	 * @return Number of mods to check for.
+	 */
+	public static int getNumberOfMods() {
+		return numMods;
+	}
+	
+	/**
+	 * Gets the list of messages to be sent to the player upon login.
+	 * @return List of messages to be sent to the player.
+	 */
+	public static List<String> getUpdateMessageList() {
+		return updateMessages;
+	}
+}
+
+class UpdateCheckerThread extends Thread {
+	private String modId, currentVersion, newVersionLink, message1, message2;
+	private String VERSION, NEWVERSION;
+	private boolean unlocalised = false, outOfDate = false;
+	
+	/**
+	 * Creates a new thread-wise update checker that will not slow down the program.
+	 * @param modId ModId of the mod/plugin.
+	 * @param currentVersion The current version of the mod/plugin.
+	 * @param newVersionLink The url link to the plaintext file containing only the new version number.
+	 */
+	public UpdateCheckerThread(String modId, String currentVersion, String newVersionLink) {
+		this.modId = modId;
+		this.currentVersion = currentVersion;
+		this.newVersionLink = newVersionLink;
+	}
+	
+	/**
+	 * Sets the update messages to be unlocalised.
+	 * @param message1 The message to appear before the new version number.
+	 * @param message2 The message to appear after the new version number.
+	 */
+	public void setUnlocalisedMessages(String message1, String message2) {
+		this.message1 = message1;
+		this.message2 = message2;
+		this.unlocalised = true;
+	}
+	
+	@Override
+	public void run() {
+		this.requestNewVersion();
+		this.compareVersions();
+		this.sendMessage();
+	}
+	
+	/**
+	 * Requests the new mod version from the specified update url.
+	 */
+	private void requestNewVersion() {
+		if(!APISettings.disableAllUpdateChecking) {
+			VERSION = this.currentVersion;
+			try {
+				URL url = new URL(newVersionLink);
+				HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 				int responseCode = connection.getResponseCode();
 				
-				if(responseCode == 200)
-				{
+				if(responseCode == 200) {
 					BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
 					String line = null;
 					
-					while((line = reader.readLine()) != null)
-					{
-						newVersion.append(line);
-					}
-					
-					int currentVersionAsInt = Integer.parseInt(VERSION.replace(".", ""));
-					int newVersionAsInt = Integer.parseInt(newVersion.toString().replace(".", ""));
-					
-					if(newVersionAsInt > currentVersionAsInt)
-					{
-						isModOutOfDateMap.put(modId, true);
-						newVersionsMap.put(modId, newVersion.toString());
-					}
-					else
-					{
-						isModOutOfDateMap.put(modId, false);
+					while((line = reader.readLine()) != null) {
+						NEWVERSION = line;
 					}
 				}
-			}
-			
-			catch(Exception e)
-			{
-				if(!hasAlreadyFailed)
-				{
-					if(e instanceof SocketTimeoutException)
-					{
-						LogHelper.warning("UpdateChecker could not reach the file containing the new version for mod '" + modId + "'. The connection timed out");
-					}
-					else LogHelper.warning("UpdateChecker failed for mod '" + modId + "'");
-
-					hasAlreadyFailed = true;
-				}
-			}
-			
-			finally
-			{
-				newVersion.setLength(0);
+				
+			} catch (MalformedURLException e) {
+				LogHelper.warning("UpdateChecker failed for mod " + modId + ". The update url specified is malformed");
+ 			} catch (IOException e) {
+				LogHelper.warning("UpdateChecker failed for mod " + modId + ". A correctly formatted file could not be found at the specified update url.");
 			}
 		}
 	}
 	
 	/**
-	 * Returns a list of Strings, which contains the messages that will be displayed to the player.
-	 * @return List of update messages.
+	 * Compares the new version to the current version. If so, sets the mod as out of date.
 	 */
-	public static List<String> getMessages()
-	{
-		List<String> messages = Lists.newArrayList();
+	private void compareVersions() {
+		int currentVersion = Integer.parseInt(VERSION.replace(".", ""));
+		int newVersion = Integer.parseInt(NEWVERSION.replace(".", ""));
 		
-		if(modsList.size() != 0 && isModOutOfDateMap.size() != 0 && newVersionsMap.size() != 0)
-		{
-			for(String modId : modsList)
-			{
-				if(newVersionsMap.get(modId) != null)
-				{
-					if(isModOutOfDateMap.get(modId) == true)
-					{
-						String message = StatCollector.translateToLocal(modId + ".updateMessage1") + newVersionsMap.get(modId) + StatCollector.translateToLocal(modId + ".updateMessage2");
-						messages.add(message);
-					}
-				}
-			}
-			return messages;
+		if(newVersion > currentVersion) {
+			this.outOfDate = true;
 		}
-		return null;
 	}
 	
-	public static void postInit()
-	{
-		LogHelper.verboseInfo("Total number of mods UpdateChecker is checking for = " + modsList.size());
-		for(String modId : modsList)
-		{
-			if(newVersionsMap.get(modId) != null)
-				LogHelper.verboseInfo("Checking for updates for modId: '" + modId + "'. The newest version is " + newVersionsMap.get(modId));
-			else
-				LogHelper.verboseInfo("Checking for updates for modId: '" + modId + "'. It appears to be up to date!");
+	/**
+	 * If the mod is out of date, it creates a new update message to send to the player upon login.
+	 */
+	private void sendMessage() {
+		if(this.outOfDate) {
+			LogHelper.verboseInfo("The mod " + modId + " is out of date. The current version is " + this.VERSION + ", the newest version is " + this.NEWVERSION);
+			String message;
+			if(!this.unlocalised) {
+				message = StatCollector.translateToLocal(modId + ".updateMessage1") + NEWVERSION + StatCollector.translateToLocal(modId + ".updateMessage2");
+			} 
+			else {
+				message = message1 + NEWVERSION + message2;
+			}
+			
+			UpdateChecker.addUpdateMessage(message);
+		}
+		else {
+			LogHelper.verboseInfo("The mod " + modId + " is up to date."); 
 		}
 	}
 }

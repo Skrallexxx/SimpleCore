@@ -22,12 +22,11 @@ public class Aesthetics {
 		ModInfo.setModInfoProperties(event);
 		Settings.createOrLoadSettings(event);
 		Content.preInitialize();
+		if(Settings.updateChecker.asBoolean()) {UpdateChecker updateChecker = new UpdateChecker(ModInfo.ID, ModInfo.VERSION, ModInfo.VERSIONURL);}
 	}
 	
 	@EventHandler
 	public void Init(FMLInitializationEvent event) {
-		if(Settings.enableUpdateChecker){UpdateChecker.checkUpdates(ModInfo.VERSIONURL, ModInfo.ID, ModInfo.VERSION);}
-	
 		//Content
 		Content.initialize();
 		Recipes.initialize();

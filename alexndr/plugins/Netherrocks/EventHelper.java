@@ -34,7 +34,7 @@ public class EventHelper
 				{
 					if(event.source.equals(DamageSource.lava) || event.source.equals(DamageSource.inFire) || event.source.equals(DamageSource.onFire))
 					{
-						if(Settings.enableArmorEffects)
+						if(Settings.armorEffects.asBoolean())
 						{
 							event.setCanceled(true);
 							player.extinguish();
@@ -63,7 +63,7 @@ public class EventHelper
 	        {
 	        	if(helmet.getItem() == Content.illumenite_helmet && chest.getItem() == Content.illumenite_chestplate && legs.getItem() == Content.illumenite_leggings && boots.getItem() == Content.illumenite_boots)
 	        	{
-	    	    	if(event.source.equals(DamageSource.fall) && Settings.enableArmorEffects)
+	    	    	if(event.source.equals(DamageSource.fall) && Settings.armorEffects.asBoolean())
 	    	    	{
 	    	        	event.setCanceled(true);
 	    	        	player.addStat(Content.illumeniteSetAch, 1);
@@ -75,9 +75,9 @@ public class EventHelper
 			{
 				if(helmet.getItem() == Content.malachite_helmet && chest.getItem() == Content.malachite_chestplate && legs.getItem() == Content.malachite_leggings && boots.getItem() == Content.malachite_boots)
 				{	
-					if(event.source.equals(DamageSource.fall) && Settings.enableArmorEffects)
+					if(event.source.equals(DamageSource.fall) && Settings.armorEffects.asBoolean())
 					{
-						if(player.fallDistance < Settings.malachiteArmorMinFallHeight)
+						if(player.fallDistance < Settings.malachiteMinFallHeight.asFloat())
 						{
 							event.setCanceled(true);
 						}
@@ -103,9 +103,9 @@ public class EventHelper
 			{
 				if(helmet.getItem() == Content.malachite_helmet && chest.getItem() == Content.malachite_chestplate && legs.getItem() == Content.malachite_leggings && boots.getItem() == Content.malachite_boots)
 				{	
-					if(!player.isSneaking() && Settings.enableArmorEffects)
+					if(!player.isSneaking() && Settings.armorEffects.asBoolean())
 					{
-						player.motionY += Settings.malachiteArmorJumpBoostAmount;
+						player.motionY += Settings.malachiteJumpBoost.asDouble();
 						player.addStat(Content.malachiteSetAch, 1);
 					}
 				}

@@ -13,7 +13,7 @@ public class ModInfo
 {
 	public static final String ID = "fusion";
 	public static final String NAME = "Fusion";
-	public static final String VERSION = "1.5.1";
+	public static final String VERSION = "1.6.0";
 	public static final String DESCRIPTION = "A plugin for SimpleCore API that adds a unique alloying process.";
 	public static final String URL = "http://bit.ly/SimpleOres";
 	public static final List<String> AUTHORS = Lists.newArrayList("AleXndrTheGr8st");

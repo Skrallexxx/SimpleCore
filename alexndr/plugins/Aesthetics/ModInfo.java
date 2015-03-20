@@ -12,7 +12,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 public class ModInfo {
 	public static final String ID = "aesthetics";
 	public static final String NAME = "Aesthetics";
-	public static final String VERSION = "1.0.0";
+	public static final String VERSION = "1.1.0";
 	public static final String DESCRIPTION = "A plugin for SimpleCore API that adds new decoration blocks for other plugins.";
 	public static final String URL = "http://bit.ly/SimpleOres";
 	public static final List<String> AUTHORS = Lists.newArrayList("AleXndrTheGr8st");

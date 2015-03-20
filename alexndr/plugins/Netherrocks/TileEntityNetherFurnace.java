@@ -227,7 +227,7 @@ public class TileEntityNetherFurnace extends TileEntity implements ISidedInvento
     @SideOnly(Side.CLIENT)
     public int getCookProgressScaled(int par1)
     {
-        return this.furnaceCookTime * par1 / Settings.netherFurnaceSpeed;
+        return this.furnaceCookTime * par1 / Settings.netherFurnaceSpeed.asInteger();
     }
 
     /**
@@ -239,7 +239,7 @@ public class TileEntityNetherFurnace extends TileEntity implements ISidedInvento
     {
         if (this.currentItemBurnTime == 0)
         {
-            this.currentItemBurnTime = Settings.netherFurnaceSpeed;
+            this.currentItemBurnTime = Settings.netherFurnaceSpeed.asInteger();
         }
 
         return this.furnaceBurnTime * par1 / this.currentItemBurnTime;
@@ -294,7 +294,7 @@ public class TileEntityNetherFurnace extends TileEntity implements ISidedInvento
             {
                 ++this.furnaceCookTime;
 
-                if (this.furnaceCookTime == Settings.netherFurnaceSpeed)
+                if (this.furnaceCookTime == Settings.netherFurnaceSpeed.asInteger())
                 {
                     this.furnaceCookTime = 0;
                     this.smeltItem();
@@ -380,9 +380,9 @@ public class TileEntityNetherFurnace extends TileEntity implements ISidedInvento
         {
             Item i = par0ItemStack.getItem();
 
-            if (i == Item.getItemFromBlock(Blocks.netherrack)) return Settings.netherrackBurnTime;
-            if (i == Content.fyrite_ingot) return Settings.fyriteIngotBurnTime;
-            if (i == Items.blaze_rod) return Settings.blazeRodBurnTime;
+            if (i == Item.getItemFromBlock(Blocks.netherrack)) return Settings.netherrackBurnTime.asInteger();
+            if (i == Content.fyrite_ingot) return Settings.fyriteBurnTime.asInteger();
+            if (i == Items.blaze_rod) return Settings.blazeRodBurnTime.asInteger();
         }
         return 0;
     }

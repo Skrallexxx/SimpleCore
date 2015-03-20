@@ -7,6 +7,7 @@ import net.minecraft.stats.Achievement;
 import net.minecraft.stats.AchievementList;
 import alexndr.api.content.blocks.SimpleBlock;
 import alexndr.api.content.items.SimpleArmor;
+import alexndr.api.content.items.SimpleAxe;
 import alexndr.api.content.items.SimpleHoe;
 import alexndr.api.content.items.SimpleItem;
 import alexndr.api.content.items.SimplePickaxe;
@@ -24,8 +25,8 @@ import cpw.mods.fml.common.registry.GameRegistry;
  */
 public class Content 
 {
-	private static boolean simpleores = Loader.isModLoaded("simpleores") && Settings.enableSimpleOres;
-	private static boolean netherrocks = Loader.isModLoaded("netherrocks") && Settings.enableNetherrocks;
+	private static boolean simpleores = Loader.isModLoaded("simpleores") && Settings.enableSimpleOres.asBoolean();
+	private static boolean netherrocks = Loader.isModLoaded("netherrocks") && Settings.enableNetherrocks.asBoolean();
 	
 	/**
 	 * Loads all the Fusion content, by calling the methods below.
@@ -72,10 +73,10 @@ public class Content
 	 */
 	public static void doBlocks()
 	{
-		steel_block = new SimpleBlock(Material.iron).modId("fusion").setBeaconBase(true).setHardness(Settings.steelBlockHardness).setResistance(Settings.steelBlockResistance).setBlockName("steel_block");
+		steel_block = new SimpleBlock(Material.iron).modId("fusion").setConfigValues(Settings.steelBlock).setBlockName("steel_block");
 		
-		fusion_furnace = new BlockFusionFurnace(false).setHardness(Settings.fusionFurnaceHardness).setResistance(Settings.fusionFurnaceResistance).setBlockName("fusion_furnace");
-		fusion_furnace_lit = new BlockFusionFurnace(true).setHardness(Settings.fusionFurnaceHardness).setResistance(Settings.fusionFurnaceResistance).setLightLevel(Settings.fusionFurnaceLightValue).setBlockName("fusion_furnace_lit");
+		fusion_furnace = new BlockFusionFurnace(false).setHardness(Settings.fusionFurnace.getHardness()).setResistance(Settings.fusionFurnace.getResistance()).setBlockName("fusion_furnace");
+		fusion_furnace_lit = new BlockFusionFurnace(true).setHardness(Settings.fusionFurnace.getHardness()).setResistance(Settings.fusionFurnace.getResistance()).setLightLevel(Settings.fusionFurnace.getLightValue()).setBlockName("fusion_furnace_lit");
 		
 		//Block Registering
 		GameRegistry.registerBlock(fusion_furnace, "fusion_furnace");
@@ -106,7 +107,7 @@ public class Content
 	public static void doTools()
 	{
 		steel_pickaxe = new SimplePickaxe(Fusion.toolSteel).modId("fusion").setUnlocalizedName("steel_pickaxe");
-		steel_axe = new SimplePickaxe(Fusion.toolSteel).modId("fusion").setUnlocalizedName("steel_axe");
+		steel_axe = new SimpleAxe(Fusion.toolSteel).modId("fusion").setUnlocalizedName("steel_axe");
 		steel_shovel = new SimpleShovel(Fusion.toolSteel).modId("fusion").setUnlocalizedName("steel_shovel");
 		steel_sword = new SimpleSword(Fusion.toolSteel).modId("fusion").setUnlocalizedName("steel_sword");
 		steel_hoe = new SimpleHoe(Fusion.toolSteel).modId("fusion").setUnlocalizedName("steel_hoe");

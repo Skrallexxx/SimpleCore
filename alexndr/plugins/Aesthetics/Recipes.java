@@ -10,9 +10,9 @@ import cpw.mods.fml.common.Loader;
  * @author AleXndrTheGr8st
  */
 public class Recipes {
-	private static boolean simpleores = Loader.isModLoaded("simpleores") && Settings.enableSimpleOres;
-	private static boolean fusion = Loader.isModLoaded("fusion") && Settings.enableFusion;
-	private static boolean netherrocks = Loader.isModLoaded("netherrocks") && Settings.enableNetherrocks;
+	private static boolean simpleores = Loader.isModLoaded("simpleores") && Settings.enableSimpleOres.asBoolean();
+	private static boolean fusion = Loader.isModLoaded("fusion") && Settings.enableFusion.asBoolean();
+	private static boolean netherrocks = Loader.isModLoaded("netherrocks") && Settings.enableNetherrocks.asBoolean();
 	
 	public static void initialize()
 	{

@@ -13,6 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import alexndr.api.config.types.ConfigBlock;
 import alexndr.api.core.ContentRegistry;
 import alexndr.api.core.ContentTypes;
 
@@ -126,6 +127,21 @@ public class SimpleBlock extends Block
 	public SimpleBlock setTab(CreativeTabs creativetab)
 	{
 		this.setCreativeTab(creativetab);
+		return this;
+	}
+	
+	/**
+	 * Sets the blocks properties from the ConfigBlock entry given.
+	 * @param entry The ConfigBlock entry associated with the block.
+	 * @return SimpleBlock.
+	 */
+	public SimpleBlock setConfigValues(ConfigBlock entry) {
+		this.setHardness(entry.getHardness());
+		this.setResistance(entry.getResistance());
+		this.setLightLevel(entry.getLightValue());
+		if(this.isOre) {
+			this.setHarvestLevel(entry.getHarvestTool() != null ? entry.getHarvestTool() : "pickaxe", entry.getHarvestLevel());
+		}
 		return this;
 	}
 	

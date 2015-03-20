@@ -31,18 +31,17 @@ public class SimpleCoreAPI {
 
 		// Configuration
 		APISettings.createOrLoadSettings(event);
+		if(APISettings.enableUpdateChecker) {UpdateChecker updateChecker = new UpdateChecker(APIInfo.ID, APIInfo.VERSION, APIInfo.VERSIONURL);}
 	}
 
 	@EventHandler
 	public void Init(FMLInitializationEvent event) {
-		if (APISettings.enableUpdateChecker) {UpdateChecker.checkUpdates(APIInfo.VERSIONURL, APIInfo.ID, APIInfo.VERSION);}
 		if (APISettings.enableCustomGeneration && APISettings.numCustomGenRules > 0) {CustomGen.parseRules();}
 	}
 
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
-		UpdateChecker.postInit();
-
+		LogHelper.verboseInfo("Total number of mods UpdateChecker is checking for = " + UpdateChecker.getNumberOfMods());
 		GameRegistry.registerWorldGenerator(new OreGenerator(), 1);
 	}
 }
