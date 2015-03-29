@@ -285,7 +285,7 @@ public class SimpleBow extends ItemBow
 				arrow.setDamage(arrow.getDamage() *  (Float) effects.get(SimpleBowEffects.damageEffect));
 			
 			if(effects.containsKey(SimpleBowEffects.knockbackEffect))
-				arrow.setKnockbackStrength(punchLevel > 0 ? punchLevel + (Integer) effects.get(SimpleBowEffects.knockbackEffect) : (Integer) effects.get(SimpleBowEffects.knockbackEffect));
+				arrow.setKnockbackStrength(punchLevel > 0 ? punchLevel + effects.get(SimpleBowEffects.knockbackEffect).intValue() : effects.get(SimpleBowEffects.knockbackEffect).intValue());
 			
 			if(effects.containsKey(SimpleBowEffects.efficiencyEffect))
 				efficient = randomChance((Integer) effects.get(SimpleBowEffects.efficiencyEffect));
