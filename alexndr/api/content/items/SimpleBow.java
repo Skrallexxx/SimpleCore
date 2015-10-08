@@ -4,9 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
@@ -14,75 +12,104 @@ import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.ArrowLooseEvent;
-
-import org.lwjgl.opengl.GL11;
-
-import alexndr.api.core.ContentRegistry;
-import alexndr.api.core.ContentTypes;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import alexndr.api.config.types.ConfigEntry;
 import alexndr.api.core.SimpleCoreAPI;
+import alexndr.api.helpers.game.TooltipHelper;
+import alexndr.api.registry.ContentCategories;
+import alexndr.api.registry.ContentRegistry;
+import alexndr.api.registry.Plugin;
 
 import com.google.common.collect.Lists;
-
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 /**
  * @author AleXndrTheGr8st
  */
-public class SimpleBow extends ItemBow
-{
-	private boolean hasToolTip;
-	private float zoomAmount = 0.22F;
-	private HashMap<SimpleBowEffects, Object> effects = new HashMap<SimpleBowEffects, Object>();
-	private static HashMap<String, List<SimpleBow>> bowWithModIdMap = new HashMap<String, List<SimpleBow>>();
-	private ItemStack repairMaterial;
+public class SimpleBow extends ItemBow{
+	private Plugin plugin;
+	private ContentCategories.Item category = ContentCategories.Item.WEAPON;
+	private ConfigEntry entry;
 	private List<String> toolTipStrings = Lists.newArrayList();
-	private String bowTypeName;
-	private String modId;
+	private HashMap<SimpleBowEffects, Object> effects = new HashMap<SimpleBowEffects, Object>();
+	private ItemStack repairMaterial;
+	private float zoomAmount = 0.165F;
 	
-	private IIcon icon0, icon1, icon2, icon3;
-	
-	public SimpleBow(int maxDamage)
-	{
+	/**
+	 * Creates a simple bow, such as the Mythril Bow.
+	 * @param plugin The plugin the bow belongs to
+	 * @param maxUses The max uses the bow has
+	 */
+	public SimpleBow(Plugin plugin, int maxUses) {
 		super();
-		this.setMaxStackSize(1);
-		this.setMaxDamage(maxDamage);
+		this.plugin = plugin;
+		this.setMaxDamage(maxUses);
 		this.bFull3D = true;
 	}
 	
-	/**
-	 * Adds a tooltip to the item. Must be unlocalised, so needs to be present in a localization file.
-	 * @param toolTip Name of the localisation entry for the tooltip, as a String. Normal format is modId.theitem.info.
-	 * @return SimpleBow
-	 */
-	public SimpleBow addToolTip(String toolTip)
-	{
-		this.toolTipStrings.add(toolTip);
-		this.hasToolTip = true;
+	@Override
+	public SimpleBow setUnlocalizedName(String bowName) {
+		super.setUnlocalizedName(bowName);
+		GameRegistry.registerItem(this, bowName);
+		SimpleCoreAPI.addBowRenderDetails(plugin, this);
+		ContentRegistry.registerItem(this.plugin, this, bowName, this.category);
+		ContentRegistry.registerItem(this.plugin, this, bowName + "_pulling_0", this.category);
+		ContentRegistry.registerItem(this.plugin, this, bowName + "_pulling_1", this.category);
+		ContentRegistry.registerItem(this.plugin, this, bowName + "_pulling_2", this.category);
 		return this;
 	}
 	
 	/**
-	 * Sets which modId the item belongs to. Used to find the textures.
-	 * Should be set before the other properties.
-	 * @param modId The modId of the plugin the item belongs to.
+	 * Returns the ConfigEntry used by this tool.
+	 * @return ConfigEntry
+	 */
+	public ConfigEntry getConfigEntry() {
+		return this.entry;
+	}
+	
+	/**
+	 * Sets the ConfigEntry to be used for this tool.
+	 * @param entry ConfigEntry
 	 * @return SimpleBow
 	 */
-	public SimpleBow modId(String modId)
+	public SimpleBow setConfigEntry(ConfigEntry entry) {
+		this.entry = entry;
+		this.setAdditionalProperties();
+		return this;
+	}
+	
+	/**
+	 * Adds a tooltip to the bow. Must be unlocalised, so needs to be present in a localization file.
+	 * @param toolTip Name of the localisation entry for the tooltip, as a String. Normal format is modId.theitem.info
+	 * @return SimpleBow
+	 */
+	public SimpleBow addToolTip(String toolTip) {
+		TooltipHelper.addTooltipToItem(this, toolTip);
+		return this;
+	}
+	
+	/**
+	 * Adds a tooltip to the bow. Must be unlocalised, so needs to be present in a localization file.
+	 * @param toolTip Name of the localisation entry for the tooltip, as a String. Normal format is modId.theitem.info
+	 * @return SimpleBow
+	 */
+	public SimpleBow addToolTip(String toolTip, EnumChatFormatting color) {
+		TooltipHelper.addTooltipToItem(this, color + StatCollector.translateToLocal(toolTip));
+		return this;
+	}
+	
+	/**
+	 * Sets the repair material that is used to repair the item in an anvil. 
+	 * @param repairMaterial The ItemStack of the material that can repair the item.
+	 * @return SimpleBow
+	 */
+	public SimpleBow setRepairMaterial(ItemStack repairMaterial)
 	{
-		List<SimpleBow> list = Lists.newArrayList();
-		list.add(this);
-		this.modId = modId;
-		if(this.bowWithModIdMap.containsKey(modId))
-			this.bowWithModIdMap.get(modId).add(this);
-		else
-			this.bowWithModIdMap.put(modId, list);
+		this.repairMaterial = repairMaterial;
 		return this;
 	}
 	
@@ -125,56 +152,17 @@ public class SimpleBow extends ItemBow
 	}
 	
 	/**
-	 * Sets the repair material that is used to repair the item in an anvil. 
-	 * @param repairMaterial The ItemStack of the material that can repair the item.
-	 * @return SimpleBow
+	 * Returns the zoom amount of the bow. This is how far in the bow will zoom.
+	 * Default is 0.165F.
+	 * @return Zoom amount
 	 */
-	public SimpleBow setRepairMaterial(ItemStack repairMaterial)
-	{
-		this.repairMaterial = repairMaterial;
-		return this;
+	public float getZoomAmount() {
+		return this.zoomAmount;
 	}
 	
 	/**
-	 * Sets which creative tab the item will appear in in Creative Mode.
-	 * @param creativeTab The CreativeTabs tab for the item to appear in.
-	 * @return SimpleBow
-	 */
-	public SimpleBow setTab(CreativeTabs creativeTab)
-	{
-		this.setCreativeTab(creativeTab);
-		return this;
-	}
-	
-	/**
-	 * Sets the icons for the bow. There should be 4 icons for each stage of the 'draw back' animation.
-	 * @param bowTypeName The name of the bow type, ie. "mythril_bow"
-	 * @return SimpleBow
-	 */
-	public SimpleBow setTextures(String bowTypeName)
-	{
-		this.bowTypeName = bowTypeName;
-		return this;
-	}
-	
-	/**
-	 * Sets the unlocalized name of the item, and registers the item with GameRegistry and ContentRegistry.
-	 * @param unlocalizedName The name of the item (unlocalized).
-	 * @return SimpleBow
-	 */
-	@Override
-	public SimpleBow setUnlocalizedName(String unlocalizedName)
-	{
-		super.setUnlocalizedName(unlocalizedName);
-		GameRegistry.registerItem(this, unlocalizedName);
-		ContentRegistry.registerItem(this, unlocalizedName, modId, ContentTypes.Item.WEAPON);
-		SimpleCoreAPI.proxy.setZoomAmount(this, this.zoomAmount);
-		return this;
-	}
-	
-	/**
-	 * Sets the zoom amount of the bow. If not set, defaults to 0.22F.
-	 * @param zoomAmount Float amount that the bow should zoom in to. Default = 0.22F.
+	 * Sets the zoom amount of the bow. If not set, defaults to 0.165F.
+	 * @param zoomAmount Float amount that the bow should zoom in to. Default = 0.165F.
 	 * @return SimpleBow
 	 */
 	public SimpleBow setZoomAmount(float zoomAmount)
@@ -184,57 +172,8 @@ public class SimpleBow extends ItemBow
 	}
 	
 	@Override
-	public void addInformation(ItemStack stack, EntityPlayer entityPlayer, List list, boolean bool)
-	{
-		if(hasToolTip)
-			for(String toolTip : this.toolTipStrings)
-				list.add(StatCollector.translateToLocal(toolTip));
-	}
-	
-	@Override
-	public IIcon getIcon(ItemStack itemstack, int renderpass, EntityPlayer player, ItemStack usingitem, int useRemaining)
-	{
-		if(Minecraft.getMinecraft().gameSettings.thirdPersonView != 0)
-		{
-            GL11.glTranslatef(0.0F, -0.6F, -0.025F);
-	        GL11.glRotatef(-17.0F, 0.0F, 0.0F, 1.0F);
-	        GL11.glRotatef(14.0F, 1.0F, 0.0F, 0.0F);
-	        GL11.glRotatef(4.5F, 0.0F, 1.0F, 0.0F);
-		}
-		
-		if(player.getItemInUse() == null) 
-			return this.itemIcon;
-		int var8 = itemstack.getMaxItemUseDuration() - useRemaining;
-		
-		if(var8 >= 18)
-			return this.icon3;
-		
-		if(var8 > 13)
-			return this.icon2;
-		
-		if(var8 >0)
-			return this.icon1;
-		
-		return this.itemIcon;	
-	}
-	
-	@Override
-	public boolean getIsRepairable(ItemStack par1ItemStack, ItemStack par2ItemStack)
-	{
-		return this.repairMaterial.getItem() == par2ItemStack.getItem() ? true : super.getIsRepairable(par1ItemStack, par2ItemStack);
-	}
-	
-	/**
-	 * Returns a list of all the items that have been added with a certain modId.
-	 * @param modId The modId that the items belong to.
-	 * @return List of all items belonging to the modId, if it exists.
-	 */
-	public static List<SimpleBow> getItemListFromModId(String modId)
-	{
-		if(bowWithModIdMap.containsKey(modId))
-			return bowWithModIdMap.get(modId);
-		else
-			return Lists.newArrayList();
+	public boolean getIsRepairable(ItemStack toRepair, ItemStack repair) {
+		return this.repairMaterial.getItem() == repair.getItem() ? true : super.getIsRepairable(toRepair, repair);
 	}
 	
 	@Override
@@ -303,7 +242,7 @@ public class SimpleBow extends ItemBow
 				par2World.spawnEntityInWorld(arrow);
 		}
 	}
-	
+
 	public boolean randomChance(int chance)
 	{
 		Random random = new Random();
@@ -314,16 +253,36 @@ public class SimpleBow extends ItemBow
 		else
 			return false;
 	}
+	
+    @Override
+    public ModelResourceLocation getModel(ItemStack stack, EntityPlayer player, int useRemaining)
+    {
+        ModelResourceLocation modelresourcelocation = new ModelResourceLocation(this.plugin.getModId() + ":" + this.getUnlocalizedName().substring(5), "inventory");
 
-	@SideOnly(Side.CLIENT)
-	@Override
-	public void registerIcons(IIconRegister iconRegister)
-	{
-		this.itemIcon = iconRegister.registerIcon(modId + ":" + this.bowTypeName + "_0");
-		
-		this.icon0 = iconRegister.registerIcon(modId + ":" + this.bowTypeName + "_0");
-		this.icon1 = iconRegister.registerIcon(modId + ":" + this.bowTypeName + "_1");
-		this.icon2 = iconRegister.registerIcon(modId + ":" + this.bowTypeName + "_2");
-		this.icon3 = iconRegister.registerIcon(modId + ":" + this.bowTypeName + "_3");
+        int var8 = stack.getMaxItemUseDuration() - useRemaining;
+        
+        if(stack.getItem() == this && player.getItemInUse() != null)
+        {
+            if(var8 >= 18)
+            {
+                modelresourcelocation = new ModelResourceLocation(this.plugin.getModId() + ":" + this.getUnlocalizedName().substring(5) + "_pulling_2", "inventory");
+            }
+            else if(var8 > 13)
+            {
+            	modelresourcelocation = new ModelResourceLocation(this.plugin.getModId() + ":" + this.getUnlocalizedName().substring(5) + "_pulling_1", "inventory");
+            }
+            else if(var8 > 0)
+            {
+            	modelresourcelocation = new ModelResourceLocation(this.plugin.getModId() + ":" + this.getUnlocalizedName().substring(5) + "_pulling_0", "inventory");
+            }
+        }
+        return modelresourcelocation;
+    }
+    
+	public void setAdditionalProperties() {
+		if(entry.getValueByName("CreativeTab") != null && entry.getValueByName("CreativeTab").isActive()) {
+			if(ContentRegistry.doesTabExist(entry.getValueByName("CreativeTab").getCurrentValue()))
+				this.setCreativeTab(ContentRegistry.getTab(entry.getValueByName("CreativeTab").getCurrentValue()));
+		}
 	}
 }

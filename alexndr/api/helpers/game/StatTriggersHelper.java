@@ -6,74 +6,70 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.stats.Achievement;
 
 /**
  * @author AleXndrTheGr8st
  */
-public class StatTriggersHelper 
-{
-	public static final StatTriggersHelper INSTANCE = new StatTriggersHelper();
-	
+public class StatTriggersHelper {
 	private static HashMap<Item, Achievement> craftingAchievs = new HashMap<Item, Achievement>();
 	private static HashMap<Item, Achievement> smeltingAchievs = new HashMap<Item, Achievement>();
 	private static HashMap<Item, Achievement> pickupAchievs = new HashMap<Item, Achievement>();
 	
 	/**
 	 * Adds a Crafting Grid trigger for an Achievement
-	 * @param itemstackCrafted The itemstack that should trigger the achievement when taken from the Crafting Grid.
+	 * @param itemCrafted The itemstack that should trigger the achievement when taken from the Crafting Grid.
 	 * @param achievementToTrigger The Achievement that you want to trigger.
 	 */
-	public static void addCraftingTrigger(ItemStack itemstackCrafted, Achievement achievementToTrigger)
+	public static void addCraftingTrigger(Item itemCrafted, Achievement achievementToTrigger)
 	{
-		craftingAchievs.put(itemstackCrafted.getItem(), achievementToTrigger);
+		craftingAchievs.put(itemCrafted, achievementToTrigger);
 	}
 	
 	/**
 	 * Adds a Furnace trigger for an Achievement.
-	 * @param itemstackSmelted The itemstack that should trigger the achievement when taken from the Furnace output slot.
+	 * @param itemSmelted The itemstack that should trigger the achievement when taken from the Furnace output slot.
 	 * @param achievementToTrigger The Achievement that you want to trigger.
 	 */
-	public static void addSmeltingTrigger(ItemStack itemstackSmelted, Achievement achievementToTrigger)
+	public static void addSmeltingTrigger(Item itemSmelted, Achievement achievementToTrigger)
 	{
-		smeltingAchievs.put(itemstackSmelted.getItem(), achievementToTrigger);
+		smeltingAchievs.put(itemSmelted, achievementToTrigger);
 	}
 	
 	/**
 	 * Adds an item pickup trigger for an Achievement.
-	 * @param itemstackPickedUp The itemstack that should trigger the Achievement when it is picked up.
+	 * @param itemPickedUp The itemstack that should trigger the Achievement when it is picked up.
 	 * @param achievementToTrigger The Achievement that you want to trigger.
 	 */
-	public static void addPickupTrigger(ItemStack itemstackPickedUp, Achievement achievementToTrigger)
+	public static void addPickupTrigger(Item itemPickedUp, Achievement achievementToTrigger)
 	{
-		pickupAchievs.put(itemstackPickedUp.getItem(), achievementToTrigger);
+		pickupAchievs.put(itemPickedUp, achievementToTrigger);
 	}
 	
 	/**
 	 * Checks if an Achievement exists for an itemstack taken from the Crafting grid.
 	 * @param player The player that is crafting.
-	 * @param itemstack The itemstack taken from the Crafting grid.
+	 * @param item The itemstack taken from the Crafting grid.
 	 * @param craftMatrix The crafting matrix that is used.
 	 */
-	public void notifyCrafting(EntityPlayer player, ItemStack itemstack, IInventory craftMatrix)
+	public static void notifyCrafting(EntityPlayer player, Item item, IInventory craftMatrix)
 	{
-		if(craftingAchievs.containsKey(itemstack.getItem()))
+		if(craftingAchievs.containsKey(item))
 		{
-			player.addStat(craftingAchievs.get(itemstack.getItem()), 1);
+			player.addStat(craftingAchievs.get(item), 1);
 		}
 	}
 	
 	/**
 	 * Checks if an Achievement exists for an itemstack taken from the Furnace output slot.
 	 * @param player The player that is smelting.
-	 * @param itemstack The itemstack taken from the output slot of the Furnace.
+	 * @param item The itemstack taken from the output slot of the Furnace.
 	 */
-	public void notifySmelting(EntityPlayer player, ItemStack itemstack)
+	public static void notifySmelting(EntityPlayer player, Item item)
 	{
-		if(smeltingAchievs.containsKey(itemstack.getItem()))
+		if(smeltingAchievs.containsKey(item))
 		{
-			player.addStat(smeltingAchievs.get(itemstack.getItem()), 1);
+			player.addStat(smeltingAchievs.get(item), 1);
 		}
 	}
 	
@@ -82,7 +78,7 @@ public class StatTriggersHelper
 	 * @param entityItem The EntityItem picked up from the ground.
 	 * @param player The player picking up the EntityItem.
 	 */
-	public void notifyPickup(EntityItem entityItem, EntityPlayer player)
+	public static void notifyPickup(EntityItem entityItem, EntityPlayer player)
 	{
 		if(pickupAchievs.containsKey(entityItem.getEntityItem().getItem()))
 		{

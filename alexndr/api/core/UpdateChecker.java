@@ -9,15 +9,16 @@ import java.net.URL;
 import java.util.List;
 
 import net.minecraft.util.StatCollector;
+import alexndr.api.logger.LogHelper;
 
 import com.google.common.collect.Lists;
 
 /**
  * @author AleXndrTheGr8st
  */
-public class UpdateChecker{
-	static int numMods = 0;
-	static List<String> updateMessages = Lists.newArrayList();
+public class UpdateChecker {
+	private static int numMods = 0;
+	private static List<String> updateMessages = Lists.newArrayList();
 	
 	UpdateCheckerThread checkerThread;
 	
@@ -113,7 +114,7 @@ class UpdateCheckerThread extends Thread {
 	 * Requests the new mod version from the specified update url.
 	 */
 	private void requestNewVersion() {
-		if(!APISettings.disableAllUpdateChecking) {
+		if(APISettings.updateChecking.asBoolean()) {
 			VERSION = this.currentVersion;
 			try {
 				URL url = new URL(newVersionLink);
@@ -154,7 +155,7 @@ class UpdateCheckerThread extends Thread {
 	 */
 	private void sendMessage() {
 		if(this.outOfDate) {
-			LogHelper.verboseInfo("The mod " + modId + " is out of date. The current version is " + this.VERSION + ", the newest version is " + this.NEWVERSION);
+			LogHelper.verbose("The mod " + modId + " is out of date. The current version is " + this.VERSION + ", the newest version is " + this.NEWVERSION);
 			String message;
 			if(!this.unlocalised) {
 				message = StatCollector.translateToLocal(modId + ".updateMessage1") + NEWVERSION + StatCollector.translateToLocal(modId + ".updateMessage2");
@@ -166,7 +167,7 @@ class UpdateCheckerThread extends Thread {
 			UpdateChecker.addUpdateMessage(message);
 		}
 		else {
-			LogHelper.verboseInfo("The mod " + modId + " is up to date."); 
+			LogHelper.verbose("The mod " + modId + " is up to date."); 
 		}
 	}
 }

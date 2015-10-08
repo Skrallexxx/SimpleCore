@@ -2,73 +2,64 @@ package alexndr.api.core;
 
 import java.io.File;
 
-import net.minecraftforge.common.config.Configuration;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import alexndr.api.config.Configuration;
+import alexndr.api.config.types.ConfigEntry;
+import alexndr.api.config.types.ConfigValue;
+import alexndr.api.logger.LogHelper;
 
 /**
  * @author AleXndrTheGr8st
  */
-public class APISettings
-{
-	public static Configuration settings;
+public class APISettings {
+	public static Configuration settings = new Configuration();
 	
-	/**
-	 * Creates the configuration file and its contents.
-	 * @param event FMLPreInitializerEvent
-	 */
-	public static void createOrLoadSettings(FMLPreInitializationEvent event)
-	{
-		File installDir = event.getModConfigurationDirectory();
-		File configDir = new File(installDir, "AleXndr");
-		File settingsFile = new File(configDir, "API Settings.cfg");
-		settings = new Configuration(settingsFile);
+	public static void createOrLoadSettings(FMLPreInitializationEvent event) {
+		settings.setModName("SimpleCore API");
+		File configDir = new File(event.getModConfigurationDirectory() + "/AleXndr", "SimpleCore API Settings.xml");
+		settings.setFile(configDir);
 		
-		try
-		{
-			LogHelper.verboseInfo("Loading Settings...");
+		LogHelper.verbose("Loading API Settings...");
+		try {
 			settings.load();
 			
-			//Toggles
-			disableAllUpdateChecking = settings.getBoolean("Disable All Update Checking?", "Setting Toggles", false, "Disables any plugins from checking for updates using the API-provided UpdateChecker.");
-			enableUpdateChecker = settings.getBoolean("Enable Update Checker?", "Setting Toggles", true, "Enables the update checker for SimpleCore");
-			enableVerboseLogging = settings.getBoolean("Enable Verbose Logging?", "Setting Toggles", false, "Logs more detailed information to the console. Can help with diagnosing errors.");
-			enableCustomGeneration = settings.getBoolean("(Advanced) Enable Custom Generation?", "Setting Toggles", false, "Enables custom generation rules, which can be configured to generate any block in any dimension, etc. Restart game to generate new settings.");
+			//Config Help
+			ConfigEntry link = new ConfigEntry("Documentation", "ConfigHelp");
+				link.createNewValue("DocumentationLink").setActive().setDataType("@S").setCurrentValue("LINK TO GITHUB GOES HERE").setDefaultValue("");
+			link = settings.get(link);
 			
-			if(enableCustomGeneration)
-			{
-				settings.addCustomCategoryComment("Custom Generation Rules", "Instructions: Set number of custom gen rules. Format of the rules can be seen in the example rule/format rule."
-						+ " Dimension ID can be set as a range using dimIdLow:dimIdHigh, or as all dimensions using ALL.");
-				
-				numCustomGenRules = settings.getInt("Number of Custom Generation Rules", "Custom Generation Rules", 0, 0, 30000, "The number of custom generation rules you want. Restart game to generate the rules.");
-				customRuleFormat = settings.get("Custom Generation Rules", "An Example Custom Rule Format", "dimIdLow:dimIdHigh, modId:blockReplaced@metadata, modId:blockGenerated@metadata, spawnRate, maxHeight, minHeight, veinSize").getString();
-				exampleCustomRule = settings.get("Custom Generation Rules", "An Example Custom Rule (Not Loaded)", "1:5, minecraft:end_stone@0, minecraft:diamond_block@0, 500, 256, 0, 20").getString();
-				
-				if(numCustomGenRules > 0)
-				{
-					for(int i = 0; i < numCustomGenRules; i ++)
-					{
-						settings.getString("Custom Rule #" + (i + 1), "Custom Generation Rules", "dimIdLow:dimIdHigh, modId:blockReplaced@metadata, modId:blockGenerated@metadata, spawnRate, maxHeight, minHeight, veinSize", "Custom Generation Rule.");
-					}
-				}
-			}
+			ConfigEntry dataTypes = new ConfigEntry("Data Types", "ConfigHelp");
+				dataTypes.createNewValue("ABOUT").setActive().setDataType("@S").setCurrentValue("It is important that the correct data types are used. They are designated by the @ symbol.").setDefaultValue("");
+				dataTypes.createNewValue("Boolean").setActive().setDataType("@B").setCurrentValue("Accepts: true, false.").setDefaultValue("");
+				dataTypes.createNewValue("Integer").setActive().setDataType("@I").setCurrentValue("Accepts: Whole numbers only, such as 2 or 4096.").setDefaultValue("");
+				dataTypes.createNewValue("Float").setActive().setDataType("@F").setCurrentValue("Accepts: Decimal numbers, such as 1.5 or 98.9.").setDefaultValue("");
+				dataTypes.createNewValue("Double").setActive().setDataType("@D").setCurrentValue("Accepts: Decimal numbers, such as 1.5 or 98.9.").setDefaultValue("");
+				dataTypes.createNewValue("String").setActive().setDataType("@S").setCurrentValue("Accepts: Any number or character, such as abcdefg or 9dsa29213mn#.").setDefaultValue("");
+			dataTypes = settings.get(dataTypes);
+			
+			//Toggles
+			ConfigEntry toggles = new ConfigEntry("SimpleCore Toggles", "Toggles");
+				toggles.createNewValue("VerboseLogging").setActive().setDataType("@B").setCurrentValue("false").setDefaultValue("false");
+				toggles.createNewValue("GlobalUpdateChecking").setActive().setDataType("@B").setCurrentValue("true").setDefaultValue("true");
+				toggles.createNewValue("UpdateChecker").setActive().setDataType("@B").setCurrentValue("true").setDefaultValue("true");
+				toggles.createNewValue("Tabs").setActive().setDataType("@B").setCurrentValue("true").setDefaultValue("true");
+				toggles.createNewValue("SeparateTabs").setActive().setDataType("@B").setCurrentValue("true").setDefaultValue("true");
+				toggles = settings.get(toggles);
+				verboseLogging = toggles.getValueByName("VerboseLogging");
+				updateChecking = toggles.getValueByName("GlobalUpdateChecking");
+				updateChecker = toggles.getValueByName("UpdateChecker");
+				tabs = toggles.getValueByName("Tabs");
+				separateTabs = toggles.getValueByName("SeparateTabs");
 		}
-		
-		catch(Exception e)
-		{
-			LogHelper.severe("Settings failed to load correctly. The mod may not function correctly");
+		catch(Exception e) {
+			LogHelper.info("Failed to load API settings");
+			e.printStackTrace();
 		}
-		
-		finally
-		{
+		finally {
 			settings.save();
-			LogHelper.verboseInfo("Verbose logging is enabled. More details will be printed to the console");
-			LogHelper.verboseInfo("Settings loaded successfully");
 		}
 	}
 	
-	//Plugins
-	public static boolean enableVerboseLogging, disableAllUpdateChecking, enableUpdateChecker;
-	public static boolean enableCustomGeneration;
-	public static int numCustomGenRules = 0;
-	public static String exampleCustomRule, customRuleFormat;
+	public static ConfigValue verboseLogging, updateChecking, updateChecker;
+	public static ConfigValue tabs, separateTabs, customGeneration;
 }

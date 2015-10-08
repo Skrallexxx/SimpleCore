@@ -1,20 +1,17 @@
 package alexndr.api.config;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.util.Iterator;
 import java.util.List;
 
-import javax.xml.stream.XMLEventReader;
-import javax.xml.stream.XMLInputFactory;
-import javax.xml.stream.events.Attribute;
-import javax.xml.stream.events.StartElement;
-import javax.xml.stream.events.XMLEvent;
+import org.jdom2.Comment;
+import org.jdom2.Content;
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.input.JDOMParseException;
+import org.jdom2.input.SAXBuilder;
 
 import alexndr.api.config.types.ConfigEntry;
-import alexndr.api.config.types.ConfigValue;
-import alexndr.api.core.LogHelper;
+import alexndr.api.logger.LogHelper;
 
 import com.google.common.collect.Lists;
 
@@ -25,60 +22,101 @@ public class ConfigReader {
 	private File file;
 	private String modName = "";
 	
+	private List<ConfigEntry> loadedEntriesList = Lists.newArrayList();
+	
+	/**
+	 * Gets the file to be read.
+	 * @return The file to be read.
+	 */
+	public File getFile() {
+		return file;
+	}
+
+	/**
+	 * Sets the file to be read.
+	 * @param file The file to be read.
+	 */
 	public void setFile(File file) {
 		this.file = file;
 	}
 	
+	/**
+	 * Gets the name of the mod using this ConfigReader.
+	 * @return The name of the mod.
+	 */
+	public String getModName() {
+		return modName;
+	}
+
+	/**
+	 * Sets the name of the mod using this ConfigReader.
+	 * Used for error reporting, should be set but not necessary.
+	 * @param modName The name of the mod using this ConfigReader.
+	 */
 	public void setModName(String modName) {
 		this.modName = modName;
 	}
-	
-	public void readEntries() {
-		String entryName;
-		List<String> entryVals = Lists.newArrayList();
-		
+
+	/**
+	 * Reads XML Config entries.
+	 */
+	public List<ConfigEntry> readConfig() {
 		try {
-			XMLInputFactory inputFactory = XMLInputFactory.newInstance();
-			InputStream in = new FileInputStream(this.file);
-			XMLEventReader eventReader = inputFactory.createXMLEventReader(in);
+			SAXBuilder builder = new SAXBuilder();
+			Document doc = builder.build(file);
+			Element root = doc.getRootElement();
+			List<Element> categories = root.getChildren();
 			
-			ConfigEntry entry = null;
-			
-			while(eventReader.hasNext()) {
-				XMLEvent event = eventReader.nextEvent();
+			for(Element category : categories) {
+				ConfigEntry entry;
+				String cat = category.getName();
+				List<Element> types = category.getChildren();
 				
-				if(event.isStartElement()) {
-					StartElement startElement = event.asStartElement();
-					String elementName = startElement.getName().getLocalPart();
-						
-					Iterator<Attribute> attributes = startElement.getAttributes();
-					while(attributes.hasNext()) {
-						Attribute attribute = attributes.next();
-						if(attribute.getValue() != null) {
-							entryName = attribute.getValue();
-							if(ConfigEntry.getEntryFromName(entryName) != null) {
-								entry = ConfigEntry.getEntryFromName(entryName);
-							}
+				for(Element type : types) {
+					String name = type.getAttributeValue("Name");
+					List<Content> contents = type.getContent();
+					List<Element> properties = Lists.newArrayList();
+					List<Comment> comments = Lists.newArrayList();
+					
+					for(Content content : contents) {
+						if(content instanceof Element) {
+							properties.add((Element) content);
+						}
+						if(content instanceof Comment) {
+							comments.add((Comment) content);
 						}
 					}
 					
-					if(event.isStartElement()) {
-						if(entry != null && entry.getValuesList() != null) {
-							for(ConfigValue value : entry.getValuesList()) {
-								if(elementName.equals((value.getName()))) {
-									event = eventReader.nextEvent();
-									value.setCurrentValue(event.asCharacters().getData());
-								}
-							}
+					entry = new ConfigEntry(name, cat);
+					
+					for(Element property : properties) {
+						String defaultVal = "";
+						String dataType = "";
+						
+						if(property.getAttribute("DataType") != null) {
+							dataType = property.getAttributeValue("DataType");
 						}
+						if(property.getAttribute("Default") != null) {
+							defaultVal = property.getAttributeValue("Default");
+						}
+						
+						entry.createNewValue(property.getName()).setActive().setDataType(dataType).setCurrentValue(property.getValue()).setDefaultValue(defaultVal);
 					}
+					
+					loadedEntriesList.add(entry);
 				}
 			}
 		}
 		catch(Exception e) {
-			if(file.length() == 0) {
-				LogHelper.warning(this.modName, "The Settings file exists, but is blank. This could mean your settings were deleted! Defaults will be generated");
+			if(!(file.length() == 0))
+				LogHelper.severe("\tInvalid config file. Please retry or delete the file.");
+			else if(e instanceof JDOMParseException) {
+				LogHelper.warning("\tThe config file is incorrectly formatted. It should be auto-generated in the correct form. If this doesn't work, please delete the file and retry.");
 			}
+			else
+				LogHelper.warning("\tThe config file is empty. It should auto-generate. If not, please delete the file and retry.");
 		}
+		
+		return loadedEntriesList;
 	}
 }

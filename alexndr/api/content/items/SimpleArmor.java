@@ -1,191 +1,144 @@
 package alexndr.api.content.items;
 
-import java.util.HashMap;
 import java.util.List;
 
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
-import alexndr.api.core.ContentRegistry;
-import alexndr.api.core.ContentTypes;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import alexndr.api.config.types.ConfigArmor;
+import alexndr.api.helpers.game.TooltipHelper;
+import alexndr.api.registry.ContentCategories;
+import alexndr.api.registry.ContentRegistry;
+import alexndr.api.registry.Plugin;
 
 import com.google.common.collect.Lists;
-
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 /**
  * @author AleXndrTheGr8st
  */
-public class SimpleArmor extends ItemArmor
-{
-	private final ArmorMaterial material;
-	private boolean hasToolTip = false;
-	private static HashMap<String, List<SimpleArmor>> armorWithModIdMap = new HashMap<String, List<SimpleArmor>>();
-	private static int renderer;
-	private int slotnumber;
-	private List<String> toolTipStrings = Lists.newArrayList();
-	private String modId, texturePath, type;
-	
-	/**
-	 * Adds a new SimpleArmor item.
-	 * @param material The ArmorMaterial of your armor piece.
-	 * @param slotnumber The slotnumber of your armor piece. 0 = helmet, 1 = chestplate, 2 = leggings, 3 = boots.
-	 */
-	public SimpleArmor(ArmorMaterial material, int slotnumber) 
-	{
-		super(material, renderer, slotnumber);
-		this.material = material;
-		this.slotnumber = slotnumber;
-	}
-	
-	/**
-	 * Adds a tooltip to the item. Must be unlocalised, so needs to be present in a localization file.
-	 * @param toolTip Name of the localisation entry for the tooltip, as a String. Normal format is modId.theitem.info.
-	 * @return SimpleArmor
-	 */
-	public SimpleArmor addToolTip(String toolTip)
-	{
-		this.toolTipStrings.add(toolTip);
-		this.hasToolTip = true;
-		return this;
-	}
-	
-	/**
-	 * Sets which modId the item belongs to. Used to find the textures.
-	 * Should be set before the other properties.
-	 * @param modId The modId of the plugin the item belongs to.
-	 * @return SimpleArmor
-	 */
-	public SimpleArmor modId(String modId)
-	{
-		List<SimpleArmor> list = Lists.newArrayList();
-		list.add(this);
-		this.modId = modId;
-		if(this.armorWithModIdMap.containsKey(modId))
-			this.armorWithModIdMap.get(modId).add(this);
-		else
-			this.armorWithModIdMap.put(modId, list);
-		return this;
-	}
-	
-	/**
-	 * Sets which creative tab the item will appear in in Creative Mode.
-	 * @param creativeTab The CreativeTabs tab for the item to appear in.
-	 * @return SimpleArmor
-	 */
-	public SimpleArmor setTab(CreativeTabs creativeTab)
-	{
-		this.setCreativeTab(creativeTab);
-		return this;
+public class SimpleArmor extends ItemArmor{
+	public static enum Slots{
+		HELM(0),
+		CHEST(1),
+		LEGS(2),
+		BOOTS(3);
+		
+		int slotNumber;
+		private Slots(int slotNumber) {
+			this.slotNumber = slotNumber;
+		}
 	}
 
+	private final ArmorMaterial material;
+	private Plugin plugin;
+	private ContentCategories.Item category = ContentCategories.Item.ARMOR;
+	private ConfigArmor entry;
+	private Slots slot;
+	private String type, texturePath;
+	private List<String> toolTipStrings = Lists.newArrayList();
+	
+	/**
+	 * Creates a simple armor item, such as the Mythril Chestplate.
+	 * @param plugin The plugin the armor belongs to
+	 * @param material The ArmorMaterial of the armor
+	 * @param slot The armor slot the piece fits
+	 */
+	public SimpleArmor(Plugin plugin, ArmorMaterial material, Slots slot) {
+		super(material, 1, slot.slotNumber);
+		this.plugin = plugin;
+		this.material = material;
+		this.slot = slot;
+	}
+
+	@Override
+	public SimpleArmor setUnlocalizedName(String armorName) {
+		super.setUnlocalizedName(armorName);
+		GameRegistry.registerItem(this, armorName);
+		ContentRegistry.registerItem(this.plugin, this, armorName, this.category);
+		return this;
+	}
+	
+	/**
+	 * Returns the ConfigArmor used by this armor.
+	 * @return ConfigArmor
+	 */
+	public ConfigArmor getConfigEntry() {
+		return this.entry;
+	}
+	
+	/**
+	 * Sets the ConfigArmor to be used for this armor.
+	 * @param entry ConfigArmor
+	 * @return SimpleArmor
+	 */
+	public SimpleArmor setConfigEntry(ConfigArmor entry) {
+		this.entry = entry;
+		return this;
+	}
+	
 	/**
 	 * Sets the type of armor, ie. "copper", "mythril", etc. Needs to match the names of the image files.
 	 * ie. copper_1.png, mythril_2.png.
-	 * @param armorType String of the armor type name, ie. "copper".
+	 * @param armorType String of the armor type name, ie. "copper"
 	 * @return SimpleArmor
 	 */
-	public SimpleArmor setType(String armorType)
-	{
+	public SimpleArmor setType(String armorType) {
 		this.type = armorType;
-		this.setArmorTexturePath(this.modId, armorType, this.slotnumber);
+		this.setArmorTexturePath(this.plugin.getModId(), armorType, this.slot.slotNumber);
 		return this;
 	}
 	
 	/**
-	 * Sets the unlocalized name of the item, and registers the item with GameRegistry and ContentRegistry.
-	 * @param unlocalizedName The name of the item (unlocalized).
+	 * Adds a tooltip to the armor. Must be unlocalised, so needs to be present in a localization file.
+	 * @param toolTip Name of the localisation entry for the tooltip, as a String. Normal format is modId.theitem.info
 	 * @return SimpleArmor
 	 */
-	@Override
-	public SimpleArmor setUnlocalizedName(String unlocalizedName)
-	{
-		super.setUnlocalizedName(unlocalizedName);
-		GameRegistry.registerItem(this, unlocalizedName);
-		ContentRegistry.registerItem(this, unlocalizedName, modId, ContentTypes.Item.ARMOR);
+	public SimpleArmor addToolTip(String toolTip) {
+		TooltipHelper.addTooltipToItem(this, toolTip);
+		return this;
+	}
+	
+	/**
+	 * Adds a tooltip to the armor. Must be unlocalised, so needs to be present in a localization file.
+	 * @param toolTip Name of the localisation entry for the tooltip, as a String. Normal format is modId.theitem.info
+	 * @param color Color of the tooltip
+	 * @return SimpleArmor
+	 */
+	public SimpleArmor addToolTip(String toolTip, EnumChatFormatting color) {
+		TooltipHelper.addTooltipToItem(this, color + StatCollector.translateToLocal(toolTip));
 		return this;
 	}
 	
 	@Override
-	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool)
-	{
-		if(hasToolTip)
-			for(String toolTip : this.toolTipStrings)
-				list.add(StatCollector.translateToLocal(toolTip));
+	public boolean getIsRepairable(ItemStack toRepair, ItemStack repair) {
+		return this.material.customCraftingMaterial == repair.getItem() ? true : super.getIsRepairable(toRepair, repair);
 	}
 	
 	@Override
-	public String getArmorTexture(ItemStack itemstack, Entity entity, int slot, String layer)
-	{
+	public String getArmorTexture(ItemStack itemstack, Entity entity, int slot, String layer){
 		return this.texturePath;
 	}
 	
-	@Override
-	public boolean getIsRepairable(ItemStack par1ItemStack, ItemStack par2ItemStack)
-	{
-		return this.material.customCraftingMaterial == par2ItemStack.getItem() ? true : super.getIsRepairable(par1ItemStack, par2ItemStack);
-	}
-	
-	/**
-	 * Returns a list of all the items that have been added with a certain modId.
-	 * @param modId The modId that the items belong to.
-	 * @return List of all items belonging to the the modId, if it exists.
-	 */
-	public static List<SimpleArmor> getItemListFromModId(String modId)
-	{
-		if(armorWithModIdMap.containsKey(modId))
-			return armorWithModIdMap.get(modId);
-		else
-			return Lists.newArrayList();
-	}
-	
-	/**
-	 * Sets the texture path of the armor item (the texture that shows on the player). 
-	 * Based on modId, armor type and slot number. Path will be modId:textures/models/armor/armorType_layer_1.png.
-	 * @param modId ModId that the armor belongs to.
-	 * @param type The armor type string, eg "copper"
-	 * @param slotNumber The slot the armor piece belongs to.
-	 */
 	public void setArmorTexturePath(String modId, String type, int slotNumber)
 	{
-		switch(slotNumber)
-		{
-			case 0:
-			{
-				this.texturePath = modId + ":textures/models/armor/" + type + "_layer_1.png";
-			}
+		switch(slotNumber) {
+		case 0:
+			this.texturePath = modId + ":textures/models/armor/" + type + "_layer_1.png";
 			break;
 			
-			case 1:
-			{
-				this.texturePath = modId + ":textures/models/armor/" + type + "_layer_1.png";
-			}
+		case 1:
+			this.texturePath = modId + ":textures/models/armor/" + type + "_layer_1.png";
 			break;
-			
-			case 2:
-			{
-				this.texturePath = modId + ":textures/models/armor/" + type + "_layer_2.png";
-			}
+		
+		case 2: 
+			this.texturePath = modId + ":textures/models/armor/" + type + "_layer_2.png";
 			break;
-			
-			case 3:
-			{
-				this.texturePath = modId + ":textures/models/armor/" + type + "_layer_1.png";
-			}
+		case 3:
+			this.texturePath = modId + ":textures/models/armor/" + type + "_layer_1.png";
 			break;
 		}
-	}
-	
-	@SideOnly(Side.CLIENT)
-	@Override
-	public void registerIcons(IIconRegister iconregister)
-	{
-		this.itemIcon = iconregister.registerIcon(modId + ":" + (this.getUnlocalizedName().substring(5)));
 	}
 }

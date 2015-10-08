@@ -2,24 +2,24 @@ package alexndr.plugins.SimpleOres;
 
 import java.util.List;
 
-import com.google.common.collect.Lists;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import com.google.common.collect.Lists;
 
 /**
  * @author AleXndrTheGr8st
  */
-public class ModInfo 
-{
+public class ModInfo {
 	public static final String ID = "simpleores";
 	public static final String NAME = "SimpleOres 2";
-	public static final String VERSION = "1.6.0";
+	public static final String VERSION = "1.7.1";
 	public static final String DESCRIPTION = "A simple ore plugin for SimpleCore API, featuring 5 unique, balanced ores.";
 	public static final String URL = "http://bit.ly/SimpleOres";
 	public static final List<String> AUTHORS = Lists.newArrayList("AleXndrTheGr8st");
 	public static final String CREDITS = "Created by AleXndrTheGr8st.";
 	public static final String LOGO = "/assets/simplecore/logos/SimpleOres.png";
 	public static final String PARENT = "";
+	
 	public static final boolean USEDEPENDENCYINFO = true;
 	public static final String VERSIONURL = "https://dl.dropboxusercontent.com/u/66466201/Mods/SimpleOres%202/SimpleOres%202%20Version.txt";
 

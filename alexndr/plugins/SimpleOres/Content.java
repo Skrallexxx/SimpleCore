@@ -7,6 +7,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.Achievement;
 import net.minecraft.stats.AchievementList;
+import net.minecraft.util.EnumChatFormatting;
 import alexndr.api.content.blocks.SimpleBlock;
 import alexndr.api.content.items.SimpleArmor;
 import alexndr.api.content.items.SimpleAxe;
@@ -19,185 +20,162 @@ import alexndr.api.content.items.SimplePickaxe;
 import alexndr.api.content.items.SimpleShears;
 import alexndr.api.content.items.SimpleShovel;
 import alexndr.api.content.items.SimpleSword;
-import alexndr.api.core.LogHelper;
 import alexndr.api.helpers.game.TabHelper;
+import alexndr.api.registry.ContentCategories;
 
 /**
  * @author AleXndrTheGr8st
  */
-public class Content 
-{	
-	/**
-	 * Loads all the SimpleOres 2 content, by calling the methods below.
-	 */
-	public static void preInitialize()
-	{
-		try{doItems(); LogHelper.verboseInfo("SimpleOres 2", "All items were added successfully");}
-			catch(Exception e){LogHelper.severe("SimpleOres 2", "Items were not added successfully. This is a serious problem!"); e.printStackTrace();}
-		try{doBlocks(); LogHelper.verboseInfo("SimpleOres 2", "All blocks were added successfully");}
-			catch(Exception e){LogHelper.severe("SimpleOres 2", "Blocks were not added successfully. This is a serious problem!"); e.printStackTrace();}
-		try{doTools(); LogHelper.verboseInfo("SimpleOres 2", "All tools were added successfully");}
-			catch(Exception e){LogHelper.severe("SimpleOres 2", "Tools were not added successfully. This is a serious problem!"); e.printStackTrace();}
-		try{doArmor(); LogHelper.verboseInfo("SimpleOres 2", "All armor was added successfully");}
-			catch(Exception e){LogHelper.severe("SimpleOres 2", "Armor was not added successfully. This is a serious problem!"); e.printStackTrace();}
-		try{doAchievements(); LogHelper.verboseInfo("SimpleOres 2", "All achievements were added successfully");}
-			catch(Exception e){LogHelper.severe("SimpleOres 2", "Achievements were not added successfully. This is a serious problem!"); e.printStackTrace();}
+public class Content {
+	
+	public static void preInitialize() {
+		doItems();
+		doBlocks();
+		doTools();
+		doArmor();
+		doAchievements();
 	}
 	
-	/**
-	 * Loads SimpleOres 2 Items.
-	 */
-	public static void doItems()
-	{
-		copper_ingot = new SimpleItem().modId("simpleores").isIngot().setTab(TabHelper.materialsTab()).setUnlocalizedName("copper_ingot");
-		tin_ingot = new SimpleItem().modId("simpleores").isIngot().setTab(TabHelper.materialsTab()).setUnlocalizedName("tin_ingot");
-		mythril_ingot = new SimpleItem().modId("simpleores").isIngot().setTab(TabHelper.materialsTab()).setUnlocalizedName("mythril_ingot");
-		adamantium_ingot = new SimpleItem().modId("simpleores").isIngot().setTab(TabHelper.materialsTab()).setUnlocalizedName("adamantium_ingot");
-		onyx_gem = new SimpleItem().modId("simpleores").isIngot().setTab(TabHelper.materialsTab()).setUnlocalizedName("onyx_gem");
-		mythril_rod = new SimpleItem().modId("simpleores").isIngot().setTab(TabHelper.materialsTab()).setUnlocalizedName("mythril_rod");
-		onyx_rod = new SimpleItem().modId("simpleores").isIngot().setTab(TabHelper.materialsTab()).setUnlocalizedName("onyx_rod");
-		copper_bucket = new SimpleBucket(Blocks.air, SimpleOres.copperBucketType).modId("simpleores").setTab(TabHelper.toolsTab()).setUnlocalizedName("copper_bucket").setMaxStackSize(16);
-		copper_bucket_water = new SimpleBucket(Blocks.flowing_water, SimpleOres.copperBucketType).modId("simpleores").setTab(TabHelper.toolsTab()).setContainerItem(copper_bucket).setUnlocalizedName("copper_bucket_water");
+	public static void doItems() {
+		copper_ingot = new SimpleItem(SimpleOres.plugin, ContentCategories.Item.INGOT).setConfigEntry(Settings.copperIngot).setUnlocalizedName("copper_ingot");
+		tin_ingot = new SimpleItem(SimpleOres.plugin, ContentCategories.Item.INGOT).setConfigEntry(Settings.tinIngot).setUnlocalizedName("tin_ingot");
+		mythril_ingot = new SimpleItem(SimpleOres.plugin, ContentCategories.Item.INGOT).setConfigEntry(Settings.mythrilIngot).setUnlocalizedName("mythril_ingot");
+		adamantium_ingot = new SimpleItem(SimpleOres.plugin, ContentCategories.Item.INGOT).setConfigEntry(Settings.adamantiumIngot).setUnlocalizedName("adamantium_ingot");
+		onyx_gem = new SimpleItem(SimpleOres.plugin, ContentCategories.Item.INGOT).setConfigEntry(Settings.onyxGem).setUnlocalizedName("onyx_gem");
+		
+		mythril_rod = new SimpleItem(SimpleOres.plugin, ContentCategories.Item.MATERIAL).setConfigEntry(Settings.mythrilRod).setUnlocalizedName("mythril_rod");
+		onyx_rod = new SimpleItem(SimpleOres.plugin, ContentCategories.Item.MATERIAL).setConfigEntry(Settings.onyxRod).setUnlocalizedName("onyx_rod");
+		
+		copper_bucket = new SimpleBucket(SimpleOres.plugin, Blocks.air, SimpleOres.copperBucketType).setConfigEntry(Settings.copperBucket).setUnlocalizedName("copper_bucket");
+		copper_bucket_water = new SimpleBucket(SimpleOres.plugin, Blocks.flowing_water, SimpleOres.copperBucketType).setConfigEntry(Settings.copperBucket).setContainerItem(copper_bucket).setUnlocalizedName("copper_bucket_water");
 	}
 	
-	/**
-	 * Loads SimpleOres 2 Blocks.
-	 */
-	public static void doBlocks()
-	{
-		copper_ore = new SimpleBlock(Material.rock).modId("simpleores").setTab(TabHelper.blocksTab()).isOre().setConfigValues(Settings.copperOre).setBlockName("copper_ore");
-		tin_ore = new SimpleBlock(Material.rock).modId("simpleores").setTab(TabHelper.blocksTab()).isOre().setConfigValues(Settings.tinOre).setBlockName("tin_ore");
-		mythril_ore = new SimpleBlock(Material.rock).modId("simpleores").setTab(TabHelper.blocksTab()).isOre().setConfigValues(Settings.mythrilOre).setBlockName("mythril_ore");
-		adamantium_ore = new SimpleBlock(Material.rock).modId("simpleores").setTab(TabHelper.blocksTab()).isOre().setConfigValues(Settings.adamantiumOre).setBlockName("adamantium_ore");
-		onyx_ore = new SimpleBlock(Material.rock).modId("simpleores").setTab(TabHelper.blocksTab()).isOre().setStackToDrop(new ItemStack(onyx_gem)).setConfigValues(Settings.onyxOre).setBlockName("onyx_ore");
-		copper_block = new SimpleBlock(Material.iron).modId("simpleores").setTab(TabHelper.decorationsTab()).setBeaconBase(true).setConfigValues(Settings.copperBlock).setBlockName("copper_block");
-		tin_block = new SimpleBlock(Material.iron).modId("simpleores").setTab(TabHelper.decorationsTab()).setBeaconBase(true).setConfigValues(Settings.tinBlock).setBlockName("tin_block");
-		mythril_block = new SimpleBlock(Material.iron).modId("simpleores").setTab(TabHelper.decorationsTab()).setBeaconBase(true).setConfigValues(Settings.mythrilBlock).setBlockName("mythril_block");
-		adamantium_block = new SimpleBlock(Material.iron).modId("simpleores").setTab(TabHelper.decorationsTab()).setBeaconBase(true).setConfigValues(Settings.adamantiumBlock).setBlockName("adamantium_block");
-		onyx_block = new SimpleBlock(Material.iron).modId("simpleores").setTab(TabHelper.decorationsTab()).setBeaconBase(true).setConfigValues(Settings.onyxBlock).setBlockName("onyx_block");
+	public static void doBlocks() {
+		copper_ore = new SimpleBlock(SimpleOres.plugin, Material.rock, ContentCategories.Block.ORE).setConfigEntry(Settings.copperOre).setStepSound(Block.soundTypeStone).setUnlocalizedName("copper_ore");
+		tin_ore = new SimpleBlock(SimpleOres.plugin, Material.rock, ContentCategories.Block.ORE).setConfigEntry(Settings.tinOre).setStepSound(Block.soundTypeStone).setUnlocalizedName("tin_ore");
+		mythril_ore = new SimpleBlock(SimpleOres.plugin, Material.rock, ContentCategories.Block.ORE).setConfigEntry(Settings.mythrilOre).setStepSound(Block.soundTypeStone).setUnlocalizedName("mythril_ore");
+		adamantium_ore = new SimpleBlock(SimpleOres.plugin, Material.rock, ContentCategories.Block.ORE).setConfigEntry(Settings.adamantiumOre).setStepSound(Block.soundTypeStone).setUnlocalizedName("adamantium_ore");
+		onyx_ore = new SimpleBlock(SimpleOres.plugin, Material.rock, ContentCategories.Block.ORE).setConfigEntry(Settings.onyxOre).setStepSound(Block.soundTypeStone).setUnlocalizedName("onyx_ore");
+		
+		copper_block = new SimpleBlock(SimpleOres.plugin, Material.iron, ContentCategories.Block.GENERAL).setConfigEntry(Settings.copperBlock).setStepSound(Block.soundTypeMetal).setUnlocalizedName("copper_block");
+		tin_block = new SimpleBlock(SimpleOres.plugin, Material.iron, ContentCategories.Block.GENERAL).setConfigEntry(Settings.tinBlock).setStepSound(Block.soundTypeMetal).setUnlocalizedName("tin_block");
+		mythril_block = new SimpleBlock(SimpleOres.plugin, Material.iron, ContentCategories.Block.GENERAL).setConfigEntry(Settings.mythrilBlock).setStepSound(Block.soundTypeMetal).setUnlocalizedName("mythril_block");
+		adamantium_block = new SimpleBlock(SimpleOres.plugin, Material.iron, ContentCategories.Block.GENERAL).setConfigEntry(Settings.adamantiumBlock).setStepSound(Block.soundTypeMetal).setUnlocalizedName("adamantium_block");
+		onyx_block = new SimpleBlock(SimpleOres.plugin, Material.iron, ContentCategories.Block.GENERAL).setConfigEntry(Settings.onyxBlock).setStepSound(Block.soundTypeMetal).setUnlocalizedName("onyx_block");
 	}
 	
-	/**
-	 * Loads SimpleOres 2 Tools.
-	 */
-	public static void doTools()
-	{
-		copper_shovel = new SimpleShovel(SimpleOres.toolCopper).modId("simpleores").setTab(TabHelper.toolsTab()).setUnlocalizedName("copper_shovel");
-		copper_pickaxe = new SimplePickaxe(SimpleOres.toolCopper).modId("simpleores").setTab(TabHelper.toolsTab()).setUnlocalizedName("copper_pickaxe");
-		copper_axe = new SimpleAxe(SimpleOres.toolCopper).modId("simpleores").setTab(TabHelper.toolsTab()).setUnlocalizedName("copper_axe");
-		copper_hoe = new SimpleHoe(SimpleOres.toolCopper).modId("simpleores").setTab(TabHelper.toolsTab()).setUnlocalizedName("copper_hoe");
-		copper_sword = new SimpleSword(SimpleOres.toolCopper).modId("simpleores").setTab(TabHelper.combatTab()).setUnlocalizedName("copper_sword");
+	public static void doTools() {
+		copper_pickaxe = new SimplePickaxe(SimpleOres.plugin, SimpleOres.toolCopper).setConfigEntry(Settings.copperTools).setCreativeTab(TabHelper.toolsTab()).setUnlocalizedName("copper_pickaxe");
+		copper_axe = new SimpleAxe(SimpleOres.plugin, SimpleOres.toolCopper).setConfigEntry(Settings.copperTools).setCreativeTab(TabHelper.toolsTab()).setUnlocalizedName("copper_axe");
+		copper_shovel = new SimpleShovel(SimpleOres.plugin, SimpleOres.toolCopper).setConfigEntry(Settings.copperTools).setCreativeTab(TabHelper.toolsTab()).setUnlocalizedName("copper_shovel");
+		copper_hoe = new SimpleHoe(SimpleOres.plugin, SimpleOres.toolCopper).setConfigEntry(Settings.copperTools).setCreativeTab(TabHelper.toolsTab()).setUnlocalizedName("copper_hoe");
+		copper_sword = new SimpleSword(SimpleOres.plugin, SimpleOres.toolCopper).setConfigEntry(Settings.copperTools).setCreativeTab(TabHelper.combatTab()).setUnlocalizedName("copper_sword");
+		copper_shears = new SimpleShears(SimpleOres.plugin, SimpleOres.toolCopper).setConfigEntry(Settings.copperTools).setCreativeTab(TabHelper.toolsTab()).setUnlocalizedName("copper_shears");
 		
-		tin_shovel = new SimpleShovel(SimpleOres.toolTin).modId("simpleores").setTab(TabHelper.toolsTab()).setUnlocalizedName("tin_shovel");
-		tin_pickaxe = new SimplePickaxe(SimpleOres.toolTin).modId("simpleores").setTab(TabHelper.toolsTab()).setUnlocalizedName("tin_pickaxe");
-		tin_axe = new SimpleAxe(SimpleOres.toolTin).modId("simpleores").setTab(TabHelper.toolsTab()).setUnlocalizedName("tin_axe");
-		tin_hoe = new SimpleHoe(SimpleOres.toolTin).modId("simpleores").setTab(TabHelper.toolsTab()).setUnlocalizedName("tin_hoe");
-		tin_sword = new SimpleSword(SimpleOres.toolTin).modId("simpleores").setTab(TabHelper.combatTab()).setUnlocalizedName("tin_sword");
+		tin_pickaxe = new SimplePickaxe(SimpleOres.plugin, SimpleOres.toolTin).setConfigEntry(Settings.tinTools).setCreativeTab(TabHelper.toolsTab()).setUnlocalizedName("tin_pickaxe");
+		tin_axe = new SimpleAxe(SimpleOres.plugin, SimpleOres.toolTin).setConfigEntry(Settings.tinTools).setCreativeTab(TabHelper.toolsTab()).setUnlocalizedName("tin_axe");
+		tin_shovel = new SimpleShovel(SimpleOres.plugin, SimpleOres.toolTin).setConfigEntry(Settings.tinTools).setCreativeTab(TabHelper.toolsTab()).setUnlocalizedName("tin_shovel");
+		tin_hoe = new SimpleHoe(SimpleOres.plugin, SimpleOres.toolTin).setConfigEntry(Settings.tinTools).setCreativeTab(TabHelper.toolsTab()).setUnlocalizedName("tin_hoe");
+		tin_sword = new SimpleSword(SimpleOres.plugin, SimpleOres.toolTin).setConfigEntry(Settings.tinTools).setCreativeTab(TabHelper.combatTab()).setUnlocalizedName("tin_sword");
+		tin_shears = new SimpleShears(SimpleOres.plugin, SimpleOres.toolTin).setConfigEntry(Settings.tinTools).setCreativeTab(TabHelper.toolsTab()).setUnlocalizedName("tin_shears");
 		
-		mythril_shovel = new SimpleShovel(SimpleOres.toolMythril).modId("simpleores").setTab(TabHelper.toolsTab()).setUnlocalizedName("mythril_shovel");
-		mythril_pickaxe = new SimplePickaxe(SimpleOres.toolMythril).modId("simpleores").setTab(TabHelper.toolsTab()).setUnlocalizedName("mythril_pickaxe");
-		mythril_axe = new SimpleAxe(SimpleOres.toolMythril).modId("simpleores").setTab(TabHelper.toolsTab()).setUnlocalizedName("mythril_axe");
-		mythril_hoe = new SimpleHoe(SimpleOres.toolMythril).modId("simpleores").setTab(TabHelper.toolsTab()).setUnlocalizedName("mythril_hoe");
-		mythril_sword = new SimpleSword(SimpleOres.toolMythril).modId("simpleores").setTab(TabHelper.combatTab()).setUnlocalizedName("mythril_sword");
+		mythril_pickaxe = new SimplePickaxe(SimpleOres.plugin, SimpleOres.toolMythril).setConfigEntry(Settings.mythrilTools).setCreativeTab(TabHelper.toolsTab()).setUnlocalizedName("mythril_pickaxe");
+		mythril_axe = new SimpleAxe(SimpleOres.plugin, SimpleOres.toolMythril).setConfigEntry(Settings.mythrilTools).setCreativeTab(TabHelper.toolsTab()).setUnlocalizedName("mythril_axe");
+		mythril_shovel = new SimpleShovel(SimpleOres.plugin, SimpleOres.toolMythril).setConfigEntry(Settings.mythrilTools).setCreativeTab(TabHelper.toolsTab()).setUnlocalizedName("mythril_shovel");
+		mythril_hoe = new SimpleHoe(SimpleOres.plugin, SimpleOres.toolMythril).setConfigEntry(Settings.mythrilTools).setCreativeTab(TabHelper.toolsTab()).setUnlocalizedName("mythril_hoe");
+		mythril_sword = new SimpleSword(SimpleOres.plugin, SimpleOres.toolMythril).setConfigEntry(Settings.mythrilTools).setCreativeTab(TabHelper.combatTab()).setUnlocalizedName("mythril_sword");
+		mythril_shears = new SimpleShears(SimpleOres.plugin, SimpleOres.toolMythril).setConfigEntry(Settings.mythrilTools).setCreativeTab(TabHelper.toolsTab()).setUnlocalizedName("mythril_shears");
+		mythril_bow = new SimpleBow(SimpleOres.plugin, 750).setEffect(SimpleBowEffects.damageEffect, Settings.mythrilBowDamageModifier.asFloat())
+				.setEffect(SimpleBowEffects.efficiencyEffect, Settings.mythrilBowEfficiencyChance.asInt()).addToolTip("tips.damageTooltip", EnumChatFormatting.GREEN).addToolTip("tips.efficiencyTooltip", EnumChatFormatting.GREEN)
+				.setRepairMaterial(new ItemStack(mythril_rod)).setZoomAmount(Settings.mythrilBowZoomAmount.asFloat()).setConfigEntry(Settings.mythrilBow).setUnlocalizedName("mythril_bow");
 		
-		adamantium_shovel = new SimpleShovel(SimpleOres.toolAdamantium).modId("simpleores").setTab(TabHelper.toolsTab()).setUnlocalizedName("adamantium_shovel");
-		adamantium_pickaxe = new SimplePickaxe(SimpleOres.toolAdamantium).modId("simpleores").setTab(TabHelper.toolsTab()).setUnlocalizedName("adamantium_pickaxe");
-		adamantium_axe = new SimpleAxe(SimpleOres.toolAdamantium).modId("simpleores").setTab(TabHelper.toolsTab()).setUnlocalizedName("adamantium_axe");
-		adamantium_hoe = new SimpleHoe(SimpleOres.toolAdamantium).modId("simpleores").setTab(TabHelper.toolsTab()).setUnlocalizedName("adamantium_hoe");
-		adamantium_sword = new SimpleSword(SimpleOres.toolAdamantium).modId("simpleores").setTab(TabHelper.combatTab()).setUnlocalizedName("adamantium_sword");
+		adamantium_pickaxe = new SimplePickaxe(SimpleOres.plugin, SimpleOres.toolAdamantium).setConfigEntry(Settings.adamantiumTools).setCreativeTab(TabHelper.toolsTab()).setUnlocalizedName("adamantium_pickaxe");
+		adamantium_axe = new SimpleAxe(SimpleOres.plugin, SimpleOres.toolAdamantium).setConfigEntry(Settings.adamantiumTools).setCreativeTab(TabHelper.toolsTab()).setUnlocalizedName("adamantium_axe");
+		adamantium_shovel = new SimpleShovel(SimpleOres.plugin, SimpleOres.toolAdamantium).setConfigEntry(Settings.adamantiumTools).setCreativeTab(TabHelper.toolsTab()).setUnlocalizedName("adamantium_shovel");
+		adamantium_hoe = new SimpleHoe(SimpleOres.plugin, SimpleOres.toolAdamantium).setConfigEntry(Settings.adamantiumTools).setCreativeTab(TabHelper.toolsTab()).setUnlocalizedName("adamantium_hoe");
+		adamantium_sword = new SimpleSword(SimpleOres.plugin, SimpleOres.toolAdamantium).setConfigEntry(Settings.adamantiumTools).setCreativeTab(TabHelper.combatTab()).setUnlocalizedName("adamantium_sword");
+		adamantium_shears = new SimpleShears(SimpleOres.plugin, SimpleOres.toolAdamantium).setConfigEntry(Settings.adamantiumTools).setCreativeTab(TabHelper.toolsTab()).setUnlocalizedName("adamantium_shears");
 		
-		onyx_shovel = new SimpleShovel(SimpleOres.toolOnyx).modId("simpleores").setTab(TabHelper.toolsTab()).setUnlocalizedName("onyx_shovel");
-		onyx_pickaxe = new SimplePickaxe(SimpleOres.toolOnyx).modId("simpleores").setTab(TabHelper.toolsTab()).setUnlocalizedName("onyx_pickaxe");
-		onyx_axe = new SimpleAxe(SimpleOres.toolOnyx).modId("simpleores").setTab(TabHelper.toolsTab()).setUnlocalizedName("onyx_axe");
-		onyx_hoe = new SimpleHoe(SimpleOres.toolOnyx).modId("simpleores").setTab(TabHelper.toolsTab()).setUnlocalizedName("onyx_hoe");
-		onyx_sword = new SimpleSword(SimpleOres.toolOnyx).modId("simpleores").setTab(TabHelper.combatTab()).setUnlocalizedName("onyx_sword");
-		
-		mythril_bow = new SimpleBow(750).modId("simpleores").setTextures("mythril_bow").setEffect(SimpleBowEffects.damageEffect, Settings.mythrilBowDamageModifier.asFloat())
-				.setEffect(SimpleBowEffects.efficiencyEffect, Settings.mythrilBowEfficiencyChance.asInteger()).addToolTip("tips.damageTooltip").addToolTip("tips.efficiencyTooltip").setTab(TabHelper.combatTab())
-				.setRepairMaterial(new ItemStack(mythril_rod)).setUnlocalizedName("mythril_bow");
-		onyx_bow = new SimpleBow(1000).modId("simpleores").setTextures("onyx_bow").setEffect(SimpleBowEffects.damageEffect, Settings.onyxBowDamageModifier.asFloat()).setEffect(SimpleBowEffects.critFlameEffect)
-				.addToolTip("tips.damageTooltip").addToolTip("tips.flameTooltip").setTab(TabHelper.combatTab()).setRepairMaterial(new ItemStack(onyx_rod)).setUnlocalizedName("onyx_bow");
-		
-		tin_shears = new SimpleShears(176).modId("simpleores").setTab(TabHelper.toolsTab()).setRepairMaterial(new ItemStack(tin_ingot)).setUnlocalizedName("tin_shears");
-		adamantium_shears = new SimpleShears(1092).modId("simpleores").setTab(TabHelper.toolsTab()).setRepairMaterial(new ItemStack(adamantium_ingot)).setUnlocalizedName("adamantium_shears");
-		onyx_shears = new SimpleShears(3116).modId("simpleores").setTab(TabHelper.toolsTab()).setRepairMaterial(new ItemStack(onyx_gem)).setUnlocalizedName("onyx_shears");
+		onyx_pickaxe = new SimplePickaxe(SimpleOres.plugin, SimpleOres.toolOnyx).setConfigEntry(Settings.onyxTools).setCreativeTab(TabHelper.toolsTab()).setUnlocalizedName("onyx_pickaxe");
+		onyx_axe = new SimpleAxe(SimpleOres.plugin, SimpleOres.toolOnyx).setConfigEntry(Settings.onyxTools).setCreativeTab(TabHelper.toolsTab()).setUnlocalizedName("onyx_axe");
+		onyx_shovel = new SimpleShovel(SimpleOres.plugin, SimpleOres.toolOnyx).setConfigEntry(Settings.onyxTools).setCreativeTab(TabHelper.toolsTab()).setUnlocalizedName("onyx_shovel");
+		onyx_hoe = new SimpleHoe(SimpleOres.plugin, SimpleOres.toolOnyx).setConfigEntry(Settings.onyxTools).setCreativeTab(TabHelper.toolsTab()).setUnlocalizedName("onyx_hoe");
+		onyx_sword = new SimpleSword(SimpleOres.plugin, SimpleOres.toolOnyx).setConfigEntry(Settings.onyxTools).setCreativeTab(TabHelper.combatTab()).setUnlocalizedName("onyx_sword");
+		onyx_shears = new SimpleShears(SimpleOres.plugin, SimpleOres.toolOnyx).setConfigEntry(Settings.onyxTools).setCreativeTab(TabHelper.toolsTab()).setUnlocalizedName("onyx_shears");
+		onyx_bow = new SimpleBow(SimpleOres.plugin, 1000).setEffect(SimpleBowEffects.damageEffect, Settings.onyxBowDamageModifier.asFloat()).setEffect(SimpleBowEffects.critFlameEffect)
+				.addToolTip("tips.damageTooltip", EnumChatFormatting.GREEN).addToolTip("tips.flameTooltip", EnumChatFormatting.GREEN).setRepairMaterial(new ItemStack(onyx_rod)).setZoomAmount(Settings.onyxBowZoomAmount.asFloat()).setConfigEntry(Settings.onyxBow).setUnlocalizedName("onyx_bow");
 	}
 	
-	/**
-	 * Loads SimpleOres 2 Armor.
-	 */
-	public static void doArmor()
-	{
-        copper_helmet = new SimpleArmor(SimpleOres.armorCopper, 0).modId("simpleores").setTab(TabHelper.combatTab()).setType("copper").setUnlocalizedName("copper_helmet");
-		copper_chestplate = new SimpleArmor(SimpleOres.armorCopper, 1).modId("simpleores").setTab(TabHelper.combatTab()).setType("copper").setUnlocalizedName("copper_chestplate");
-		copper_leggings = new SimpleArmor(SimpleOres.armorCopper, 2).modId("simpleores").setTab(TabHelper.combatTab()).setType("copper").setUnlocalizedName("copper_leggings");
-		copper_boots = new SimpleArmor(SimpleOres.armorCopper, 3).modId("simpleores").setTab(TabHelper.combatTab()).setType("copper").setUnlocalizedName("copper_boots");
-        tin_helmet = new SimpleArmor(SimpleOres.armorTin, 0).modId("simpleores").setTab(TabHelper.combatTab()).setType("tin").setUnlocalizedName("tin_helmet");
-		tin_chestplate = new SimpleArmor(SimpleOres.armorTin, 1).modId("simpleores").setTab(TabHelper.combatTab()).setType("tin").setUnlocalizedName("tin_chestplate");
-		tin_leggings = new SimpleArmor(SimpleOres.armorTin, 2).modId("simpleores").setTab(TabHelper.combatTab()).setType("tin").setUnlocalizedName("tin_leggings");
-		tin_boots = new SimpleArmor(SimpleOres.armorTin, 3).modId("simpleores").setTab(TabHelper.combatTab()).setType("tin").setUnlocalizedName("tin_boots");
-		mythril_helmet = new SimpleArmor(SimpleOres.armorMythril, 0).modId("simpleores").setTab(TabHelper.combatTab()).setType("mythril").setUnlocalizedName("mythril_helmet");
-		mythril_chestplate = new SimpleArmor(SimpleOres.armorMythril, 1).modId("simpleores").setTab(TabHelper.combatTab()).setType("mythril").setUnlocalizedName("mythril_chestplate");
-		mythril_leggings = new SimpleArmor(SimpleOres.armorMythril, 2).modId("simpleores").setTab(TabHelper.combatTab()).setType("mythril").setUnlocalizedName("mythril_leggings");
-		mythril_boots = new SimpleArmor(SimpleOres.armorMythril, 3).modId("simpleores").setTab(TabHelper.combatTab()).setType("mythril").setUnlocalizedName("mythril_boots");
-		adamantium_helmet = new SimpleArmor(SimpleOres.armorAdamantium, 0).modId("simpleores").setTab(TabHelper.combatTab()).setType("adamantium").setUnlocalizedName("adamantium_helmet");
-		adamantium_chestplate = new SimpleArmor(SimpleOres.armorAdamantium, 1).modId("simpleores").setTab(TabHelper.combatTab()).setType("adamantium").setUnlocalizedName("adamantium_chestplate");
-		adamantium_leggings = new SimpleArmor(SimpleOres.armorAdamantium, 2).modId("simpleores").setTab(TabHelper.combatTab()).setType("adamantium").setUnlocalizedName("adamantium_leggings");
-		adamantium_boots = new SimpleArmor(SimpleOres.armorAdamantium, 3).modId("simpleores").setTab(TabHelper.combatTab()).setType("adamantium").setUnlocalizedName("adamantium_boots");
-		onyx_helmet = new SimpleArmor(SimpleOres.armorOnyx, 0).modId("simpleores").setTab(TabHelper.combatTab()).setType("onyx").setUnlocalizedName("onyx_helmet");
-		onyx_chestplate = new SimpleArmor(SimpleOres.armorOnyx, 1).modId("simpleores").setTab(TabHelper.combatTab()).setType("onyx").setUnlocalizedName("onyx_chestplate");
-		onyx_leggings = new SimpleArmor(SimpleOres.armorOnyx, 2).modId("simpleores").setTab(TabHelper.combatTab()).setType("onyx").setUnlocalizedName("onyx_leggings");
-		onyx_boots = new SimpleArmor(SimpleOres.armorOnyx, 3).modId("simpleores").setTab(TabHelper.combatTab()).setType("onyx").setUnlocalizedName("onyx_boots");
+	public static void doArmor() {
+		copper_helmet = new SimpleArmor(SimpleOres.plugin, SimpleOres.armorCopper, SimpleArmor.Slots.HELM).setConfigEntry(Settings.copperArmor).setType("copper").setCreativeTab(TabHelper.combatTab()).setUnlocalizedName("copper_helmet");
+		copper_chestplate = new SimpleArmor(SimpleOres.plugin, SimpleOres.armorCopper, SimpleArmor.Slots.CHEST).setConfigEntry(Settings.copperArmor).setType("copper").setCreativeTab(TabHelper.combatTab()).setUnlocalizedName("copper_chestplate");
+		copper_leggings = new SimpleArmor(SimpleOres.plugin, SimpleOres.armorCopper, SimpleArmor.Slots.LEGS).setConfigEntry(Settings.copperArmor).setType("copper").setCreativeTab(TabHelper.combatTab()).setUnlocalizedName("copper_leggings");
+		copper_boots = new SimpleArmor(SimpleOres.plugin, SimpleOres.armorCopper, SimpleArmor.Slots.BOOTS).setConfigEntry(Settings.copperArmor).setType("copper").setCreativeTab(TabHelper.combatTab()).setUnlocalizedName("copper_boots");
+		
+		tin_helmet = new SimpleArmor(SimpleOres.plugin, SimpleOres.armorTin, SimpleArmor.Slots.HELM).setConfigEntry(Settings.tinArmor).setType("tin").setCreativeTab(TabHelper.combatTab()).setUnlocalizedName("tin_helmet");
+		tin_chestplate = new SimpleArmor(SimpleOres.plugin, SimpleOres.armorTin, SimpleArmor.Slots.CHEST).setConfigEntry(Settings.tinArmor).setType("tin").setCreativeTab(TabHelper.combatTab()).setUnlocalizedName("tin_chestplate");
+		tin_leggings = new SimpleArmor(SimpleOres.plugin, SimpleOres.armorTin, SimpleArmor.Slots.LEGS).setConfigEntry(Settings.tinArmor).setType("tin").setCreativeTab(TabHelper.combatTab()).setUnlocalizedName("tin_leggings");
+		tin_boots = new SimpleArmor(SimpleOres.plugin, SimpleOres.armorTin, SimpleArmor.Slots.BOOTS).setConfigEntry(Settings.tinArmor).setType("tin").setCreativeTab(TabHelper.combatTab()).setUnlocalizedName("tin_boots");
+		
+		mythril_helmet = new SimpleArmor(SimpleOres.plugin, SimpleOres.armorMythril, SimpleArmor.Slots.HELM).setConfigEntry(Settings.mythrilArmor).setType("mythril").setCreativeTab(TabHelper.combatTab()).setUnlocalizedName("mythril_helmet");
+		mythril_chestplate = new SimpleArmor(SimpleOres.plugin, SimpleOres.armorMythril, SimpleArmor.Slots.CHEST).setConfigEntry(Settings.mythrilArmor).setType("mythril").setCreativeTab(TabHelper.combatTab()).setUnlocalizedName("mythril_chestplate");
+		mythril_leggings = new SimpleArmor(SimpleOres.plugin, SimpleOres.armorMythril, SimpleArmor.Slots.LEGS).setConfigEntry(Settings.mythrilArmor).setType("mythril").setCreativeTab(TabHelper.combatTab()).setUnlocalizedName("mythril_leggings");
+		mythril_boots = new SimpleArmor(SimpleOres.plugin, SimpleOres.armorMythril, SimpleArmor.Slots.BOOTS).setConfigEntry(Settings.mythrilArmor).setType("mythril").setCreativeTab(TabHelper.combatTab()).setUnlocalizedName("mythril_boots");
+		
+		adamantium_helmet = new SimpleArmor(SimpleOres.plugin, SimpleOres.armorAdamantium, SimpleArmor.Slots.HELM).setConfigEntry(Settings.mythrilArmor).setType("adamantium").setCreativeTab(TabHelper.combatTab()).setUnlocalizedName("adamantium_helmet");
+		adamantium_chestplate = new SimpleArmor(SimpleOres.plugin, SimpleOres.armorAdamantium, SimpleArmor.Slots.CHEST).setConfigEntry(Settings.mythrilArmor).setType("adamantium").setCreativeTab(TabHelper.combatTab()).setUnlocalizedName("adamantium_chestplate");
+		adamantium_leggings = new SimpleArmor(SimpleOres.plugin, SimpleOres.armorAdamantium, SimpleArmor.Slots.LEGS).setConfigEntry(Settings.mythrilArmor).setType("adamantium").setCreativeTab(TabHelper.combatTab()).setUnlocalizedName("adamantium_leggings");
+		adamantium_boots = new SimpleArmor(SimpleOres.plugin, SimpleOres.armorAdamantium, SimpleArmor.Slots.BOOTS).setConfigEntry(Settings.mythrilArmor).setType("adamantium").setCreativeTab(TabHelper.combatTab()).setUnlocalizedName("adamantium_boots");
+		
+		onyx_helmet = new SimpleArmor(SimpleOres.plugin, SimpleOres.armorOnyx, SimpleArmor.Slots.HELM).setConfigEntry(Settings.onyxArmor).setType("onyx").setCreativeTab(TabHelper.combatTab()).setUnlocalizedName("onyx_helmet");
+		onyx_chestplate = new SimpleArmor(SimpleOres.plugin, SimpleOres.armorOnyx, SimpleArmor.Slots.CHEST).setConfigEntry(Settings.onyxArmor).setType("onyx").setCreativeTab(TabHelper.combatTab()).setUnlocalizedName("onyx_chestplate");
+		onyx_leggings = new SimpleArmor(SimpleOres.plugin, SimpleOres.armorOnyx, SimpleArmor.Slots.LEGS).setConfigEntry(Settings.onyxArmor).setType("onyx").setCreativeTab(TabHelper.combatTab()).setUnlocalizedName("onyx_leggings");
+		onyx_boots = new SimpleArmor(SimpleOres.plugin, SimpleOres.armorOnyx, SimpleArmor.Slots.BOOTS).setConfigEntry(Settings.onyxArmor).setType("onyx").setCreativeTab(TabHelper.combatTab()).setUnlocalizedName("onyx_boots");
 	}
 	
-	/**
-	 * Loads SimpleOres 2 Achievements.
-	 */
-	public static void doAchievements()
-	{
-		copperAch = new Achievement("achievement.copperAch", "copperAch", 8, 1, copper_ore, AchievementList.buildBetterPickaxe).registerStat();
-		copperPickAch = new Achievement("achievement.copperPickAch", "copperPickAch", 9, 3, copper_pickaxe, copperAch).registerStat();
-		copperBucketAch = new Achievement("achievement.copperBucketAch", "copperBucketAch", 9, 5, copper_bucket_water, copperAch).registerStat();
-		tinAch = new Achievement("acheivement.tinAch", "tinAch", 10, 1, tin_ore, AchievementList.buildBetterPickaxe).registerStat();
-		tinChestplateAch = new Achievement("achievement.tinChestplateAch", "tinChestplateAch", 11, 3, tin_chestplate, tinAch).registerStat();
-		tinShearsAch = new Achievement("achievement.tinShearsAch", "tinShearsAch", 11, 5, tin_shears, tinAch).registerStat();
-		mythrilAch = new Achievement("achievement.mythrilAch", "mythrilAch", 12, 1, mythril_ore, AchievementList.buildBetterPickaxe).registerStat();
-		mythrilAxeAch = new Achievement("achievement.mythrilAxeAch", "mythrilAxeAch", 13, 3, mythril_axe, mythrilAch).registerStat();
-		mythrilBowAch = new Achievement("achievement.mythrilBowAch", "mythrilBowAch", 13, 5, mythril_bow, mythrilAch).registerStat();
-		adamantiumAch = new Achievement("achievement.adamantiumAch", "adamantiumAch", 14, 1, adamantium_ore, AchievementList.buildBetterPickaxe).registerStat();
-		adamantiumLegsAch = new Achievement("achievement.adamantiumLegsAch", "adamantiumLegsAch", 15, 3, adamantium_leggings, adamantiumAch).registerStat();
-		adamantiumShearsAch = new Achievement("achievement.adamantiumShearsAch", "adamantiumShearsAch", 15, 5, adamantium_shears, adamantiumAch).registerStat();
-		onyxAch = new Achievement("achievement.onyxAch", "onyxAch", 16, 1, onyx_ore, AchievementList.buildBetterPickaxe).setSpecial().registerStat();
-		onyxSwordAch = new Achievement("achievement.onyxSwordAch", "onyxSwordAch", 17, 3, onyx_sword, onyxAch).registerStat();
-		onyxBowAch = new Achievement("achievement.onyxBowAch", "onyxBowAch", 17, 5, onyx_bow, onyxAch).registerStat();
+	public static void doAchievements() {
+		copperAch = new Achievement("achievement.copperAch", "copperAch", 8, 1, copper_ore, AchievementList.buildBetterPickaxe).func_180788_c();
+		copperPickAch = new Achievement("achievement.copperPickAch", "copperPickAch", 9, 3, copper_pickaxe, copperAch).func_180788_c();
+		copperBucketAch = new Achievement("achievement.copperBucketAch", "copperBucketAch", 9, 5, copper_bucket_water, copperAch).func_180788_c();
+		
+		tinAch = new Achievement("acheivement.tinAch", "tinAch", 10, 1, tin_ore, AchievementList.buildBetterPickaxe).func_180788_c();
+		tinChestplateAch = new Achievement("achievement.tinChestplateAch", "tinChestplateAch", 11, 3, tin_chestplate, tinAch).func_180788_c();
+		tinShearsAch = new Achievement("achievement.tinShearsAch", "tinShearsAch", 11, 5, tin_shears, tinAch).func_180788_c();
+		
+		mythrilAch = new Achievement("achievement.mythrilAch", "mythrilAch", 12, 1, mythril_ore, AchievementList.buildBetterPickaxe).func_180788_c();
+		mythrilAxeAch = new Achievement("achievement.mythrilAxeAch", "mythrilAxeAch", 13, 3, mythril_axe, mythrilAch).func_180788_c();
+		mythrilBowAch = new Achievement("achievement.mythrilBowAch", "mythrilBowAch", 13, 5, mythril_bow, mythrilAch).func_180788_c();
+		
+		adamantiumAch = new Achievement("achievement.adamantiumAch", "adamantiumAch", 14, 1, adamantium_ore, AchievementList.buildBetterPickaxe).func_180788_c();
+		adamantiumLegsAch = new Achievement("achievement.adamantiumLegsAch", "adamantiumLegsAch", 15, 3, adamantium_leggings, adamantiumAch).func_180788_c();
+		adamantiumShearsAch = new Achievement("achievement.adamantiumShearsAch", "adamantiumShearsAch", 15, 5, adamantium_shears, adamantiumAch).func_180788_c();
+		
+		onyxAch = new Achievement("achievement.onyxAch", "onyxAch", 16, 1, onyx_ore, AchievementList.buildBetterPickaxe).setSpecial().func_180788_c();
+		onyxSwordAch = new Achievement("achievement.onyxSwordAch", "onyxSwordAch", 17, 3, onyx_sword, onyxAch).func_180788_c();
+		onyxBowAch = new Achievement("achievement.onyxBowAch", "onyxBowAch", 17, 5, onyx_bow, onyxAch).func_180788_c();
 	}
 	
-	//Blocks
-	public static Block copper_ore, tin_ore, mythril_ore, adamantium_ore, onyx_ore;
-	public static Block copper_block, tin_block, mythril_block, adamantium_block, onyx_block;
+	public static Block copper_ore, tin_ore, mythril_ore, adamantium_ore, onyx_ore, 
+						copper_block, tin_block, mythril_block, adamantium_block, onyx_block;
 	
-	//Items
-	public static Item copper_ingot, tin_ingot, mythril_ingot, adamantium_ingot, onyx_gem;
-	public static Item copper_bucket, copper_bucket_water;
-	public static Item mythril_rod, onyx_rod;
+	public static Item 	copper_ingot, tin_ingot, mythril_ingot, adamantium_ingot, onyx_gem,
+						mythril_rod, onyx_rod, copper_bucket, copper_bucket_water;
 	
-	//Tools
-	public static Item copper_pickaxe, tin_pickaxe, mythril_pickaxe, adamantium_pickaxe, onyx_pickaxe;
-	public static Item copper_axe, tin_axe, mythril_axe, adamantium_axe, onyx_axe;
-	public static Item copper_shovel, tin_shovel, mythril_shovel, adamantium_shovel, onyx_shovel;
-	public static Item copper_sword, tin_sword, mythril_sword, adamantium_sword, onyx_sword;
-	public static Item copper_hoe, tin_hoe, mythril_hoe, adamantium_hoe, onyx_hoe;
-	public static Item mythril_bow, onyx_bow;
-	public static Item tin_shears, adamantium_shears, onyx_shears;
+	public static Item 	copper_pickaxe, tin_pickaxe, mythril_pickaxe, adamantium_pickaxe, onyx_pickaxe, 
+						copper_axe, tin_axe, mythril_axe, adamantium_axe, onyx_axe,
+						copper_shovel, tin_shovel, mythril_shovel, adamantium_shovel, onyx_shovel,
+						copper_hoe, tin_hoe, mythril_hoe, adamantium_hoe, onyx_hoe,
+						copper_sword, tin_sword, mythril_sword, adamantium_sword, onyx_sword,
+						copper_shears, tin_shears, mythril_shears, adamantium_shears, onyx_shears,
+						mythril_bow, onyx_bow;
 	
-	//Armor
-	public static Item copper_helmet, tin_helmet, mythril_helmet, adamantium_helmet, onyx_helmet;
-	public static Item copper_chestplate, tin_chestplate, mythril_chestplate, adamantium_chestplate, onyx_chestplate;
-	public static Item copper_leggings, tin_leggings, mythril_leggings, adamantium_leggings, onyx_leggings;
-	public static Item copper_boots, tin_boots, mythril_boots, adamantium_boots, onyx_boots;
+	public static Item 	copper_helmet, copper_chestplate, copper_leggings, copper_boots, 
+						tin_helmet, tin_chestplate, tin_leggings, tin_boots,
+						mythril_helmet, mythril_chestplate, mythril_leggings, mythril_boots,
+						adamantium_helmet, adamantium_chestplate, adamantium_leggings, adamantium_boots,
+						onyx_helmet, onyx_chestplate, onyx_leggings, onyx_boots;
 	
-	//Achievements
-	public static Achievement copperAch, tinAch, mythrilAch, adamantiumAch, onyxAch;
-	public static Achievement copperPickAch, tinChestplateAch, mythrilAxeAch, adamantiumLegsAch, onyxSwordAch;
-	public static Achievement copperBucketAch, tinShearsAch, mythrilBowAch, adamantiumShearsAch, onyxBowAch;
+	public static Achievement	copperAch, tinAch, mythrilAch, adamantiumAch, onyxAch, 
+								copperPickAch, tinChestplateAch, mythrilAxeAch, adamantiumLegsAch, onyxSwordAch, 
+								copperBucketAch, tinShearsAch, mythrilBowAch, adamantiumShearsAch, onyxBowAch;
 }
